@@ -24,17 +24,28 @@ public class Main {
 
         while (true) {
             String userMessage = scanner.nextLine();
+            String botMessage;
+
             if (userMessage.equals("bye")) {
                 System.out.println(echo.exitUser());
                 break;
+            } else if (userMessage.startsWith("mark ")) {
+                String[] parts = userMessage.split(" ");
+                int taskNumber = Integer.parseInt(parts[1]);
+                botMessage = echo.markAsDone(taskNumber);
+            } else if (userMessage.startsWith("unmark ")) {
+                String[] parts = userMessage.split(" ");
+                int taskNumber = Integer.parseInt(parts[1]);
+                botMessage = echo.markAsUndone(taskNumber);
             } else if (userMessage.equals("list")) {
-                System.out.println(echo.getTasks());
+                botMessage = echo.getTasks();
             } else {
-                System.out.println(echo.addTask(userMessage));
+                botMessage = echo.addTask(userMessage);
             }
+
+            System.out.println(botMessage);
         }
 
         scanner.close();
-        // System.out.println(echo.greetAndExit());
     }
 }

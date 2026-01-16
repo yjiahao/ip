@@ -44,6 +44,28 @@ public class Echo {
      */
     public String getTasks() {
         String tasks = this.taskManager.getTasks();
-        return Echo.separator + "\n" + tasks + "\n" + Echo.separator;
+        return Echo.separator + "\n" + "Here are the tasks in your list:\n"
+            + "\n" + tasks + "\n" + Echo.separator;
+    }
+
+    /**
+     * Marks a task in the task manager as done.
+     * @param taskNumber 1-indexed task number.
+     * @return String of message telling user a task has been marked as done.
+     */
+    public String markAsDone(int taskNumber) {
+        String taskString = this.taskManager.markAsDone(taskNumber);
+        return Echo.separator + "\n" + "Nice! I've marked this task as done:\n  " + taskString + "\n" + Echo.separator;
+    }
+
+    /**
+     * Marks a task as undone in the task manager.
+     * @param taskNumber 1-indexed task number.
+     * @return String of message telling user a task has been marked as undone.
+     */
+    public String markAsUndone(int taskNumber) {
+        String taskString = this.taskManager.markAsUndone(taskNumber);
+        return Echo.separator + "\n" + "OK, I've marked this task as not done yet:\n  "
+            + taskString + "\n" + Echo.separator;
     }
 }

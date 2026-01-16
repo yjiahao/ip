@@ -31,4 +31,27 @@ public class TaskManager {
         }
         return res.stripTrailing();
     }
+
+    /**
+     * Marks a task as done.
+     * @param taskNumber the task number (1-indexed) to mark as done.
+     * @return the task that was marked as done in String.
+     */
+    public String markAsDone(int taskNumber) {
+        // array is 0 indexed so need to translate by 1
+        Task t = this.tasks.get(taskNumber - 1);
+        t.markAsDone();
+        return t.toString();
+    }
+
+    /**
+     * Marks a task as undone.
+     * @param taskNumber the task number (1-indexed) to mark as undone.
+     * @return the task that was marked as undone in String.
+     */
+    public String markAsUndone(int taskNumber) {
+        Task t = this.tasks.get(taskNumber - 1);
+        t.markAsUndone();
+        return t.toString();
+    }
 }
