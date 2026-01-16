@@ -13,9 +13,20 @@ public class TaskManager {
      * Adds a new task to the task manager.
      * @param taskDescription description of task to be added.
      */
-    public void addTask(String taskDescription) {
-        Task newTask = new Task(taskDescription);
-        this.tasks.add(newTask);
+    public Task addTask(String taskDescription, Command type, ArrayList<String> commandArgs) {
+        if (type.equals(Command.EVENT)) {
+            Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
+            this.tasks.add(event);
+            return event;
+        } else if (type.equals(Command.TODO)) {
+            Task todo = new ToDo(taskDescription);
+            this.tasks.add(todo);
+            return todo;
+        } else {
+            Task deadline = new Deadline(taskDescription, commandArgs.get(0));
+            this.tasks.add(deadline);
+            return deadline;
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.ArrayList;
+
 public class Echo {
 
     private static final String greeting = "Hello! I'm Echo\n" + "What can I do for you?";
@@ -33,11 +35,11 @@ public class Echo {
      * @param description the description of the task to be added.
      * @return description to inform user the addition of a new task.
      */
-    public String addTask(String description) {
-        taskManager.addTask(description);
-        return Echo.separator + "\n" + "Got it. I've added this task:\n"
-            + description + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
-                + Echo.separator;
+    public String addTask(String description, Command type, ArrayList<String> commandArgs) {
+        Task task = this.taskManager.addTask(description, type, commandArgs);
+        return Echo.separator + "\n" + "Got it. I've added this task:\n  "
+            + task.toString() + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
+                + "\n" + Echo.separator;
     }
 
     /**
