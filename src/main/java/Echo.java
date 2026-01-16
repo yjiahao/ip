@@ -26,8 +26,8 @@ public class Echo {
         String greeting = this.greetUser();
         String exitString = this.exitUser();
 
-        String greetingAndExit = Echo.separator + "\n" + greeting + "\n" +
-            Echo.separator + "\n" + exitString + "\n" + Echo.separator;
+        String greetingAndExit = Echo.separator + "\n" + greeting
+            + "\n" + Echo.separator + "\n" + exitString + "\n" + Echo.separator;
         return greetingAndExit;
     }
 }
