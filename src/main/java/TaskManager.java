@@ -49,6 +49,11 @@ public class TaskManager {
      * @return the task that was marked as done in String.
      */
     public String markAsDone(int taskNumber) {
+        if (taskNumber > this.tasks.size()) {
+            throw new IndexOutOfBoundsException("You do not have " + taskNumber + " tasks yet...");
+        } else if (taskNumber <= 0) {
+            throw new IndexOutOfBoundsException("No such thing as task " + taskNumber + "!");
+        }
         // array is 0 indexed so need to translate by 1
         Task t = this.tasks.get(taskNumber - 1);
         t.markAsDone();
@@ -61,6 +66,11 @@ public class TaskManager {
      * @return the task that was marked as undone in String.
      */
     public String markAsUndone(int taskNumber) {
+        if (taskNumber > this.tasks.size()) {
+            throw new IndexOutOfBoundsException("You do not have " + taskNumber + " tasks yet...");
+        } else if (taskNumber <= 0) {
+            throw new IndexOutOfBoundsException("No such thing as task " + taskNumber + "!");
+        }
         Task t = this.tasks.get(taskNumber - 1);
         t.markAsUndone();
         return t.toString();
