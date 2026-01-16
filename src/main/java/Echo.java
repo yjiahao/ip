@@ -19,7 +19,7 @@ public class Echo {
      * @return a greeting to the user of type string.
      */
     public String greetUser() {
-        return Echo.separator + "\n" + Echo.greeting + "\n" + Echo.separator + "\n";
+        return Echo.separator + "\n" + Echo.greeting + "\n" + Echo.separator;
     }
 
     /**
