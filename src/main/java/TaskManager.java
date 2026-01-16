@@ -54,4 +54,8 @@ public class TaskManager {
         t.markAsUndone();
         return t.toString();
     }
+
+    public int getNumTasks() {
+        return this.tasks.size();
+    }
 }

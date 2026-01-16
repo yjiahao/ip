@@ -35,7 +35,9 @@ public class Echo {
      */
     public String addTask(String description) {
         taskManager.addTask(description);
-        return Echo.separator + "\n" + "added: " + description + "\n" + Echo.separator;
+        return Echo.separator + "\n" + "Got it. I've added this task:\n"
+            + description + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
+                + Echo.separator;
     }
 
     /**
