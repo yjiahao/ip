@@ -68,6 +68,17 @@ public class InstructionParser {
                     throw new ParsingException("unmark needs a valid task number!");
                 }
                 return Command.UNMARK;
+            case "delete":
+                if (parts.length < 2) {
+                    throw new ParsingException("delete requires a task number!");
+                }
+                // catch cases like "delete string" instead of "delete 1"
+                try {
+                    int num = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    throw new ParsingException("delete needs a valid task number!");
+                }
+                return Command.DELETE;
             case "bye":
                 return Command.BYE;
             default:

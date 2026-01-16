@@ -50,6 +50,11 @@ public class Main {
                     int unmarkTaskNumber = Integer.parseInt(unmarkParts[1]);
                     botMessage = echo.markAsUndone(unmarkTaskNumber);
                     break;
+                case DELETE:
+                    String[] deleteParts = userMessage.split(" ");
+                    int deleteTaskNumber = Integer.parseInt(deleteParts[1]);
+                    botMessage = echo.removeTask(deleteTaskNumber);
+                    break;
                 case TODO:
                     String[] todoParts = userMessage.split(" ", 2);
                     botMessage = echo.addTask(todoParts[1], Command.TODO, new ArrayList<>());

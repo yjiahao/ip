@@ -36,9 +36,9 @@ public class Echo {
      * @return description to inform user the addition of a new task.
      */
     public String addTask(String description, Command type, ArrayList<String> commandArgs) {
-        Task task = this.taskManager.addTask(description, type, commandArgs);
+        String taskString = this.taskManager.addTask(description, type, commandArgs);
         return Echo.separator + "\n" + "Got it. I've added this task:\n  "
-            + task.toString() + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
+            + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
                 + "\n" + Echo.separator;
     }
 
@@ -71,5 +71,17 @@ public class Echo {
         String taskString = this.taskManager.markAsUndone(taskNumber);
         return Echo.separator + "\n" + "OK, I've marked this task as not done yet:\n  "
             + taskString + "\n" + Echo.separator;
+    }
+
+    /**
+     * Removes a task from the task manager.
+     * @param taskNumber 1-indexed task number to be removed.
+     * @return String of message informing user the task has been removed.
+     */
+    public String removeTask(int taskNumber) {
+        String taskString = this.taskManager.removeTask(taskNumber);
+        return Echo.separator + "\n" + "Noted. I've removed this task:\n  "
+            + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
+                + "\n" + Echo.separator;
     }
 }
