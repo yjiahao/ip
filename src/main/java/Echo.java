@@ -10,24 +10,15 @@ public class Echo {
 
     }
 
-    private String greetUser() {
-        return Echo.greeting;
+    public String greetUser() {
+        return Echo.separator + "\n" + Echo.greeting + "\n" + Echo.separator + "\n";
     }
 
-    private String exitUser() {
-        return Echo.exitMessage;
+    public String exitUser() {
+        return Echo.separator + "\n" + Echo.exitMessage + "\n" + Echo.separator + "\n";
     }
 
-    /**
-     * Greets the user and exits immediately after
-     * @return Greeting and exit message before exiting
-     */
-    public String greetAndExit() {
-        String greeting = this.greetUser();
-        String exitString = this.exitUser();
-
-        String greetingAndExit = Echo.separator + "\n" + greeting
-            + "\n" + Echo.separator + "\n" + exitString + "\n" + Echo.separator;
-        return greetingAndExit;
+    public String replyUser(String s) {
+        return Echo.separator + "\n" + s + "\n" + Echo.separator + "\n";
     }
 }
