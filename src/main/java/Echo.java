@@ -2,23 +2,48 @@ package main.java;
 
 public class Echo {
 
-    private static String greeting = "Hello! I'm Echo\n" + "What can I do for you?";
-    private static String exitMessage = "Bye. Hope to see you again soon!";
-    private static String separator = "____________________________________________________________";
+    private static final String greeting = "Hello! I'm Echo\n" + "What can I do for you?";
+    private static final String exitMessage = "Bye. Hope to see you again soon!";
+    private static final String separator = "____________________________________________________________";
+
+    private TaskManager taskManager;
 
     public Echo() {
-
+        this.taskManager = new TaskManager();
     }
 
+    /**
+     * Greets user with a greeting.
+     * @return a greeting to the user of type string.
+     */
     public String greetUser() {
         return Echo.separator + "\n" + Echo.greeting + "\n" + Echo.separator + "\n";
     }
 
+    /**
+     * Says bye to the user.
+     * @return an ending message for exiting the chatbot.
+     */
     public String exitUser() {
         return Echo.separator + "\n" + Echo.exitMessage + "\n" + Echo.separator + "\n";
     }
 
-    public String replyUser(String s) {
-        return Echo.separator + "\n" + s + "\n" + Echo.separator + "\n";
+    /**
+     * Adds a task to the task list.
+     * @param description the description of the task to be added.
+     * @return description to inform user the addition of a new task.
+     */
+    public String addTask(String description) {
+        taskManager.addTask(description);
+        return Echo.separator + "\n" + "added: " + description + "\n" + Echo.separator;
+    }
+
+    /**
+     * Get tasks that have been stored, and format it for the user.
+     * @return formatted tasks in the form of String.
+     */
+    public String getTasks() {
+        String tasks = this.taskManager.getTasks();
+        return Echo.separator + "\n" + tasks + "\n" + Echo.separator;
     }
 }

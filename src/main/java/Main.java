@@ -27,11 +27,13 @@ public class Main {
             if (userMessage.equals("bye")) {
                 System.out.println(echo.exitUser());
                 break;
+            } else if (userMessage.equals("list")) {
+                System.out.println(echo.getTasks());
             } else {
-                System.out.println(echo.replyUser(userMessage));
+                System.out.println(echo.addTask(userMessage));
             }
         }
-        
+
         scanner.close();
         // System.out.println(echo.greetAndExit());
     }
