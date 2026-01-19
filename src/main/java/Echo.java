@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Echo {
 
-    private static final String greeting = "Hello! I'm Echo\n" + "What can I do for you?";
-    private static final String exitMessage = "Bye. Hope to see you again soon!";
-    private static final String separator = "____________________________________________________________";
+    private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
+    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
+    private static final String SEPARATOR = "____________________________________________________________";
 
     private TaskManager taskManager;
 
@@ -15,11 +15,11 @@ public class Echo {
     }
 
     /**
-     * Greets user with a greeting.
-     * @return a greeting to the user of type string.
+     * Greets user with a GREETING.
+     * @return a GREETING to the user of type string.
      */
     public String greetUser() {
-        return Echo.separator + "\n" + Echo.greeting + "\n" + Echo.separator;
+        return Echo.SEPARATOR + "\n" + Echo.GREETING + "\n" + Echo.SEPARATOR;
     }
 
     /**
@@ -27,7 +27,7 @@ public class Echo {
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
-        return Echo.separator + "\n" + Echo.exitMessage + "\n" + Echo.separator + "\n";
+        return Echo.SEPARATOR + "\n" + Echo.EXIT_MESSAGE + "\n" + Echo.SEPARATOR + "\n";
     }
 
     /**
@@ -37,9 +37,9 @@ public class Echo {
      */
     public String addTask(String description, Command type, ArrayList<String> commandArgs) {
         String taskString = this.taskManager.addTask(description, type, commandArgs);
-        return Echo.separator + "\n" + "Got it. I've added this task:\n  "
+        return Echo.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
             + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
-                + "\n" + Echo.separator;
+                + "\n" + Echo.SEPARATOR;
     }
 
     /**
@@ -48,8 +48,8 @@ public class Echo {
      */
     public String getTasks() {
         String tasks = this.taskManager.getTasks();
-        return Echo.separator + "\n" + "Here are the tasks in your list:\n"
-            + "\n" + tasks + "\n" + Echo.separator;
+        return Echo.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
+            + "\n" + tasks + "\n" + Echo.SEPARATOR;
     }
 
     /**
@@ -59,7 +59,7 @@ public class Echo {
      */
     public String markAsDone(int taskNumber) {
         String taskString = this.taskManager.markAsDone(taskNumber);
-        return Echo.separator + "\n" + "Nice! I've marked this task as done:\n  " + taskString + "\n" + Echo.separator;
+        return Echo.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  " + taskString + "\n" + Echo.SEPARATOR;
     }
 
     /**
@@ -69,8 +69,8 @@ public class Echo {
      */
     public String markAsUndone(int taskNumber) {
         String taskString = this.taskManager.markAsUndone(taskNumber);
-        return Echo.separator + "\n" + "OK, I've marked this task as not done yet:\n  "
-            + taskString + "\n" + Echo.separator;
+        return Echo.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
+            + taskString + "\n" + Echo.SEPARATOR;
     }
 
     /**
@@ -80,8 +80,8 @@ public class Echo {
      */
     public String removeTask(int taskNumber) {
         String taskString = this.taskManager.removeTask(taskNumber);
-        return Echo.separator + "\n" + "Noted. I've removed this task:\n  "
+        return Echo.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
             + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
-                + "\n" + Echo.separator;
+                + "\n" + Echo.SEPARATOR;
     }
 }

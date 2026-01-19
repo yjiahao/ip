@@ -10,7 +10,7 @@ import java.util.Scanner;
  * and displays an exit message.
  */
 public class Main {
-    private static final String separator = "____________________________________________________________";
+    private static final String SEPARATOR = "____________________________________________________________";
     /**
      * Main method that starts the chatbot.
      * Creates an Echo instance and prints the greeting and exit messages.
@@ -83,10 +83,10 @@ public class Main {
 
                 System.out.println(botMessage);
             } catch (ParsingException e) {
-                System.out.println(Main.separator + "\n" + e.getMessage() + "\n" + Main.separator);
+                System.out.println(Main.SEPARATOR + "\n" + e.getMessage() + "\n" + Main.SEPARATOR);
             } catch (IndexOutOfBoundsException e) {
                 // if number to mark or unmark more than length of current task list
-                System.out.println(Main.separator + "\n" + e.getMessage() + "\n" + Main.separator);
+                System.out.println(Main.SEPARATOR + "\n" + e.getMessage() + "\n" + Main.SEPARATOR);
             }
         }
     }
