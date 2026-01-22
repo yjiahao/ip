@@ -70,8 +70,8 @@ public class Storage {
      * Read each line in String and parses it to return a new Task
      * Lines that are expected from the file:
      * ToDo: T | 1 | read book
-     * Deadline: D | 0 | return book | June 6th
-     * Event: E | 1 | project meeting | Aug 6th 2pm | 4pm
+     * Deadline: D | 0 | return book | 2026-01-25 1000
+     * Event: E | 1 | project meeting | 2026-01-27 1200 | 2026-01-27 1500
      * @param line String of a task that is currently in the File
      * @return a new Task that has been created after successful parsing and creation
      * @throws StorageException when an invalid task type is detected
