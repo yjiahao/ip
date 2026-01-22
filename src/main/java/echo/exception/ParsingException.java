@@ -1,4 +1,4 @@
-package main.java.echo.exception;
+package echo.exception;
 
 public class ParsingException extends Exception {
     public ParsingException(String message) {

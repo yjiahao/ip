@@ -1,7 +1,7 @@
-package main.java.echo.parser;
+package echo.parser;
 
-import main.java.echo.command.Command;
-import main.java.echo.exception.ParsingException;
+import echo.command.Command;
+import echo.exception.ParsingException;
 
 public class InstructionParser {
     public InstructionParser() {

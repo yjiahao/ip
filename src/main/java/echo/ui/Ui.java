@@ -1,8 +1,8 @@
-package main.java.echo.ui;
+package echo.ui;
 
 import java.util.ArrayList;
 
-import main.java.echo.task.Task;
+import echo.task.Task;
 
 public class Ui {
     private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";

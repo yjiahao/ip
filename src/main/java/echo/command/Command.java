@@ -1,4 +1,4 @@
-package main.java.echo.command;
+package echo.command;
 
 public enum Command {
     TODO,

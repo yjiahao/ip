@@ -1,4 +1,4 @@
-package main.java.echo.task;
+package echo.task;
 
 public class ToDo extends Task {
     public ToDo(String description) {

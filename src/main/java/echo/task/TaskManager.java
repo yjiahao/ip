@@ -1,9 +1,9 @@
-package main.java.echo.task;
+package echo.task;
 
 import java.util.ArrayList;
 
-import main.java.echo.command.Command;
-import main.java.echo.exception.TaskManagerException;
+import echo.command.Command;
+import echo.exception.TaskManagerException;
 
 public class TaskManager {
 

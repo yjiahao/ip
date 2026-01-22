@@ -1,16 +1,16 @@
-package main.java.echo;
+package echo;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import main.java.echo.command.Command;
-import main.java.echo.exception.StorageException;
-import main.java.echo.exception.TaskManagerException;
-import main.java.echo.storage.Storage;
-import main.java.echo.task.Task;
-import main.java.echo.task.TaskManager;
-import main.java.echo.ui.Ui;
+import echo.command.Command;
+import echo.exception.StorageException;
+import echo.exception.TaskManagerException;
+import echo.storage.Storage;
+import echo.task.Task;
+import echo.task.TaskManager;
+import echo.ui.Ui;
 
 public class Echo {
 

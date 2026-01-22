@@ -1,4 +1,4 @@
-package main.java.echo.storage;
+package echo.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import main.java.echo.exception.StorageException;
-import main.java.echo.task.Deadline;
-import main.java.echo.task.Event;
-import main.java.echo.task.Task;
-import main.java.echo.task.ToDo;
+import echo.exception.StorageException;
+import echo.task.Deadline;
+import echo.task.Event;
+import echo.task.Task;
+import echo.task.ToDo;
 
 public class Storage {
     private final String path;

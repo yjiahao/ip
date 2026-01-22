@@ -1,4 +1,4 @@
-package main.java.echo.exception;
+package echo.exception;
 
 public class TaskManagerException extends Exception {
     public TaskManagerException(String message) {

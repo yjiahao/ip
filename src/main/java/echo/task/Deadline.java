@@ -1,4 +1,4 @@
-package main.java.echo.task;
+package echo.task;
 
 import java.time.LocalDateTime;
 
