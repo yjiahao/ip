@@ -1,6 +1,14 @@
 package main.java;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public abstract class Task {
+    // formatter for displaying the string representation only
+    protected static final DateTimeFormatter TO_STRING_FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy HHmm");
+    // formatter for parsing and saving the deadline
+    protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+
     protected String description;
     protected boolean isDone;
 
@@ -29,6 +37,10 @@ public abstract class Task {
     @Override
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + this.description;
+    }
+
+    protected LocalDateTime parseDate(String date) {
+        return LocalDateTime.parse(date, Task.FORMATTER);
     }
 
     public abstract String saveRepresentation();
