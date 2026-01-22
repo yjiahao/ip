@@ -1,9 +1,9 @@
 todo eat dinner
 todo go for a run
-deadline finish projects /by Wed 10am
-deadline sweep and mop floor /by Sunday 12pm
-event play squash with friends /from 12 Aug 12pm /to 3pm
-event attend conference call /from 12 Jan 10am /to 11am
+deadline finish projects /by 2026-01-22 1800
+deadline sweep and mop floor /by 2026-01-25 1000
+event play squash with friends /from 2026-01-27 1200 /to 2026-01-27 1500
+event attend conference call /from 2026-02-05 0900 /to 2026-02-05 1300
 mark 2
 mark 1
 mark 3
@@ -11,7 +11,7 @@ unmark 1
 list
 unmark 3
 list
-event sleep /from 16th Jan 12am /to 17th Jan 8am
+event sleep /from 2026-01-22 2200 /to 2026-01-23 0600
 list
 mark 4
 mark 5

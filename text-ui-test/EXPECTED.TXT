@@ -14,22 +14,22 @@ Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] finish projects (by: Wed 10am)
+  [D][ ] finish projects (by: 22 Jan 2026 1800)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] sweep and mop floor (by: Sunday 12pm)
+  [D][ ] sweep and mop floor (by: 25 Jan 2026 1000)
 Now you have 4 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] play squash with friends (from: 12 Aug 12pm to: 3pm)
+  [E][ ] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
 Now you have 5 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] attend conference call (from: 12 Jan 10am to: 11am)
+  [E][ ] attend conference call (from: 5 Feb 2026 0900 to: 5 Feb 2026 1300)
 Now you have 6 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -42,7 +42,7 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [D][X] finish projects (by: Wed 10am)
+  [D][X] finish projects (by: 22 Jan 2026 1800)
 ____________________________________________________________
 ____________________________________________________________
 OK, I've marked this task as not done yet:
@@ -53,28 +53,28 @@ Here are the tasks in your list:
 
 1. [T][ ] eat dinner
 2. [T][X] go for a run
-3. [D][X] finish projects (by: Wed 10am)
-4. [D][ ] sweep and mop floor (by: Sunday 12pm)
-5. [E][ ] play squash with friends (from: 12 Aug 12pm to: 3pm)
-6. [E][ ] attend conference call (from: 12 Jan 10am to: 11am)
+3. [D][X] finish projects (by: 22 Jan 2026 1800)
+4. [D][ ] sweep and mop floor (by: 25 Jan 2026 1000)
+5. [E][ ] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
+6. [E][ ] attend conference call (from: 5 Feb 2026 0900 to: 5 Feb 2026 1300)
 ____________________________________________________________
 ____________________________________________________________
 OK, I've marked this task as not done yet:
-  [D][ ] finish projects (by: Wed 10am)
+  [D][ ] finish projects (by: 22 Jan 2026 1800)
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 
 1. [T][ ] eat dinner
 2. [T][X] go for a run
-3. [D][ ] finish projects (by: Wed 10am)
-4. [D][ ] sweep and mop floor (by: Sunday 12pm)
-5. [E][ ] play squash with friends (from: 12 Aug 12pm to: 3pm)
-6. [E][ ] attend conference call (from: 12 Jan 10am to: 11am)
+3. [D][ ] finish projects (by: 22 Jan 2026 1800)
+4. [D][ ] sweep and mop floor (by: 25 Jan 2026 1000)
+5. [E][ ] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
+6. [E][ ] attend conference call (from: 5 Feb 2026 0900 to: 5 Feb 2026 1300)
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] sleep (from: 16th Jan 12am to: 17th Jan 8am)
+  [E][ ] sleep (from: 22 Jan 2026 2200 to: 23 Jan 2026 0600)
 Now you have 7 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -82,30 +82,30 @@ Here are the tasks in your list:
 
 1. [T][ ] eat dinner
 2. [T][X] go for a run
-3. [D][ ] finish projects (by: Wed 10am)
-4. [D][ ] sweep and mop floor (by: Sunday 12pm)
-5. [E][ ] play squash with friends (from: 12 Aug 12pm to: 3pm)
-6. [E][ ] attend conference call (from: 12 Jan 10am to: 11am)
-7. [E][ ] sleep (from: 16th Jan 12am to: 17th Jan 8am)
+3. [D][ ] finish projects (by: 22 Jan 2026 1800)
+4. [D][ ] sweep and mop floor (by: 25 Jan 2026 1000)
+5. [E][ ] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
+6. [E][ ] attend conference call (from: 5 Feb 2026 0900 to: 5 Feb 2026 1300)
+7. [E][ ] sleep (from: 22 Jan 2026 2200 to: 23 Jan 2026 0600)
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [D][X] sweep and mop floor (by: Sunday 12pm)
+  [D][X] sweep and mop floor (by: 25 Jan 2026 1000)
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [E][X] play squash with friends (from: 12 Aug 12pm to: 3pm)
+  [E][X] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 
 1. [T][ ] eat dinner
 2. [T][X] go for a run
-3. [D][ ] finish projects (by: Wed 10am)
-4. [D][X] sweep and mop floor (by: Sunday 12pm)
-5. [E][X] play squash with friends (from: 12 Aug 12pm to: 3pm)
-6. [E][ ] attend conference call (from: 12 Jan 10am to: 11am)
-7. [E][ ] sleep (from: 16th Jan 12am to: 17th Jan 8am)
+3. [D][ ] finish projects (by: 22 Jan 2026 1800)
+4. [D][X] sweep and mop floor (by: 25 Jan 2026 1000)
+5. [E][X] play squash with friends (from: 27 Jan 2026 1200 to: 27 Jan 2026 1500)
+6. [E][ ] attend conference call (from: 5 Feb 2026 0900 to: 5 Feb 2026 1300)
+7. [E][ ] sleep (from: 22 Jan 2026 2200 to: 23 Jan 2026 0600)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
