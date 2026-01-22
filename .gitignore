@@ -21,3 +21,6 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 # VS Code workspace settings
 .vscode/
+
+# Chat history files
+data/

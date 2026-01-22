@@ -1,5 +1,7 @@
 package main.java;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Echo {
@@ -10,8 +12,22 @@ public class Echo {
 
     private TaskManager taskManager;
 
+    /**
+     * Initalizes a new instance of Echo
+     */
     public Echo() {
         this.taskManager = new TaskManager();
+        this.loadTasksFromFile();
+    }
+
+    private void loadTasksFromFile() {
+        try {
+            this.taskManager.loadTasks();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage() + "\nStarting from empty history...");
+        } catch (TaskManagerException e) {
+            System.out.println(e.getMessage() + "\nStarting from empty history...");
+        }
     }
 
     /**
@@ -37,6 +53,7 @@ public class Echo {
      */
     public String addTask(String description, Command type, ArrayList<String> commandArgs) {
         String taskString = this.taskManager.addTask(description, type, commandArgs);
+        this.saveTasksToFile();
         return Echo.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
             + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
                 + "\n" + Echo.SEPARATOR;
@@ -59,6 +76,7 @@ public class Echo {
      */
     public String markAsDone(int taskNumber) {
         String taskString = this.taskManager.markAsDone(taskNumber);
+        this.saveTasksToFile();
         return Echo.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  " + taskString + "\n" + Echo.SEPARATOR;
     }
 
@@ -69,6 +87,7 @@ public class Echo {
      */
     public String markAsUndone(int taskNumber) {
         String taskString = this.taskManager.markAsUndone(taskNumber);
+        this.saveTasksToFile();
         return Echo.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
             + taskString + "\n" + Echo.SEPARATOR;
     }
@@ -80,8 +99,20 @@ public class Echo {
      */
     public String removeTask(int taskNumber) {
         String taskString = this.taskManager.removeTask(taskNumber);
+        this.saveTasksToFile();
         return Echo.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
             + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
                 + "\n" + Echo.SEPARATOR;
+    }
+
+    /**
+     * Save the tasks in the TaskManager to a file.
+     */
+    private void saveTasksToFile() {
+        try {
+            this.taskManager.saveTasks();
+        } catch (IOException e) {
+            System.out.println("Saving failed due to: " + e.getMessage());
+        }
     }
 }
