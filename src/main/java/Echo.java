@@ -1,5 +1,7 @@
 package main.java;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Echo {
@@ -10,8 +12,22 @@ public class Echo {
 
     private TaskManager taskManager;
 
+    /**
+     * Initalizes a new instance of Echo
+     */
     public Echo() {
         this.taskManager = new TaskManager();
+        this.loadTasksFromFile();
+    }
+
+    private void loadTasksFromFile() {
+        try {
+            this.taskManager.loadTasks();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage() + "\nStarting from empty history...");
+        } catch (TaskManagerException e) {
+            System.out.println(e.getMessage() + "\nStarting from empty history...");
+        }
     }
 
     /**
@@ -83,5 +99,16 @@ public class Echo {
         return Echo.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
             + taskString + "\n" + "Now you have " + this.taskManager.getNumTasks() + " tasks in the list."
                 + "\n" + Echo.SEPARATOR;
+    }
+
+    /**
+     * Save the tasks in the TaskManager to a file.
+     */
+    public void saveTasksToFile() {
+        try {
+            this.taskManager.saveTasks();
+        } catch (IOException e) {
+            System.out.println("Saving failed due to: " + e.getMessage());
+        }
     }
 }
