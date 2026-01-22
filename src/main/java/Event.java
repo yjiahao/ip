@@ -1,8 +1,10 @@
 package main.java;
 
+import java.time.LocalDateTime;
+
 public class Event extends Task {
-    protected String start;
-    protected String end;
+    protected LocalDateTime start;
+    protected LocalDateTime end;
 
     /**
      * Initializes an Event object.
@@ -12,13 +14,15 @@ public class Event extends Task {
      */
     public Event(String description, String start, String end) {
         super(description);
-        this.start = start;
-        this.end = end;
+        this.start = super.parseDate(start);
+        this.end = super.parseDate(end);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.start + " to: " + this.end + ")";
+        String startString = this.start.format(Task.TO_STRING_FORMATTER);
+        String endString = this.end.format(Task.TO_STRING_FORMATTER);
+        return "[E]" + super.toString() + " (from: " + startString + " to: " + endString + ")";
     }
 
     /**
@@ -29,6 +33,8 @@ public class Event extends Task {
     @Override
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
-        return "D | " + isDone + " | " + super.description + " | " + this.start + " | " + this.end;
+        String startString = this.start.format(Task.FORMATTER);
+        String endString = this.end.format(Task.FORMATTER);
+        return "D | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
     }
 }

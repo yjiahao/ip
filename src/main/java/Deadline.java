@@ -1,7 +1,10 @@
 package main.java;
 
+import java.time.LocalDateTime;
+
 public class Deadline extends Task {
-    protected String by;
+
+    protected LocalDateTime by;
 
     /**
      * Initializes a new Deadline object.
@@ -10,12 +13,13 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by) {
         super(description);
-        this.by = by;
+        this.by = super.parseDate(by);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        String dateString = this.by.format(Task.TO_STRING_FORMATTER);
+        return "[D]" + super.toString() + " (by: " + dateString + ")";
     }
 
     /**
@@ -26,6 +30,9 @@ public class Deadline extends Task {
     @Override
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
-        return "D | " + isDone + " | " + super.description + " | " + this.by;
+        // format the date into a string format that the formatter expects
+        String dateString = this.by.format(Task.FORMATTER);
+        return "D | " + isDone + " | " + super.description + " | " + dateString;
     }
+
 }
