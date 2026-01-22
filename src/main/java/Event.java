@@ -35,6 +35,6 @@ public class Event extends Task {
         int isDone = super.isDone ? 1 : 0;
         String startString = this.start.format(Task.FORMATTER);
         String endString = this.end.format(Task.FORMATTER);
-        return "D | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
+        return "E | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
     }
 }
