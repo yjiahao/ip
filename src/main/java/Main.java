@@ -84,7 +84,7 @@ public class Main {
                 System.out.println(botMessage);
             } catch (ParsingException e) {
                 System.out.println(Main.SEPARATOR + "\n" + e.getMessage() + "\n" + Main.SEPARATOR);
-            } catch (IndexOutOfBoundsException e) {
+            } catch (TaskManagerException e) {
                 // if number to mark or unmark more than length of current task list
                 System.out.println(Main.SEPARATOR + "\n" + e.getMessage() + "\n" + Main.SEPARATOR);
             }

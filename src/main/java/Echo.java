@@ -78,7 +78,7 @@ public class Echo {
      * @param taskNumber 1-indexed task number.
      * @return String of message telling user a task has been marked as done.
      */
-    public String markAsDone(int taskNumber) {
+    public String markAsDone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsDone(taskNumber);
         this.saveTasksToFile();
         return this.ui.createMarkAsDoneMessage(task);
@@ -89,7 +89,7 @@ public class Echo {
      * @param taskNumber 1-indexed task number.
      * @return String of message telling user a task has been marked as undone.
      */
-    public String markAsUndone(int taskNumber) {
+    public String markAsUndone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsUndone(taskNumber);
         this.saveTasksToFile();
         return this.ui.createMarkAsUndoneMessage(task);
@@ -100,7 +100,7 @@ public class Echo {
      * @param taskNumber 1-indexed task number to be removed.
      * @return String of message informing user the task has been removed.
      */
-    public String removeTask(int taskNumber) {
+    public String removeTask(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.removeTask(taskNumber);
         int numTasks = this.taskManager.getNumTasks();
         this.saveTasksToFile();

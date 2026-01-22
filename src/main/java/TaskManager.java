@@ -34,11 +34,11 @@ public class TaskManager {
         }
     }
 
-    private void checkNotOutOfBounds(int taskNumber) {
+    private void checkNotOutOfBounds(int taskNumber) throws TaskManagerException {
         if (taskNumber > this.tasks.size()) {
-            throw new IndexOutOfBoundsException("You do not have " + taskNumber + " tasks yet...");
+            throw new TaskManagerException("You do not have " + taskNumber + " tasks yet...");
         } else if (taskNumber <= 0) {
-            throw new IndexOutOfBoundsException("No such thing as task " + taskNumber + "!");
+            throw new TaskManagerException("No such thing as task " + taskNumber + "!");
         }
     }
 
@@ -47,7 +47,7 @@ public class TaskManager {
      * @param taskNumber the 1-indexed Task that is to be removed.
      * @return the Task that was removed.
      */
-    public Task removeTask(int taskNumber) {
+    public Task removeTask(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
         Task removedTask = this.tasks.remove(taskNumber - 1);
         return removedTask;
@@ -66,7 +66,7 @@ public class TaskManager {
      * @param taskNumber the task number (1-indexed) to mark as done.
      * @return the task that was marked as done in String.
      */
-    public Task markAsDone(int taskNumber) {
+    public Task markAsDone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
         // array is 0 indexed so need to translate by 1
         Task t = this.tasks.get(taskNumber - 1);
@@ -79,7 +79,7 @@ public class TaskManager {
      * @param taskNumber the task number (1-indexed) to mark as undone.
      * @return the Task that was marked as undone.
      */
-    public Task markAsUndone(int taskNumber) {
+    public Task markAsUndone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
         Task t = this.tasks.get(taskNumber - 1);
         t.markAsUndone();
