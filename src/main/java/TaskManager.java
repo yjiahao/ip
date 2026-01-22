@@ -104,6 +104,11 @@ public class TaskManager {
      */
     public void saveTasks() throws IOException {
         File file = new File(TaskManager.FILE_PATH);
+        // make parent directory if not exists
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
         // clear contents of file first
         FileWriter clearWriter = new FileWriter(file, false);
         clearWriter.close();
@@ -125,6 +130,10 @@ public class TaskManager {
      */
     public void loadTasks() throws FileNotFoundException, TaskManagerException {
         File file = new File(TaskManager.FILE_PATH);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
         boolean canRead = file.canRead();
         if (canRead) {
             Scanner scanner = new Scanner(file);
