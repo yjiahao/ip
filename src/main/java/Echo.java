@@ -6,10 +6,6 @@ import java.util.ArrayList;
 
 public class Echo {
 
-    private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
-    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
-    private static final String SEPARATOR = "____________________________________________________________";
-
     private TaskManager taskManager;
     private Ui ui;
 
