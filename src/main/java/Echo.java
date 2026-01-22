@@ -6,25 +6,31 @@ import java.util.ArrayList;
 
 public class Echo {
 
+    private static final String FILE_PATH = "data/echo.txt";
     private TaskManager taskManager;
     private Ui ui;
+    private Storage storage;
 
     /**
      * Initalizes a new instance of Echo
      */
     public Echo() {
-        this.taskManager = new TaskManager();
-        this.loadTasksFromFile();
+        this.storage = new Storage(Echo.FILE_PATH);
+        ArrayList<Task> tasks = this.loadTasksFromFile();
+        this.taskManager = new TaskManager(tasks);
         this.ui = new Ui();
     }
 
-    private void loadTasksFromFile() {
+    private ArrayList<Task> loadTasksFromFile() {
         try {
-            this.taskManager.loadTasks();
+            ArrayList<Task> tasks = this.storage.loadTasks();
+            return tasks;
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage() + "\nStarting from empty history...");
-        } catch (TaskManagerException e) {
+            return new ArrayList<>();
+        } catch (StorageException e) {
             System.out.println(e.getMessage() + "\nStarting from empty history...");
+            return new ArrayList<>();
         }
     }
 
@@ -106,7 +112,8 @@ public class Echo {
      */
     private void saveTasksToFile() {
         try {
-            this.taskManager.saveTasks();
+            ArrayList<Task> tasks = this.taskManager.getTasks();
+            this.storage.saveTasks(tasks);
         } catch (IOException e) {
             System.out.println("Saving failed due to: " + e.getMessage());
         }
