@@ -1,6 +1,8 @@
-package main.java;
+package main.java.echo.ui;
 
 import java.util.ArrayList;
+
+import main.java.echo.task.Task;
 
 public class Ui {
     private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
@@ -29,7 +31,7 @@ public class Ui {
 
     /**
      * Creates a message for the user after adding a task.
-     * @param taskString String representation of the task that has been added
+     * @param task Task that has been added
      * @param numTasks Number of tasks remaining
      * @return description to inform user the addition of a new task.
      */
@@ -76,12 +78,15 @@ public class Ui {
             + task.toString() + "\n" + Ui.SEPARATOR;
     }
 
+    /**
+     * Formats a message for the user to tell them Task has been removed.
+     * @param task Task that has been removed.
+     * @param numTasks Number of Tasks left.
+     * @return String of formatted message after removal of Task.
+     */
     public String createRemoveTaskMessage(Task task, int numTasks) {
         return Ui.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
             + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
                 + "\n" + Ui.SEPARATOR;
     }
 }
-
-// class deals with interactions with the user
-// should be able to read and write from the user inputs

@@ -1,8 +1,13 @@
-package main.java;
+package main.java.echo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import main.java.echo.command.Command;
+import main.java.echo.exception.ParsingException;
+import main.java.echo.exception.TaskManagerException;
+import main.java.echo.parser.InstructionParser;
 
 /**
  * Main entry point for the chatbot.
