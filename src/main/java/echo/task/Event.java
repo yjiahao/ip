@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import echo.exception.TaskException;
 
-public class Event extends Task {
+public class Event extends TimedTask {
     protected LocalDateTime start;
     protected LocalDateTime end;
 
@@ -26,8 +26,8 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        String startString = this.start.format(Task.TO_STRING_FORMATTER);
-        String endString = this.end.format(Task.TO_STRING_FORMATTER);
+        String startString = this.start.format(TimedTask.TO_STRING_FORMATTER);
+        String endString = this.end.format(TimedTask.TO_STRING_FORMATTER);
         return "[E]" + super.toString() + " (from: " + startString + " to: " + endString + ")";
     }
 
@@ -39,8 +39,8 @@ public class Event extends Task {
     @Override
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
-        String startString = this.start.format(Task.FORMATTER);
-        String endString = this.end.format(Task.FORMATTER);
+        String startString = this.start.format(TimedTask.FORMATTER);
+        String endString = this.end.format(TimedTask.FORMATTER);
         return "E | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
     }
 
