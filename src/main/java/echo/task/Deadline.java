@@ -18,6 +18,10 @@ public class Deadline extends Task {
         this.by = super.parseDate(by);
     }
 
+    /**
+     * Displays Deadline class in String form
+     * @return String representation of Deadline when displayed on the terminal
+     */
     @Override
     public String toString() {
         String dateString = this.by.format(Task.TO_STRING_FORMATTER);
@@ -25,7 +29,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Create String representation of Deadline task.
+     * Create String representation of Deadline task for saving.
      * @return String representation of the Deadline task ready to be saved into a .txt file.
      * Return String is of the form: D | 0 | return book | June 6th
      */
@@ -36,5 +40,4 @@ public class Deadline extends Task {
         String dateString = this.by.format(Task.FORMATTER);
         return "D | " + isDone + " | " + super.description + " | " + dateString;
     }
-
 }

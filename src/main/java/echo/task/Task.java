@@ -17,8 +17,8 @@ public abstract class Task {
 
     /**
      * Constructs a Task with the specified description.
-     *
      * @param description the description of the task
+     * @throws TaskException
      */
     public Task(String description) throws TaskException {
         if (description.equals("")) {
@@ -28,23 +28,43 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    /**
+     * Mark a task as done.
+     */
     public void markAsDone() {
         this.isDone = true;
     }
 
+    /**
+     * Mark a task as undone.
+     */
     public void markAsUndone() {
         this.isDone = false;
     }
 
+    /**
+     * Helper method to get status on whether Task is marked or unmarked
+     * @return String of "X" if task is marked, else " " if unmarked
+     */
     private String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
 
+    /**
+     * Returns a String representation of the Task
+     * @return String of Task for display in the terminal
+     */
     @Override
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + this.description;
     }
 
+    /**
+     * Helper method for child classes to parse all dates in the form of String
+     * @param date date in String format
+     * @return the parsed date as a LocalDateTime object
+     * @throws TaskException
+     */
     protected LocalDateTime parseDate(String date) throws TaskException {
         try {
             return LocalDateTime.parse(date, Task.FORMATTER);

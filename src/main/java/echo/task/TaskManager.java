@@ -38,6 +38,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Private helper method to check a task number specified by user is not out of bounds
+     * @param taskNumber Task number specified by user to mark/unmark/remove
+     * @throws TaskManagerException
+     */
     private void checkNotOutOfBounds(int taskNumber) throws TaskManagerException {
         if (taskNumber > this.tasks.size()) {
             throw new TaskManagerException("You do not have " + taskNumber + " tasks yet...");
@@ -50,6 +55,7 @@ public class TaskManager {
      * Removes a Task from task list and returns it.
      * @param taskNumber the 1-indexed Task that is to be removed.
      * @return the Task that was removed.
+     * @throws TaskManagerException
      */
     public Task removeTask(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -69,6 +75,7 @@ public class TaskManager {
      * Marks a task as done.
      * @param taskNumber the task number (1-indexed) to mark as done.
      * @return the task that was marked as done in String.
+     * @throws TaskManagerException
      */
     public Task markAsDone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -82,6 +89,7 @@ public class TaskManager {
      * Marks a Task as undone.
      * @param taskNumber the task number (1-indexed) to mark as undone.
      * @return the Task that was marked as undone.
+     * @throws TaskManagerException
      */
     public Task markAsUndone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -90,6 +98,10 @@ public class TaskManager {
         return t;
     }
 
+    /**
+     * Get the number of tasks present in the TaskManager currently.
+     * @return Number of tasks present of type int.
+     */
     public int getNumTasks() {
         return this.tasks.size();
     }

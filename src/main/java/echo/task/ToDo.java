@@ -3,10 +3,19 @@ package echo.task;
 import echo.exception.TaskException;
 
 public class ToDo extends Task {
+    /**
+     * Constructor for Todo.
+     * @param description Description of Todo
+     * @throws TaskException
+     */
     public ToDo(String description) throws TaskException {
         super(description);
     }
 
+    /**
+     * Displays Todo class in String form
+     * @return String representation of Todo when displayed on the terminal
+     */
     @Override
     public String toString() {
         return "[T]" + super.toString();

@@ -13,6 +13,7 @@ public class Event extends Task {
      * @param description description of the Event.
      * @param start Event start time.
      * @param end Event end time.
+     * @throws TaskException
      */
     public Event(String description, String start, String end) throws TaskException {
         super(description);
@@ -24,6 +25,10 @@ public class Event extends Task {
         this.end = endDate;
     }
 
+    /**
+     * Displays Event class in String form
+     * @return String representation of Event when displayed on the terminal
+     */
     @Override
     public String toString() {
         String startString = this.start.format(Task.TO_STRING_FORMATTER);
@@ -32,7 +37,7 @@ public class Event extends Task {
     }
 
     /**
-     * Create String representation of Event task.
+     * Create String representation of Event task to be saved.
      * @return String representation of the Event task ready to be saved into a .txt file.
      * Return String is of the form: E | 1 | project meeting | Aug 6th 2pm | 4pm
      */
@@ -44,6 +49,12 @@ public class Event extends Task {
         return "E | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
     }
 
+    /**
+     * Helper method to check that Event start date is before Event end date
+     * @param start start date of type LocalDateTime
+     * @param end end date of type LocalDateTime
+     * @throws TaskException
+     */
     private void checkStartBeforeEnd(LocalDateTime start, LocalDateTime end) throws TaskException {
         if (start.isAfter(end)) {
             throw new TaskException("Start date cannot be later than end date!");
