@@ -119,9 +119,16 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return String representing the description of the ToDo Task user specified
      */
-    public String parseTodoDescription(String userMessage) {
+    public String parseTodoDescription(String userMessage) throws ParsingException {
+        if (userMessage.length() == 0) {
+            throw new ParsingException("User message cannot be empty!");
+        }
         String[] todoParts = userMessage.split(" ", 2);
-        return todoParts[1];
+        String description = todoParts[1];
+        if (description.length() == 0) {
+            throw new ParsingException("No todo description!");
+        }
+        return description;
     }
 
     /**
@@ -138,10 +145,17 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return Description of Deadline Task
      */
-    public String parseDeadlineDescription(String userMessage) {
+    public String parseDeadlineDescription(String userMessage) throws ParsingException {
+        if (userMessage.length() == 0) {
+            throw new ParsingException("User message cannot be empty!");
+        }
         String deadlineDetails = userMessage.substring(9);
         String[] deadlineParts = deadlineDetails.split("/by", 2);
-        return deadlineParts[0].trim();
+        String deadlineDescription = deadlineParts[0].trim();
+        if (deadlineDescription.length() == 0) {
+            throw new ParsingException("No deadline description!");
+        }
+        return deadlineDescription;
     }
 
     /**
@@ -150,6 +164,9 @@ public class InstructionParser {
      * @return Arguments of the Deadline Task as an ArrayList of String
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
+        if (userMessage.length() == 0) {
+            throw new ParsingException("User message cannot be empty!");
+        }
         String deadlineDetails = userMessage.substring(9);
         String[] deadlineParts = deadlineDetails.split("/by", 2);
         if (deadlineParts.length < 2) {
@@ -165,10 +182,16 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return Description of Event Task
      */
-    public String parseEventDescription(String userMessage) {
+    public String parseEventDescription(String userMessage) throws ParsingException {
+        if (userMessage.length() == 0) {
+            throw new ParsingException("User message cannot be empty!");
+        }
         String eventDetails = userMessage.substring(6).trim();
         String[] fromSplit = eventDetails.split("/from", 2);
         String eventDescription = fromSplit[0].trim();
+        if (eventDescription.length() == 0) {
+            throw new ParsingException("No event description!");
+        }
         return eventDescription;
     }
 
@@ -178,6 +201,9 @@ public class InstructionParser {
      * @return Arguments of Event Task as an ArrayList of String
      */
     public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
+        if (userMessage.length() == 0) {
+            throw new ParsingException("User message cannot be empty!");
+        }
         String eventDetails = userMessage.substring(6).trim();
         if (!userMessage.contains("/from ")) {
             throw new ParsingException("Did you forget to specify /from for the event?");
