@@ -1,4 +1,4 @@
-package echo;
+package echo.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import echo.command.Command;
 import echo.exception.TaskException;
 import echo.exception.TaskManagerException;
-import echo.task.Task;
-import echo.task.TaskManager;
 
 public class TaskManagerTest {
     private TaskManager taskManager;
