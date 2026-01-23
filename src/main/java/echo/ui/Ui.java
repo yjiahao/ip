@@ -54,6 +54,7 @@ public class Ui {
             i += 1;
         }
         String tasksString = res.stripTrailing();
+
         return Ui.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
             + "\n" + tasksString + "\n" + Ui.SEPARATOR;
     }
