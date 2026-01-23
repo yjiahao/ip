@@ -1,7 +1,9 @@
 package echo.task;
 
+import echo.exception.TaskException;
+
 public class ToDo extends Task {
-    public ToDo(String description) {
+    public ToDo(String description) throws TaskException {
         super(description);
     }
 

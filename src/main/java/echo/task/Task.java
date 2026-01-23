@@ -20,7 +20,10 @@ public abstract class Task {
      *
      * @param description the description of the task
      */
-    public Task(String description) {
+    public Task(String description) throws TaskException {
+        if (description.equals("")) {
+            throw new TaskException("Task description cannot be empty!");
+        }
         this.description = description;
         this.isDone = false;
     }
