@@ -1,6 +1,7 @@
 package echo.task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import echo.command.Command;
 import echo.exception.TaskException;
@@ -104,5 +105,18 @@ public class TaskManager {
      */
     public int getNumTasks() {
         return this.tasks.size();
+    }
+
+    /**
+     * Searches for Tasks whose descriptions contain keyword.
+     * @param keyword Keyword to search for in the Task descriptions.
+     * @return ArrayList of Task whose descriptions contain keyword.
+     */
+    public ArrayList<Task> findTasks(String keyword) {
+        List<Task> list = this.tasks.stream()
+            .filter(x -> x.descriptionContains(keyword))
+            .toList();
+        ArrayList<Task> filteredTasks = new ArrayList<>(list);
+        return filteredTasks;
     }
 }
