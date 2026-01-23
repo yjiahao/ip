@@ -3,10 +3,13 @@ package echo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import echo.command.Command;
+import echo.exception.ParsingException;
 import echo.exception.StorageException;
 import echo.exception.TaskManagerException;
+import echo.parser.InstructionParser;
 import echo.storage.Storage;
 import echo.task.Task;
 import echo.task.TaskManager;
@@ -126,6 +129,75 @@ public class Echo {
             System.out.println("Saving failed due to: " + e.getMessage());
         }
     }
+
+    /**
+     * Main function to run the bot.
+     * @param args
+     */
+    public static void main(String[] args) {
+        Echo echo = new Echo();
+        InstructionParser instructionParser = new InstructionParser();
+        Scanner scanner = new Scanner(System.in);
+
+        // initialize hello message by Echo
+        String greeting = echo.greetUser();
+        System.out.println(greeting);
+
+        while (true) {
+            String userMessage = scanner.nextLine();
+            try {
+                Command command = instructionParser.parseCommand(userMessage);
+                String botMessage;
+
+                switch (command) {
+                case BYE:
+                    System.out.println(echo.exitUser());
+                    scanner.close();
+                    return;
+                case LIST:
+                    botMessage = echo.getTasks();
+                    break;
+                case MARK:
+                    int markTaskNumber = instructionParser.parseMarkUnmarkArgs(userMessage);
+                    botMessage = echo.markAsDone(markTaskNumber);
+                    break;
+                case UNMARK:
+                    int unmarkTaskNumber = instructionParser.parseMarkUnmarkArgs(userMessage);
+                    botMessage = echo.markAsUndone(unmarkTaskNumber);
+                    break;
+                case DELETE:
+                    int deleteTaskNumber = instructionParser.parseDeleteArgs(userMessage);
+                    botMessage = echo.removeTask(deleteTaskNumber);
+                    break;
+                case TODO:
+                    String todoDescription = instructionParser.parseTodoDescription(userMessage);
+                    ArrayList<String> todoCommandArgs = instructionParser.parseTodoArgs(userMessage);
+                    botMessage = echo.addTask(todoDescription, Command.TODO, todoCommandArgs);
+                    break;
+                case DEADLINE:
+                    String deadlineDescription = instructionParser.parseDeadlineDescription(userMessage);
+                    ArrayList<String> deadlineArgs = instructionParser.parseDeadlineArgs(userMessage);
+                    botMessage = echo.addTask(deadlineDescription, Command.DEADLINE, deadlineArgs);
+                    break;
+                case EVENT:
+                    String eventDescription = instructionParser.parseEventDescription(userMessage);
+                    ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
+                    botMessage = echo.addTask(eventDescription, Command.EVENT, eventArgs);
+                    break;
+                default:
+                    botMessage = "Unknown command, please try again!";
+                    break;
+                }
+
+                System.out.println(botMessage);
+            } catch (ParsingException e) {
+                System.out.println(echo.ui.createErrorMessage(e));
+            } catch (TaskManagerException e) {
+                // if number to mark or unmark more than length of current task list
+                System.out.println(echo.ui.createErrorMessage(e));
+            }
+        }
+    }
 }
 
-// NOTE: with the addition of the Ui class, maybe we should have the main method here instead
+// TODO: should handle case when user types in wrong date, should tell user and ask them to type again

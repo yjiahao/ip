@@ -89,4 +89,8 @@ public class Ui {
             + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
                 + "\n" + Ui.SEPARATOR;
     }
+
+    public String createErrorMessage(Exception e) {
+        return Ui.SEPARATOR + "\n" + e.getMessage() + "\n" + Ui.SEPARATOR;
+    }
 }
