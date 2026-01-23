@@ -33,6 +33,10 @@ public class Echo {
         this.ui = new Ui();
     }
 
+    /**
+     * Private helper method to use the Storage class to load tasks.
+     * @return ArrayList of Task after successfully loading, or empty ArrayList if there was an error.
+     */
     private ArrayList<Task> loadTasksFromFile() {
         try {
             ArrayList<Task> tasks = this.storage.loadTasks();
@@ -50,8 +54,8 @@ public class Echo {
     }
 
     /**
-     * Greets user with a GREETING.
-     * @return a GREETING to the user of type string.
+     * Greets user with a greeting.
+     * @return a greeting to the user of type string.
      */
     public String greetUser() {
         return this.ui.greetUser();
@@ -124,6 +128,7 @@ public class Echo {
 
     /**
      * Save the tasks in the TaskManager to a file.
+     * Informs user if saving of current tasks failed.
      */
     private void saveTasksToFile() {
         try {
