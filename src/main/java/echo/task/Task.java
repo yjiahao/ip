@@ -16,7 +16,7 @@ public abstract class Task {
     protected boolean isDone;
 
     /**
-     * Constructs a Task with the specified description.
+     * Constructor for Task
      * @param description the description of the task
      * @throws TaskException
      */
