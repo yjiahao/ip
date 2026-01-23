@@ -123,11 +123,14 @@ public class InstructionParser {
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
+
         String[] todoParts = userMessage.split(" ", 2);
         String description = todoParts[1];
+
         if (description.length() == 0) {
             throw new ParsingException("No todo description!");
         }
+
         return description;
     }
 
@@ -149,12 +152,15 @@ public class InstructionParser {
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
+
         String deadlineDetails = userMessage.substring(9);
         String[] deadlineParts = deadlineDetails.split("/by", 2);
         String deadlineDescription = deadlineParts[0].trim();
+
         if (deadlineDescription.length() == 0) {
             throw new ParsingException("No deadline description!");
         }
+
         return deadlineDescription;
     }
 
@@ -167,13 +173,16 @@ public class InstructionParser {
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
+
         String deadlineDetails = userMessage.substring(9);
         String[] deadlineParts = deadlineDetails.split("/by", 2);
+
         if (deadlineParts.length < 2) {
             throw new ParsingException("Did you forget to specify /by for the deadline?");
         } else if (deadlineParts[1].trim().contains("/by ")) {
             throw new ParsingException("Did you specify more than one /by for the deadline?");
         }
+
         return new ArrayList<>(Arrays.asList(deadlineParts[1].trim()));
     }
 
@@ -186,12 +195,15 @@ public class InstructionParser {
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
+
         String eventDetails = userMessage.substring(6).trim();
         String[] fromSplit = eventDetails.split("/from", 2);
         String eventDescription = fromSplit[0].trim();
+
         if (eventDescription.length() == 0) {
             throw new ParsingException("No event description!");
         }
+
         return eventDescription;
     }
 
@@ -204,13 +216,16 @@ public class InstructionParser {
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
+
         String eventDetails = userMessage.substring(6).trim();
+        
         if (!userMessage.contains("/from ")) {
             throw new ParsingException("Did you forget to specify /from for the event?");
         }
         if (!userMessage.contains("/to")) {
             throw new ParsingException("Did you forget to specify /to for the event?");
         }
+        
         String[] fromSplit = eventDetails.split("/from", 2);
         String[] toSplit = fromSplit[1].split("/to", 2);
         String from = toSplit[0].trim();

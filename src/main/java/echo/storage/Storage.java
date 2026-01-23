@@ -32,6 +32,7 @@ public class Storage {
         if (!parentDir.exists()) {
             parentDir.mkdirs();
         }
+
         // clear contents of file first
         FileWriter clearWriter = new FileWriter(file, false);
         clearWriter.close();
@@ -58,6 +59,7 @@ public class Storage {
         if (!parentDir.exists()) {
             parentDir.mkdirs();
         }
+
         boolean canRead = file.canRead();
         ArrayList<Task> tasks = new ArrayList<>();
         if (canRead) {
@@ -87,6 +89,7 @@ public class Storage {
     // TODO: we can check the length of args also to check the validity of each line
     private Task parseSavedTask(String line) throws StorageException, TaskException {
         String[] args = line.split(" \\| ");
+
         // check first arg to determine task type
         if (args[0].equals("T")) {
             // create new ToDo

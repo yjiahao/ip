@@ -74,7 +74,9 @@ public class Echo {
      */
     public String addTask(String description, Command type, ArrayList<String> commandArgs) throws TaskException {
         Task task = this.taskManager.addTask(description, type, commandArgs);
+
         this.saveTasksToFile();
+
         int numTasks = this.taskManager.getNumTasks();
         return this.ui.createAddTaskMessage(task, numTasks);
     }
@@ -95,7 +97,9 @@ public class Echo {
      */
     public String markAsDone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsDone(taskNumber);
+
         this.saveTasksToFile();
+
         return this.ui.createMarkAsDoneMessage(task);
     }
 
@@ -106,7 +110,9 @@ public class Echo {
      */
     public String markAsUndone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsUndone(taskNumber);
+
         this.saveTasksToFile();
+
         return this.ui.createMarkAsUndoneMessage(task);
     }
 
@@ -118,7 +124,9 @@ public class Echo {
     public String removeTask(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.removeTask(taskNumber);
         int numTasks = this.taskManager.getNumTasks();
+
         this.saveTasksToFile();
+
         return this.ui.createRemoveTaskMessage(task, numTasks);
     }
 

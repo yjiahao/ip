@@ -16,10 +16,12 @@ public class Event extends Task {
      */
     public Event(String description, String start, String end) throws TaskException {
         super(description);
+
         LocalDateTime startDate = super.parseDate(start);
         LocalDateTime endDate = super.parseDate(end);
         // validity checks first
         this.checkStartBeforeEnd(startDate, endDate);
+
         this.start = startDate;
         this.end = endDate;
     }

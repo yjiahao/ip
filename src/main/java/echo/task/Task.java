@@ -24,6 +24,7 @@ public abstract class Task {
         if (description.equals("")) {
             throw new TaskException("Task description cannot be empty!");
         }
+
         this.description = description;
         this.isDone = false;
     }
