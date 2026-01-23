@@ -16,8 +16,12 @@ public class Event extends Task {
      */
     public Event(String description, String start, String end) throws TaskException {
         super(description);
-        this.start = super.parseDate(start);
-        this.end = super.parseDate(end);
+        LocalDateTime startDate = super.parseDate(start);
+        LocalDateTime endDate = super.parseDate(end);
+        // validity checks first
+        this.checkStartBeforeEnd(startDate, endDate);
+        this.start = startDate;
+        this.end = endDate;
     }
 
     @Override
@@ -38,5 +42,11 @@ public class Event extends Task {
         String startString = this.start.format(Task.FORMATTER);
         String endString = this.end.format(Task.FORMATTER);
         return "E | " + isDone + " | " + super.description + " | " + startString + " | " + endString;
+    }
+
+    private void checkStartBeforeEnd(LocalDateTime start, LocalDateTime end) throws TaskException {
+        if (start.isAfter(end)) {
+            throw new TaskException("Start date cannot be later than end date!");
+        }
     }
 }
