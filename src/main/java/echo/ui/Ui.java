@@ -47,13 +47,7 @@ public class Ui {
      * @return Formatted string of Tasks suitable for the user interface.
      */
     public String createListTaskMessage(ArrayList<Task> tasks) {
-        String res = "";
-        int i = 1;
-        for (Task t : tasks) {
-            res = res + i + ". " + t + "\n";
-            i += 1;
-        }
-        String tasksString = res.stripTrailing();
+        String tasksString = this.createNumberedTasksString(tasks);
         return Ui.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
             + "\n" + tasksString + "\n" + Ui.SEPARATOR;
     }
@@ -92,5 +86,32 @@ public class Ui {
 
     public String createErrorMessage(Exception e) {
         return Ui.SEPARATOR + "\n" + e.getMessage() + "\n" + Ui.SEPARATOR;
+    }
+
+    /**
+     * Private helper method to format the tasks as a numbered list.
+     * @param tasks ArrayList of Task for formatting.
+     * @return Formatted String of Tasks as a numbered list.
+     */
+    private String createNumberedTasksString(ArrayList<Task> tasks) {
+        String res = "";
+        int i = 1;
+        for (Task t : tasks) {
+            res = res + i + ". " + t + "\n";
+            i += 1;
+        }
+        String tasksString = res.stripTrailing();
+        return tasksString;
+    }
+
+    /**
+     * Formats the filtered tasks for the user to see in the user interface.
+     * @param filteredTasks ArrayList of Task that have been filtered by some sort of keyword.
+     * @return Formatted string of Tasks suitable for the user interface.
+     */
+    public String createFilteredListTaskMessage(ArrayList<Task> filteredTasks) {
+        String tasksString = this.createNumberedTasksString(filteredTasks);
+        return Ui.SEPARATOR + "\n" + "Here are the matching tasks in your list:\n"
+            + "\n" + tasksString + "\n" + Ui.SEPARATOR;
     }
 }

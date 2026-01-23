@@ -135,6 +135,17 @@ public class Echo {
     }
 
     /**
+     * Searches TaskManager for Tasks whose descriptions have keyword
+     * @param keyword keyword to look for in the Task description
+     * @return Formatted String that contains the Tasks that have keyword in their description
+     */
+    public String findTasks(String keyword) {
+        ArrayList<Task> filteredTasks = this.taskManager.findTasks(keyword);
+        String res = this.ui.createFilteredListTaskMessage(filteredTasks);
+        return res;
+    }
+
+    /**
      * Main function to run the bot.
      * @param args
      */
@@ -187,6 +198,10 @@ public class Echo {
                     String eventDescription = instructionParser.parseEventDescription(userMessage);
                     ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
                     botMessage = echo.addTask(eventDescription, Command.EVENT, eventArgs);
+                    break;
+                case FIND:
+                    String keyword = instructionParser.parseFindKeyword(userMessage);
+                    botMessage = echo.findTasks(keyword);
                     break;
                 default:
                     botMessage = "Unknown command, please try again!";

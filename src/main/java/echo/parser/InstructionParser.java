@@ -87,6 +87,8 @@ public class InstructionParser {
             return Command.DELETE;
         case "bye":
             return Command.BYE;
+        case "find":
+            return Command.FIND;
         default:
             throw new ParsingException("Sorry what does that mean ah? I never see " + keyword + " before...");
         }
@@ -217,6 +219,21 @@ public class InstructionParser {
         String to = toSplit[1].trim();
         ArrayList<String> eventArgs = new ArrayList<>(Arrays.asList(from, to));
         return eventArgs;
+    }
+
+    /**
+     * Parses the keyword to search for in the user's message when user requests to find a keyword.
+     * @param userMessage String of raw user message.
+     * @return String of keyword to search for in the tasks.
+     * @throws ParsingException
+     */
+    public String parseFindKeyword(String userMessage) throws ParsingException {
+        String[] findParts = userMessage.split(" ", 2);
+        if (findParts.length < 2) {
+            throw new ParsingException("You did not specify a keyword to look for!");
+        }
+        String keyword = findParts[1];
+        return keyword;
     }
 }
 // NOTE: Exceptions are checked twice, once in parseCommand and once in parse___Args()

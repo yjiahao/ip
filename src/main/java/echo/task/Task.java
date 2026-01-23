@@ -53,5 +53,14 @@ public abstract class Task {
         }
     }
 
+    /**
+     * Check if Task description contains a keyword.
+     * @param keyword Keyword to search for in Task description.
+     * @return true if Task description contains keyword, else false.
+     */
+    public boolean descriptionContains(String keyword) {
+        return this.description.contains(keyword);
+    }
+
     public abstract String saveRepresentation();
 }
