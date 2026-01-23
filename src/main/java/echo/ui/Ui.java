@@ -90,6 +90,11 @@ public class Ui {
                 + "\n" + Ui.SEPARATOR;
     }
 
+    /**
+     * Format an error message for the user to inform them of an exception that has been caught.
+     * @param e Exception that was cause.
+     * @return String of formatted message for the user that includes the exception message.
+     */
     public String createErrorMessage(Exception e) {
         return Ui.SEPARATOR + "\n" + e.getMessage() + "\n" + Ui.SEPARATOR;
     }
