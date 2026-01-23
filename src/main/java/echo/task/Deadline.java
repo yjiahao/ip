@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import echo.exception.TaskException;
 
-public class Deadline extends Task {
+public class Deadline extends TimedTask {
 
     protected LocalDateTime by;
 
@@ -24,7 +24,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        String dateString = this.by.format(Task.TO_STRING_FORMATTER);
+        String dateString = this.by.format(TimedTask.TO_STRING_FORMATTER);
         return "[D]" + super.toString() + " (by: " + dateString + ")";
     }
 
@@ -37,7 +37,7 @@ public class Deadline extends Task {
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
         // format the date into a string format that the formatter expects
-        String dateString = this.by.format(Task.FORMATTER);
+        String dateString = this.by.format(TimedTask.FORMATTER);
         return "D | " + isDone + " | " + super.description + " | " + dateString;
     }
 }
