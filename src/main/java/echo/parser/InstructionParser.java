@@ -149,9 +149,14 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return Arguments of the Deadline Task as an ArrayList of String
      */
-    public ArrayList<String> parseDeadlineArgs(String userMessage) {
+    public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
         String deadlineDetails = userMessage.substring(9);
         String[] deadlineParts = deadlineDetails.split("/by", 2);
+        if (deadlineParts.length < 2) {
+            throw new ParsingException("Did you forget to specify /by for the deadline?");
+        } else if (deadlineParts[1].trim().contains("/by ")) {
+            throw new ParsingException("Did you specify more than one /by for the deadline?");
+        }
         return new ArrayList<>(Arrays.asList(deadlineParts[1].trim()));
     }
 
@@ -172,8 +177,14 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return Arguments of Event Task as an ArrayList of String
      */
-    public ArrayList<String> parseEventArgs(String userMessage) {
+    public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
         String eventDetails = userMessage.substring(6).trim();
+        if (!userMessage.contains("/from ")) {
+            throw new ParsingException("Did you forget to specify /from for the event?");
+        }
+        if (!userMessage.contains("/to")) {
+            throw new ParsingException("Did you forget to specify /to for the event?");
+        }
         String[] fromSplit = eventDetails.split("/from", 2);
         String[] toSplit = fromSplit[1].split("/to", 2);
         String from = toSplit[0].trim();
