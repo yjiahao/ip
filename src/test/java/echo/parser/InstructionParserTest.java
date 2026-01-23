@@ -177,9 +177,25 @@ public class InstructionParserTest {
 
     // NOTE: Test for parseTodoDescription
     @Test
-    public void parseTodoDescription_validInput_success() {
+    public void parseTodoDescription_validInput_success() throws ParsingException {
         assertEquals("read book", parser.parseTodoDescription("todo read book"));
         assertEquals("buy groceries", parser.parseTodoDescription("todo buy groceries"));
+    }
+
+    @Test
+    public void parseTodoDescription_emptyString_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseTodoDescription("");
+        });
+        assertEquals("User message cannot be empty!", exception.getMessage());
+    }
+
+    @Test
+    public void parseTodoDescription_noEventDescription_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseTodoDescription("todo ");
+        });
+        assertEquals("No todo description!", exception.getMessage());
     }
 
     // NOTE: Test for parseTodoArgs
@@ -189,13 +205,31 @@ public class InstructionParserTest {
         assertEquals(0, result.size());
     }
 
+    // No empty string test for parseTodoArgs since we dont extract information from string in any way
+
     // NOTE: Test for parseDeadlineDescription
     @Test
-    public void parseDeadlineDescription_validInput_success() {
+    public void parseDeadlineDescription_validInput_success() throws ParsingException {
         assertEquals("submit report",
             parser.parseDeadlineDescription("deadline submit report /by 2026-01-25 1800"));
         assertEquals("finish homework",
             parser.parseDeadlineDescription("deadline finish homework /by tomorrow"));
+    }
+
+    @Test
+    public void parseDeadlineDescription_emptyString_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseDeadlineDescription("");
+        });
+        assertEquals("User message cannot be empty!", exception.getMessage());
+    }
+
+    @Test
+    public void parseDeadlineDescription_noDeadlineDescription_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseDeadlineDescription("deadline /by 2026-01-01 1600");
+        });
+        assertEquals("No deadline description!", exception.getMessage());
     }
 
     // NOTE: Test for parseDeadlineArgs
@@ -205,6 +239,14 @@ public class InstructionParserTest {
             .parseDeadlineArgs("deadline submit report /by 2026-01-25 1800");
         assertEquals(1, result.size());
         assertEquals("2026-01-25 1800", result.get(0));
+    }
+
+    @Test
+    public void parseDeadlineArgs_emptyString_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseDeadlineArgs("");
+        });
+        assertEquals("User message cannot be empty!", exception.getMessage());
     }
 
     @Test
@@ -225,11 +267,27 @@ public class InstructionParserTest {
 
     // NOTE: Test for parseEventDescription
     @Test
-    public void parseEventDescription_validInput_success() {
+    public void parseEventDescription_validInput_success() throws ParsingException {
         assertEquals("project meeting",
             parser.parseEventDescription("event project meeting /from 2pm /to 4pm"));
         assertEquals("conference",
             parser.parseEventDescription("event conference /from Mon 2pm /to Mon 6pm"));
+    }
+
+    @Test
+    public void parseEventDescription_emptyString_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseEventDescription("");
+        });
+        assertEquals("User message cannot be empty!", exception.getMessage());
+    }
+
+    @Test
+    public void parseEventDescription_noEventDescription_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseEventDescription("event /from Mon 2pm /to Mon 6pm");
+        });
+        assertEquals("No event description!", exception.getMessage());
     }
 
     // NOTE: Test for parseEventArgs
@@ -240,6 +298,14 @@ public class InstructionParserTest {
         assertEquals(2, result.size());
         assertEquals("2026-01-25 1400", result.get(0));
         assertEquals("2026-01-25 1600", result.get(1));
+    }
+
+    @Test
+    public void parseEventArgs_emptyString_exceptionThrown() throws ParsingException {
+        ParsingException exception = assertThrows(ParsingException.class, () -> {
+            parser.parseDeadlineArgs("");
+        });
+        assertEquals("User message cannot be empty!", exception.getMessage());
     }
 
     @Test
