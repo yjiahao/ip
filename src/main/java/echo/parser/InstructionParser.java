@@ -193,3 +193,4 @@ public class InstructionParser {
         return eventArgs;
     }
 }
+// NOTE: Exceptions are checked twice, once in parseCommand and once in parse___Args()
