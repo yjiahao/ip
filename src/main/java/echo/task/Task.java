@@ -2,6 +2,9 @@ package echo.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import echo.exception.TaskException;
 
 public abstract class Task {
     // formatter for displaying the string representation only
@@ -39,8 +42,12 @@ public abstract class Task {
         return "[" + this.getStatusIcon() + "] " + this.description;
     }
 
-    protected LocalDateTime parseDate(String date) {
-        return LocalDateTime.parse(date, Task.FORMATTER);
+    protected LocalDateTime parseDate(String date) throws TaskException {
+        try {
+            return LocalDateTime.parse(date, Task.FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new TaskException("Date is in the wrong format! Must be in yyyy-mm-dd HHmm");
+        }
     }
 
     public abstract String saveRepresentation();

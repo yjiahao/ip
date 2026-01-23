@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import echo.exception.StorageException;
+import echo.exception.TaskException;
 import echo.task.Deadline;
 import echo.task.Event;
 import echo.task.Task;
@@ -51,7 +52,7 @@ public class Storage {
      * @throws FileNotFoundException if file does not exist.
      * @throws StorageException if there was an invalid task type when parsing.
      */
-    public ArrayList<Task> loadTasks() throws FileNotFoundException, StorageException {
+    public ArrayList<Task> loadTasks() throws FileNotFoundException, StorageException, TaskException {
         File file = new File(this.path);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
@@ -84,7 +85,7 @@ public class Storage {
      */
     // TODO: handle this exception in the Main
     // TODO: we can check the length of args also to check the validity of each line
-    private Task parseSavedTask(String line) throws StorageException {
+    private Task parseSavedTask(String line) throws StorageException, TaskException {
         String[] args = line.split(" \\| ");
         // check first arg to determine task type
         if (args[0].equals("T")) {

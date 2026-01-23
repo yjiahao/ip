@@ -8,6 +8,7 @@ import java.util.Scanner;
 import echo.command.Command;
 import echo.exception.ParsingException;
 import echo.exception.StorageException;
+import echo.exception.TaskException;
 import echo.exception.TaskManagerException;
 import echo.parser.InstructionParser;
 import echo.storage.Storage;
@@ -42,6 +43,9 @@ public class Echo {
         } catch (StorageException e) {
             System.out.println(e.getMessage() + "\nStarting from empty history...");
             return new ArrayList<>();
+        } catch (TaskException e) {
+            System.out.println(e.getMessage() + "\nStarting from empty history...");
+            return new ArrayList<>();
         }
     }
 
@@ -68,7 +72,7 @@ public class Echo {
      * @param commandArgs arguments for the particular command the user is trying to perform.
      * @return description to inform user the addition of a new task.
      */
-    public String addTask(String description, Command type, ArrayList<String> commandArgs) {
+    public String addTask(String description, Command type, ArrayList<String> commandArgs) throws TaskException {
         Task task = this.taskManager.addTask(description, type, commandArgs);
         this.saveTasksToFile();
         int numTasks = this.taskManager.getNumTasks();
@@ -195,9 +199,9 @@ public class Echo {
             } catch (TaskManagerException e) {
                 // if number to mark or unmark more than length of current task list
                 System.out.println(echo.ui.createErrorMessage(e));
+            } catch (TaskException e) {
+                System.out.println(echo.ui.createErrorMessage(e));
             }
         }
     }
 }
-
-// TODO: should handle case when user types in wrong date, should tell user and ask them to type again

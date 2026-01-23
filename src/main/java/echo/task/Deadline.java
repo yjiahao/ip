@@ -2,6 +2,8 @@ package echo.task;
 
 import java.time.LocalDateTime;
 
+import echo.exception.TaskException;
+
 public class Deadline extends Task {
 
     protected LocalDateTime by;
@@ -11,7 +13,7 @@ public class Deadline extends Task {
      * @param description description of the task.
      * @param by when to complete the task by (deadline).
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws TaskException {
         super(description);
         this.by = super.parseDate(by);
     }

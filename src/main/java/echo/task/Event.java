@@ -2,6 +2,8 @@ package echo.task;
 
 import java.time.LocalDateTime;
 
+import echo.exception.TaskException;
+
 public class Event extends Task {
     protected LocalDateTime start;
     protected LocalDateTime end;
@@ -12,7 +14,7 @@ public class Event extends Task {
      * @param start Event start time.
      * @param end Event end time.
      */
-    public Event(String description, String start, String end) {
+    public Event(String description, String start, String end) throws TaskException {
         super(description);
         this.start = super.parseDate(start);
         this.end = super.parseDate(end);

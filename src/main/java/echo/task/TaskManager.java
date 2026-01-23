@@ -3,6 +3,7 @@ package echo.task;
 import java.util.ArrayList;
 
 import echo.command.Command;
+import echo.exception.TaskException;
 import echo.exception.TaskManagerException;
 
 public class TaskManager {
@@ -21,7 +22,7 @@ public class TaskManager {
      * Adds a new task to the task manager.
      * @param taskDescription description of task to be added.
      */
-    public Task addTask(String taskDescription, Command type, ArrayList<String> commandArgs) {
+    public Task addTask(String taskDescription, Command type, ArrayList<String> commandArgs) throws TaskException {
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
             this.tasks.add(event);
