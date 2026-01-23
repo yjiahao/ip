@@ -17,6 +17,10 @@ import echo.task.ToDo;
 public class Storage {
     private final String path;
 
+    /**
+     * Constructor for Storage class
+     * @param path String file path to save and load tasks from
+     */
     public Storage(String path) {
         this.path = path;
     }
