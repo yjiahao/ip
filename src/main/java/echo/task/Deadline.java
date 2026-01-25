@@ -24,7 +24,7 @@ public class Deadline extends TimedTask {
      */
     @Override
     public String toString() {
-        String dateString = this.by.format(TimedTask.TO_STRING_FORMATTER);
+        String dateString = this.by.format(TimedTask.FORMATTER_TO_STRING);
         return "[D]" + super.toString() + " (by: " + dateString + ")";
     }
 
@@ -37,7 +37,7 @@ public class Deadline extends TimedTask {
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
         // format the date into a string format that the formatter expects
-        String dateString = this.by.format(TimedTask.FORMATTER);
+        String dateString = this.by.format(TimedTask.FORMATTER_TO_SAVE);
         return "D | " + isDone + " | " + super.description + " | " + dateString;
     }
 }

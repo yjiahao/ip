@@ -8,9 +8,9 @@ import echo.exception.TaskException;
 
 public abstract class TimedTask extends Task {
     // formatter for displaying the string representation only
-    protected static final DateTimeFormatter TO_STRING_FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy HHmm");
+    protected static final DateTimeFormatter FORMATTER_TO_STRING = DateTimeFormatter.ofPattern("d MMM yyyy HHmm");
     // formatter for parsing and saving the deadline
-    protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    protected static final DateTimeFormatter FORMATTER_TO_SAVE = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     protected TimedTask(String description) throws TaskException {
         super(description);
@@ -24,7 +24,7 @@ public abstract class TimedTask extends Task {
      */
     protected LocalDateTime parseDate(String date) throws TaskException {
         try {
-            return LocalDateTime.parse(date, TimedTask.FORMATTER);
+            return LocalDateTime.parse(date, TimedTask.FORMATTER_TO_SAVE);
         } catch (DateTimeParseException e) {
             throw new TaskException("Date is in the wrong format! Must be in yyyy-mm-dd HHmm");
         }
