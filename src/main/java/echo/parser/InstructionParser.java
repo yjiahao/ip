@@ -16,7 +16,7 @@ public class InstructionParser {
      *
      * @param command the command string to parse
      * @return the Command enum corresponding to the command
-     * @throws IllegalArgumentException if the command is unknown
+     * @throws IllegalArgumentException if the command is unknown or unsupported
      */
     public Command parseCommand(String command) throws ParsingException {
         // trim command
@@ -95,7 +95,8 @@ public class InstructionParser {
     }
 
     /**
-     * Parse the user arguments for marking or unmarking a Task
+     * Parses the user arguments for marking or unmarking a Task
+     *
      * @param userMessage String of raw user message
      * @return int representing the Task number that user wants to mark or unmark
      */
@@ -106,7 +107,8 @@ public class InstructionParser {
     }
 
     /**
-     * Parse user arguments for deleting a Task
+     * Parses user arguments for deleting a Task
+     *
      * @param userMessage String of raw user message
      * @return int representing Task number that user wants to delete
      */
@@ -118,8 +120,10 @@ public class InstructionParser {
 
     /**
      * Parses the description part of the Todo Task.
+     *
      * @param userMessage String of raw user message
-     * @return String representing the description of the ToDo Task user specified
+     * @return String representing the description of the Todo Task user specified
+     * @throws ParsingException If user message is an empty String or user did not specify description
      */
     public String parseTodoDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
@@ -138,6 +142,7 @@ public class InstructionParser {
 
     /**
      * Parses the arguments of the Todo Task.
+     *
      * @param userMessage String of raw user message
      * @return Currently returns an empty ArrayList because Todo has no arguments
      */
@@ -147,8 +152,10 @@ public class InstructionParser {
 
     /**
      * Parses the description of the Deadline Task.
+     *
      * @param userMessage String of raw user message
      * @return Description of Deadline Task
+     * @throws ParsingException If userMessage is an empty String, or there is no description for deadline
      */
     public String parseDeadlineDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
@@ -168,8 +175,11 @@ public class InstructionParser {
 
     /**
      * Parses the arguments of the Deadline Task provided by user.
+     *
      * @param userMessage String of raw user message
      * @return Arguments of the Deadline Task as an ArrayList of String
+     * @throws ParsingException If userMessage is an empty String or there is no
+     * /by in the userMessage, or more than one /by in the userMessage
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
@@ -190,8 +200,10 @@ public class InstructionParser {
 
     /**
      * Parses the description of the Event Task.
+     *
      * @param userMessage String of raw user message
      * @return Description of Event Task
+     * @throws ParsingException If userMessage is an empty String, or there is no Event description
      */
     public String parseEventDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
@@ -211,8 +223,10 @@ public class InstructionParser {
 
     /**
      * Parses the arguments of the Event Task.
+     *
      * @param userMessage String of raw user message
      * @return Arguments of Event Task as an ArrayList of String
+     * @throws ParsingException If userMessage is an empty String, or does not contain /from or does not contain /to
      */
     public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
@@ -220,14 +234,14 @@ public class InstructionParser {
         }
 
         String eventDetails = userMessage.substring(6).trim();
-        
+
         if (!userMessage.contains("/from ")) {
             throw new ParsingException("Did you forget to specify /from for the event?");
         }
         if (!userMessage.contains("/to")) {
             throw new ParsingException("Did you forget to specify /to for the event?");
         }
-        
+
         String[] fromSplit = eventDetails.split("/from", 2);
         String[] toSplit = fromSplit[1].split("/to", 2);
         String from = toSplit[0].trim();
@@ -238,9 +252,10 @@ public class InstructionParser {
 
     /**
      * Parses the keyword to search for in the user's message when user requests to find a keyword.
+     *
      * @param userMessage String of raw user message.
      * @return String of keyword to search for in the tasks.
-     * @throws ParsingException
+     * @throws ParsingException If userMessage did not specify a keyword
      */
     public String parseFindKeyword(String userMessage) throws ParsingException {
         String[] findParts = userMessage.split(" ", 2);

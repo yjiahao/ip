@@ -21,8 +21,14 @@ public class TaskManager {
 
     /**
      * Adds a new task to the task manager.
+     *
      * @param taskDescription description of task to be added.
+     * @param type Command of type Command.EVENT, Command.TODO, or Command.DEADLINE
+     * @param commandArgs Arguments for the corresponding command
+     * @throws TaskException If creation of Task was unsuccessful before adding into TaskManager
+     * @throws TaskManagerException If the Command type is not of TODO, EVENT or DEADLINE
      */
+    // TODO: add the throwing of TaskManagerException part
     public Task addTask(String taskDescription, Command type, ArrayList<String> commandArgs) throws TaskException {
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
@@ -40,9 +46,10 @@ public class TaskManager {
     }
 
     /**
-     * Private helper method to check a task number specified by user is not out of bounds
+     * Checks a task number specified by user is not out of bounds
+     *
      * @param taskNumber Task number specified by user to mark/unmark/remove
-     * @throws TaskManagerException
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     private void checkNotOutOfBounds(int taskNumber) throws TaskManagerException {
         if (taskNumber > this.tasks.size()) {
@@ -54,9 +61,10 @@ public class TaskManager {
 
     /**
      * Removes a Task from task list and returns it.
+     *
      * @param taskNumber the 1-indexed Task that is to be removed.
-     * @return the Task that was removed.
-     * @throws TaskManagerException
+     * @return The Task that was removed.
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     public Task removeTask(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -66,7 +74,8 @@ public class TaskManager {
 
     /**
      * Get all tasks in the task manager as an ArrayList of Task.
-     * @return a string of tasks.
+     *
+     * @return An ArrayList of Task.
      */
     public ArrayList<Task> getTasks() {
         return this.tasks;
@@ -74,9 +83,10 @@ public class TaskManager {
 
     /**
      * Marks a task as done.
+     *
      * @param taskNumber the task number (1-indexed) to mark as done.
      * @return the task that was marked as done in String.
-     * @throws TaskManagerException
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     public Task markAsDone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -88,9 +98,10 @@ public class TaskManager {
 
     /**
      * Marks a Task as undone.
+     *
      * @param taskNumber the task number (1-indexed) to mark as undone.
      * @return the Task that was marked as undone.
-     * @throws TaskManagerException
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     public Task markAsUndone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
@@ -101,6 +112,7 @@ public class TaskManager {
 
     /**
      * Get the number of tasks present in the TaskManager currently.
+     *
      * @return Number of tasks present of type int.
      */
     public int getNumTasks() {
@@ -109,6 +121,7 @@ public class TaskManager {
 
     /**
      * Searches for Tasks whose descriptions contain keyword.
+     *
      * @param keyword Keyword to search for in the Task descriptions.
      * @return ArrayList of Task whose descriptions contain keyword.
      */

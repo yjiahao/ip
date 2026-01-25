@@ -26,8 +26,11 @@ public class Storage {
     }
 
     /**
-     * Save the tasks currently present in the tasks ArrayList
-     * @throws IOException
+     * Saves the tasks currently present in the tasks ArrayList into a file with this.path
+     *
+     * @param tasks ArrayList of Task for the to save
+     * @throws IOException If the file exists but is a directory rather than a regular file,
+     * does not exist but cannot be created, or cannot be opened for any other reason
      */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
         File file = new File(this.path);
@@ -53,9 +56,11 @@ public class Storage {
     }
 
     /**
-     * Load the tasks from a text file if it exists, else creates new empty file
+     * Loads the tasks from a text file if it exists, else creates new empty file
+     *
      * @throws FileNotFoundException if file does not exist.
      * @throws StorageException if there was an invalid task type when parsing.
+     * @throws TaskException if there was an error while creating a new Task after parsing.
      */
     public ArrayList<Task> loadTasks() throws FileNotFoundException, StorageException, TaskException {
         File file = new File(this.path);
@@ -85,12 +90,12 @@ public class Storage {
      * ToDo: T | 1 | read book
      * Deadline: D | 0 | return book | 2026-01-25 1000
      * Event: E | 1 | project meeting | 2026-01-27 1200 | 2026-01-27 1500
+     *
      * @param line String of a task that is currently in the File
      * @return a new Task that has been created after successful parsing and creation
      * @throws StorageException when an invalid task type is detected
+     * @throws TaskException if there was an error constructing the new Task after parsing
      */
-    // TODO: handle this exception in the Main
-    // TODO: we can check the length of args also to check the validity of each line
     private Task parseSavedTask(String line) throws StorageException, TaskException {
         String[] args = line.split(" \\| ");
 

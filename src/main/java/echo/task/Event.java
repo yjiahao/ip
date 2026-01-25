@@ -10,10 +10,11 @@ public class Event extends TimedTask {
 
     /**
      * Initializes an Event object.
+     *
      * @param description description of the Event.
      * @param start Event start time.
      * @param end Event end time.
-     * @throws TaskException
+     * @throws TaskException if start date is later than end date.
      */
     public Event(String description, String start, String end) throws TaskException {
         super(description);
@@ -29,6 +30,7 @@ public class Event extends TimedTask {
 
     /**
      * Displays Event class in String form
+     *
      * @return String representation of Event when displayed on the terminal
      */
     @Override
@@ -39,9 +41,10 @@ public class Event extends TimedTask {
     }
 
     /**
-     * Create String representation of Event task to be saved.
-     * @return String representation of the Event task ready to be saved into a .txt file.
+     * Creates String representation of Event task to be saved.
      * Return String is of the form: E | 1 | project meeting | Aug 6th 2pm | 4pm
+     *
+     * @return String representation of the Event task ready to be saved into a .txt file.
      */
     @Override
     public String saveRepresentation() {
@@ -53,9 +56,10 @@ public class Event extends TimedTask {
 
     /**
      * Helper method to check that Event start date is before Event end date
+     *
      * @param start start date of type LocalDateTime
      * @param end end date of type LocalDateTime
-     * @throws TaskException
+     * @throws TaskException if start later than end
      */
     private void checkStartBeforeEnd(LocalDateTime start, LocalDateTime end) throws TaskException {
         if (start.isAfter(end)) {

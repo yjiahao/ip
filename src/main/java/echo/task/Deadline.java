@@ -10,6 +10,7 @@ public class Deadline extends TimedTask {
 
     /**
      * Initializes a new Deadline object.
+     *
      * @param description description of the task.
      * @param by when to complete the task by (deadline).
      */
@@ -20,6 +21,7 @@ public class Deadline extends TimedTask {
 
     /**
      * Displays Deadline class in String form
+     *
      * @return String representation of Deadline when displayed on the terminal
      */
     @Override
@@ -30,8 +32,9 @@ public class Deadline extends TimedTask {
 
     /**
      * Create String representation of Deadline task for saving.
-     * @return String representation of the Deadline task ready to be saved into a .txt file.
      * Return String is of the form: D | 0 | return book | June 6th
+     *
+     * @return String representation of the Deadline task ready to be saved into a .txt file.
      */
     @Override
     public String saveRepresentation() {

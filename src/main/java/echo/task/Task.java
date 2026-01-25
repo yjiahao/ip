@@ -8,9 +8,10 @@ public abstract class Task {
     protected boolean isDone;
 
     /**
-     * Constructor for Task
-     * @param description the description of the task
-     * @throws TaskException
+     * Initializes a Task object
+     *
+     * @param description the description of the Task
+     * @throws TaskException if Task description is empty
      */
     public Task(String description) throws TaskException {
         if (description.equals("")) {
@@ -37,6 +38,7 @@ public abstract class Task {
 
     /**
      * Helper method to get status on whether Task is marked or unmarked
+     *
      * @return String of "X" if task is marked, else " " if unmarked
      */
     private String getStatusIcon() {
@@ -45,6 +47,7 @@ public abstract class Task {
 
     /**
      * Returns a String representation of the Task
+     *
      * @return String of Task for display in the terminal
      */
     @Override
@@ -53,7 +56,8 @@ public abstract class Task {
     }
 
     /**
-     * Check if Task description contains a keyword.
+     * Checks if Task description contains a keyword.
+     *
      * @param keyword Keyword to search for in Task description.
      * @return true if Task description contains keyword, else false.
      */

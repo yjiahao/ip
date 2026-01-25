@@ -34,7 +34,9 @@ public class Echo {
     }
 
     /**
-     * Private helper method to use the Storage class to load tasks.
+     * Loads tasks from file.
+     * Intended as a helper method to use the Storage class to load tasks.
+     *
      * @return ArrayList of Task after successfully loading, or empty ArrayList if there was an error.
      */
     private ArrayList<Task> loadTasksFromFile() {
@@ -55,6 +57,7 @@ public class Echo {
 
     /**
      * Greets user with a greeting.
+     *
      * @return a greeting to the user of type string.
      */
     public String greetUser() {
@@ -63,6 +66,7 @@ public class Echo {
 
     /**
      * Says bye to the user.
+     *
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
@@ -71,10 +75,13 @@ public class Echo {
 
     /**
      * Adds a task to the task list.
+     *
      * @param description the description of the task to be added.
      * @param type Type of command that the user is trying to perform.
      * @param commandArgs arguments for the particular command the user is trying to perform.
      * @return description to inform user the addition of a new task.
+     * @throws TaskException if creation of task was unsuccessful.
+     * @throws TaskManagerException if type is not of Command.TODO, Command.Event or Command.Description.
      */
     public String addTask(String description, Command type, ArrayList<String> commandArgs) throws TaskException {
         Task task = this.taskManager.addTask(description, type, commandArgs);
@@ -87,6 +94,7 @@ public class Echo {
 
     /**
      * Get tasks that have been stored, and format it for the user.
+     *
      * @return formatted tasks in the form of String.
      */
     public String getTasks() {
@@ -96,8 +104,10 @@ public class Echo {
 
     /**
      * Marks a task in the task manager as done.
+     *
      * @param taskNumber 1-indexed task number.
      * @return String of message telling user a task has been marked as done.
+     * @throws TaskManagerException if negative taskNumber or taskNumber more than number of tasks present
      */
     public String markAsDone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsDone(taskNumber);
@@ -109,8 +119,10 @@ public class Echo {
 
     /**
      * Marks a task as undone in the task manager.
+     *
      * @param taskNumber 1-indexed task number.
      * @return String of message telling user a task has been marked as undone.
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     public String markAsUndone(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.markAsUndone(taskNumber);
@@ -122,8 +134,10 @@ public class Echo {
 
     /**
      * Removes a task from the task manager.
+     *
      * @param taskNumber 1-indexed task number to be removed.
      * @return String of message informing user the task has been removed.
+     * @throws TaskManagerException If negative taskNumber or taskNumber more than number of tasks present
      */
     public String removeTask(int taskNumber) throws TaskManagerException {
         Task task = this.taskManager.removeTask(taskNumber);
@@ -135,7 +149,7 @@ public class Echo {
     }
 
     /**
-     * Save the tasks in the TaskManager to a file.
+     * Saves the tasks in the TaskManager to a file.
      * Informs user if saving of current tasks failed.
      */
     private void saveTasksToFile() {
@@ -149,6 +163,7 @@ public class Echo {
 
     /**
      * Searches TaskManager for Tasks whose descriptions have keyword
+     *
      * @param keyword keyword to look for in the Task description
      * @return Formatted String that contains the Tasks that have keyword in their description
      */

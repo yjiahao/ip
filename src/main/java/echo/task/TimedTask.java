@@ -17,10 +17,12 @@ public abstract class TimedTask extends Task {
     }
 
     /**
-     * Helper method for child classes to parse all dates in the form of String
+     * Parses all dates in the form of String
+     * Intended as a helper method for child classes
+     *
      * @param date date in String format
      * @return the parsed date as a LocalDateTime object
-     * @throws TaskException
+     * @throws TaskException if date is in the incorrect format
      */
     protected LocalDateTime parseDate(String date) throws TaskException {
         try {

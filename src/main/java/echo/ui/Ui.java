@@ -15,6 +15,7 @@ public class Ui {
 
     /**
      * Greets user with a GREETING.
+     *
      * @return a GREETING to the user of type string.
      */
     public String greetUser() {
@@ -23,6 +24,7 @@ public class Ui {
 
     /**
      * Says bye to the user.
+     *
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
@@ -31,6 +33,7 @@ public class Ui {
 
     /**
      * Creates a message for the user after adding a task.
+     *
      * @param task Task that has been added
      * @param numTasks Number of tasks remaining
      * @return description to inform user the addition of a new task.
@@ -43,6 +46,7 @@ public class Ui {
 
     /**
      * Formats the tasks for the user to see in the user interface.
+     *
      * @param tasks ArrayList of Task.
      * @return Formatted string of Tasks suitable for the user interface.
      */
@@ -54,6 +58,7 @@ public class Ui {
 
     /**
      * Generates a message that tells user task is marked as done.
+     *
      * @param task Task that has been marked as done.
      * @return String of formatted message for the user.
      */
@@ -64,6 +69,7 @@ public class Ui {
 
     /**
      * Generates a message that tells user task is marked as not done yet.
+     *
      * @param task Task that has been marked as undone.
      * @return String of formatted message for the user.
      */
@@ -74,6 +80,7 @@ public class Ui {
 
     /**
      * Formats a message for the user to tell them Task has been removed.
+     *
      * @param task Task that has been removed.
      * @param numTasks Number of Tasks left.
      * @return String of formatted message after removal of Task.
@@ -86,6 +93,7 @@ public class Ui {
 
     /**
      * Format an error message for the user to inform them of an exception that has been caught.
+     *
      * @param e Exception that was cause.
      * @return String of formatted message for the user that includes the exception message.
      */
@@ -95,6 +103,7 @@ public class Ui {
 
     /**
      * Private helper method to format the tasks as a numbered list.
+     *
      * @param tasks ArrayList of Task for formatting.
      * @return Formatted String of Tasks as a numbered list.
      */
@@ -111,6 +120,7 @@ public class Ui {
 
     /**
      * Formats the filtered tasks for the user to see in the user interface.
+     *
      * @param filteredTasks ArrayList of Task that have been filtered by some sort of keyword.
      * @return Formatted string of Tasks suitable for the user interface.
      */
