@@ -28,8 +28,8 @@ public class TaskManager {
      * @throws TaskException If creation of Task was unsuccessful before adding into TaskManager
      * @throws TaskManagerException If the Command type is not of TODO, EVENT or DEADLINE
      */
-    // TODO: add the throwing of TaskManagerException part
-    public Task addTask(String taskDescription, Command type, ArrayList<String> commandArgs) throws TaskException {
+    public Task addTask(String taskDescription, Command type,
+            ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
             this.tasks.add(event);
@@ -38,10 +38,12 @@ public class TaskManager {
             Task todo = new ToDo(taskDescription);
             this.tasks.add(todo);
             return todo;
-        } else {
+        } else if (type.equals(Command.DEADLINE)) {
             Task deadline = new Deadline(taskDescription, commandArgs.get(0));
             this.tasks.add(deadline);
             return deadline;
+        } else {
+            throw new TaskManagerException("No such Task of type " + type.toString());
         }
     }
 

@@ -83,7 +83,8 @@ public class Echo {
      * @throws TaskException if creation of task was unsuccessful.
      * @throws TaskManagerException if type is not of Command.TODO, Command.Event or Command.Description.
      */
-    public String addTask(String description, Command type, ArrayList<String> commandArgs) throws TaskException {
+    public String addTask(String description, Command type,
+            ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
         Task task = this.taskManager.addTask(description, type, commandArgs);
 
         this.saveTasksToFile();
