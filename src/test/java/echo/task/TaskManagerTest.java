@@ -23,7 +23,7 @@ public class TaskManagerTest {
 
     // NOTE: tests for Todo tasks
     @Test
-    public void addTask_validTodo_success() throws TaskException {
+    public void addTask_validTodo_success() throws TaskException, TaskManagerException {
         Task task = taskManager.addTask("read book", Command.TODO, new ArrayList<>());
         assertEquals("[T][ ] read book", task.toString());
         assertEquals(1, taskManager.getNumTasks());
@@ -39,7 +39,7 @@ public class TaskManagerTest {
 
     // NOTE: tests for Deadline tasks
     @Test
-    public void addTask_validDeadline_success() throws TaskException {
+    public void addTask_validDeadline_success() throws TaskException, TaskManagerException {
         ArrayList<String> deadlineArrayList = new ArrayList<>(List.of("2026-01-23 1800"));
         Task task = taskManager.addTask("sweep floor", Command.DEADLINE, deadlineArrayList);
         assertEquals("[D][ ] sweep floor (by: 23 Jan 2026 1800)", task.toString());
@@ -65,7 +65,7 @@ public class TaskManagerTest {
 
     // NOTE: tests for Event task
     @Test
-    public void addTask_validEvent_success() throws TaskException {
+    public void addTask_validEvent_success() throws TaskException, TaskManagerException {
         ArrayList<String> deadlineArrayList = new ArrayList<>(List.of("2026-02-23 1800", "2026-02-24 1800"));
         Task task = taskManager.addTask("Attend Conference", Command.EVENT, deadlineArrayList);
         assertEquals("[E][ ] Attend Conference (from: 23 Feb 2026 1800 to: 24 Feb 2026 1800)", task.toString());
