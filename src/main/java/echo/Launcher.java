@@ -1,5 +1,6 @@
 package echo;
 
+import echo.ui.Main;
 import javafx.application.Application;
 
 /**
