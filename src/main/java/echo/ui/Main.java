@@ -32,6 +32,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Main.MAIN_WINDOW_FXML_PATH));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("Echo, your friendly task tracker");
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);
