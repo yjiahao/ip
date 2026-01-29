@@ -16,6 +16,14 @@ import echo.task.Task;
 import echo.task.TaskManager;
 import echo.ui.Ui;
 
+/**
+ * Represents the main application class for the Echo chatbot.
+ * Echo is a task management chatbot that allows users to create, manage, and track
+ * various types of tasks including todos, deadlines, and events.
+ *
+ * This class handles the initialization of the application components (UI, storage, task manager),
+ * user interaction through command parsing, and coordination between different modules.
+ */
 public class Echo {
 
     private static final String FILE_PATH = "data/echo.txt";

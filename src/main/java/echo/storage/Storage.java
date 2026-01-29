@@ -14,6 +14,15 @@ import echo.task.Event;
 import echo.task.Task;
 import echo.task.ToDo;
 
+/**
+ * Handles the loading and saving of tasks to and from persistent storage.
+ * This class manages file I/O operations for the Echo application, including
+ * creating necessary directories, reading task data from files, and writing
+ * task data back to files.
+ *
+ * The storage format uses a pipe-delimited text format where each line represents
+ * a task with its type, completion status, description, and any date/time information.
+ */
 public class Storage {
     private final String path;
 
@@ -30,7 +39,7 @@ public class Storage {
      *
      * @param tasks ArrayList of Task for the to save
      * @throws IOException If the file exists but is a directory rather than a regular file,
-     * does not exist but cannot be created, or cannot be opened for any other reason
+     *     does not exist but cannot be created, or cannot be opened for any other reason
      */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
         File file = new File(this.path);

@@ -7,6 +7,15 @@ import echo.command.Command;
 import echo.exception.TaskException;
 import echo.exception.TaskManagerException;
 
+/**
+ * Manages the collection of tasks in the Echo application.
+ * This class handles operations on tasks including adding, removing, marking/unmarking,
+ * and searching for tasks.
+ *
+ * The TaskManager maintains an ArrayList of tasks and provides methods to manipulate
+ * and query this collection. It performs validation to ensure task operations are valid
+ * (e.g., task numbers are within bounds).
+ */
 public class TaskManager {
 
     private ArrayList<Task> tasks;

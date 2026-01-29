@@ -6,6 +6,15 @@ import java.util.Arrays;
 import echo.command.Command;
 import echo.exception.ParsingException;
 
+/**
+ * Parses user input commands and extracts relevant information for task operations.
+ * This class handles the interpretation of user messages, validating command syntax,
+ * and extracting task descriptions and arguments for various task types (Todo, Deadline, Event).
+ *
+ * <p>The parser performs validation at two levels: first during command identification in
+ * {@link #parseCommand(String)}, and again when extracting specific arguments in the
+ * respective parse methods.</p>
+ */
 public class InstructionParser {
     public InstructionParser() {
 
@@ -179,7 +188,7 @@ public class InstructionParser {
      * @param userMessage String of raw user message
      * @return Arguments of the Deadline Task as an ArrayList of String
      * @throws ParsingException If userMessage is an empty String or there is no
-     * /by in the userMessage, or more than one /by in the userMessage
+     *     /by in the userMessage, or more than one /by in the userMessage
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {

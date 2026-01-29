@@ -2,6 +2,13 @@ package echo.task;
 
 import echo.exception.TaskException;
 
+/**
+ * Represents a Todo task without any date/time attached.
+ * A Todo is a simple task that only has a description and completion status,
+ * with no specific deadline or time period.
+ *
+ * Todos are the simplest form of tasks in the Echo application.
+ */
 public class ToDo extends Task {
     /**
      * Constructor for Todo.

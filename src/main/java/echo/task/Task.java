@@ -2,6 +2,14 @@ package echo.task;
 
 import echo.exception.TaskException;
 
+/**
+ * Represents an abstract task in the Echo application.
+ * This is the base class for all task types (Todo, Deadline, Event).
+ * Each task has a description and a completion status.
+ *
+ * Subclasses must implement the {@link #saveRepresentation()} method to define
+ * how the task should be saved to persistent storage.
+ */
 public abstract class Task {
 
     protected String description;
