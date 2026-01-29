@@ -325,3 +325,7 @@ public class Echo {
 
 // TODO: create a JavaFX ui, and maintain our current ui that formats everything as a string
 // we just have one more extra step to pass the string into the JavaFX ui to render stuff
+
+// TODO: Add greeting for the user
+// TODO: When user says bye, exit print user message and exit the user
+// TODO: Beautify the GUI with padding on messages, colour schemes, etc.
