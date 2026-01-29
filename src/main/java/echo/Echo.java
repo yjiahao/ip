@@ -323,5 +323,4 @@ public class Echo {
     }
 }
 
-// TODO: When user says bye, exit print user message and exit the user
 // TODO: Beautify the GUI with padding on messages, colour schemes, etc.
