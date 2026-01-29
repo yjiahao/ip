@@ -14,7 +14,7 @@ import echo.parser.InstructionParser;
 import echo.storage.Storage;
 import echo.task.Task;
 import echo.task.TaskManager;
-import echo.ui.Ui;
+import echo.ui.MessageFormatter;
 
 /**
  * Represents the main application class for the Echo chatbot.
@@ -28,8 +28,9 @@ public class Echo {
 
     private static final String FILE_PATH = "data/echo.txt";
     private TaskManager taskManager;
-    private Ui ui;
+    private MessageFormatter messageFormatter;
     private Storage storage;
+    private InstructionParser instructionParser;
 
     /**
      * Initalizes a new instance of Echo
@@ -38,7 +39,8 @@ public class Echo {
         this.storage = new Storage(Echo.FILE_PATH);
         ArrayList<Task> tasks = this.loadTasksFromFile();
         this.taskManager = new TaskManager(tasks);
-        this.ui = new Ui();
+        this.messageFormatter = new MessageFormatter();
+        this.instructionParser = new InstructionParser();
     }
 
     /**
@@ -69,7 +71,7 @@ public class Echo {
      * @return a greeting to the user of type string.
      */
     public String greetUser() {
-        return this.ui.greetUser();
+        return this.messageFormatter.greetUser();
     }
 
     /**
@@ -78,7 +80,7 @@ public class Echo {
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
-        return this.ui.exitUser();
+        return this.messageFormatter.exitUser();
     }
 
     /**
@@ -98,7 +100,7 @@ public class Echo {
         this.saveTasksToFile();
 
         int numTasks = this.taskManager.getNumTasks();
-        return this.ui.createAddTaskMessage(task, numTasks);
+        return this.messageFormatter.createAddTaskMessage(task, numTasks);
     }
 
     /**
@@ -108,7 +110,7 @@ public class Echo {
      */
     public String getTasks() {
         ArrayList<Task> tasks = this.taskManager.getTasks();
-        return this.ui.createListTaskMessage(tasks);
+        return this.messageFormatter.createListTaskMessage(tasks);
     }
 
     /**
@@ -123,7 +125,7 @@ public class Echo {
 
         this.saveTasksToFile();
 
-        return this.ui.createMarkAsDoneMessage(task);
+        return this.messageFormatter.createMarkAsDoneMessage(task);
     }
 
     /**
@@ -138,7 +140,7 @@ public class Echo {
 
         this.saveTasksToFile();
 
-        return this.ui.createMarkAsUndoneMessage(task);
+        return this.messageFormatter.createMarkAsUndoneMessage(task);
     }
 
     /**
@@ -154,7 +156,7 @@ public class Echo {
 
         this.saveTasksToFile();
 
-        return this.ui.createRemoveTaskMessage(task, numTasks);
+        return this.messageFormatter.createRemoveTaskMessage(task, numTasks);
     }
 
     /**
@@ -178,12 +180,12 @@ public class Echo {
      */
     public String findTasks(String keyword) {
         ArrayList<Task> filteredTasks = this.taskManager.findTasks(keyword);
-        String res = this.ui.createFilteredListTaskMessage(filteredTasks);
+        String res = this.messageFormatter.createFilteredListTaskMessage(filteredTasks);
         return res;
     }
 
     /**
-     * Main function to run the bot.
+     * Main function to run the bot on a CLI.
      * @param args
      */
     public static void main(String[] args) {
@@ -247,13 +249,78 @@ public class Echo {
 
                 System.out.println(botMessage);
             } catch (ParsingException e) {
-                System.out.println(echo.ui.createErrorMessage(e));
+                System.out.println(echo.messageFormatter.createErrorMessage(e));
             } catch (TaskManagerException e) {
                 // if number to mark or unmark more than length of current task list
-                System.out.println(echo.ui.createErrorMessage(e));
+                System.out.println(echo.messageFormatter.createErrorMessage(e));
             } catch (TaskException e) {
-                System.out.println(echo.ui.createErrorMessage(e));
+                System.out.println(echo.messageFormatter.createErrorMessage(e));
             }
         }
     }
+
+    /**
+     * Returns a message for the user after the user asks Echo to perform a task
+     *
+     * @param userMessage Message from the user.
+     * @return String of completed message, ready for rendering on the GUI
+     */
+    public String getResponse(String userMessage) {
+        // initialize hello message by Echo
+        // String greeting = echo.greetUser();
+        // System.out.println(greeting);
+        try {
+            Command command = this.instructionParser.parseCommand(userMessage);
+
+            switch (command) {
+            case BYE:
+                return this.exitUser();
+            case LIST:
+                return this.getTasks();
+            case MARK:
+                int markTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+                String markMessage = this.markAsDone(markTaskNumber);
+                return markMessage;
+            case UNMARK:
+                int unmarkTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+                String unmarkMessage = this.markAsUndone(unmarkTaskNumber);
+                return unmarkMessage;
+            case DELETE:
+                int deleteTaskNumber = this.instructionParser.parseDeleteArgs(userMessage);
+                String deleteMessage = this.removeTask(deleteTaskNumber);
+                return deleteMessage;
+            case TODO:
+                String todoDescription = instructionParser.parseTodoDescription(userMessage);
+                ArrayList<String> todoCommandArgs = instructionParser.parseTodoArgs(userMessage);
+                String todoMessage = this.addTask(todoDescription, Command.TODO, todoCommandArgs);
+                return todoMessage;
+            case DEADLINE:
+                String deadlineDescription = instructionParser.parseDeadlineDescription(userMessage);
+                ArrayList<String> deadlineArgs = instructionParser.parseDeadlineArgs(userMessage);
+                String deadlineMessage = this.addTask(deadlineDescription, Command.DEADLINE, deadlineArgs);
+                return deadlineMessage;
+            case EVENT:
+                String eventDescription = instructionParser.parseEventDescription(userMessage);
+                ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
+                String eventMessage = this.addTask(eventDescription, Command.EVENT, eventArgs);
+                return eventMessage;
+            case FIND:
+                String keyword = instructionParser.parseFindKeyword(userMessage);
+                String foundTasksMessage = this.findTasks(keyword);
+                return foundTasksMessage;
+            default:
+                String defaultMessage = "Unknown command, please try again!";
+                return defaultMessage;
+            }
+        } catch (ParsingException e) {
+            return this.messageFormatter.createErrorMessage(e);
+        } catch (TaskManagerException e) {
+            // if number to mark or unmark more than length of current task list
+            return this.messageFormatter.createErrorMessage(e);
+        } catch (TaskException e) {
+            return this.messageFormatter.createErrorMessage(e);
+        }
+    }
 }
+
+// TODO: Beautify the GUI with padding on messages, colour schemes, etc.
