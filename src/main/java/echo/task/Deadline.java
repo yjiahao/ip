@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 import echo.exception.TaskException;
 
+/**
+ * Represents a deadline task with a specific due date/time.
+ * A deadline is a task that needs to be completed by a certain date and time.
+ *
+ * Deadlines extend TimedTask and use date/time formatting for display and storage.
+ */
 public class Deadline extends TimedTask {
 
     protected LocalDateTime by;

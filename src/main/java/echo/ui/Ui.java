@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 import echo.task.Task;
 
+/**
+ * Handles all user interface interactions for the Echo application.
+ * This class is responsible for formatting and generating messages displayed to the user,
+ * including greetings, task notifications, error messages, and task lists.
+ *
+ * All messages are formatted with separators for better readability in the UI.
+ */
 public class Ui {
     private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
     private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";

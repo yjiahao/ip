@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 
 import echo.exception.TaskException;
 
+/**
+ * Represents an event task with a start and end date/time.
+ * An event is a task that occurs during a specific time period, with both
+ * a starting time and an ending time.
+ *
+ * Events are validated to ensure the start time is before the end time.
+ */
 public class Event extends TimedTask {
     protected LocalDateTime start;
     protected LocalDateTime end;

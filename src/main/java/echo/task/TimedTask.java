@@ -6,6 +6,12 @@ import java.time.format.DateTimeParseException;
 
 import echo.exception.TaskException;
 
+/**
+ * Represents an abstract class in the Echo application.
+ * This is the base class for all subclasses that are required to store some form of date information.
+ *
+ * Provides static variables for its children to format and parse the date time information.
+ */
 public abstract class TimedTask extends Task {
     // formatter for displaying the string representation only
     protected static final DateTimeFormatter FORMATTER_TO_STRING = DateTimeFormatter.ofPattern("d MMM yyyy HHmm");
