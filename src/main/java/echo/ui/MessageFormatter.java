@@ -11,12 +11,12 @@ import echo.task.Task;
  *
  * All messages are formatted with separators for better readability in the UI.
  */
-public class Ui {
+public class MessageFormatter {
     private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
     private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
     private static final String SEPARATOR = "____________________________________________________________";
 
-    public Ui() {
+    public MessageFormatter() {
 
     }
 
@@ -26,7 +26,8 @@ public class Ui {
      * @return a GREETING to the user of type string.
      */
     public String greetUser() {
-        return Ui.SEPARATOR + "\n" + Ui.GREETING + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.GREETING
+            + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -35,7 +36,8 @@ public class Ui {
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
-        return Ui.SEPARATOR + "\n" + Ui.EXIT_MESSAGE + "\n" + Ui.SEPARATOR + "\n";
+        return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.EXIT_MESSAGE
+            + "\n" + MessageFormatter.SEPARATOR + "\n";
     }
 
     /**
@@ -46,9 +48,9 @@ public class Ui {
      * @return description to inform user the addition of a new task.
      */
     public String createAddTaskMessage(Task task, int numTasks) {
-        return Ui.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
+        return MessageFormatter.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
             + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
-                + "\n" + Ui.SEPARATOR;
+                + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -59,8 +61,8 @@ public class Ui {
      */
     public String createListTaskMessage(ArrayList<Task> tasks) {
         String tasksString = this.createNumberedTasksString(tasks);
-        return Ui.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
-            + "\n" + tasksString + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
+            + "\n" + tasksString + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -70,8 +72,8 @@ public class Ui {
      * @return String of formatted message for the user.
      */
     public String createMarkAsDoneMessage(Task task) {
-        return Ui.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  "
-            + task.toString() + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  "
+            + task.toString() + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -81,8 +83,8 @@ public class Ui {
      * @return String of formatted message for the user.
      */
     public String createMarkAsUndoneMessage(Task task) {
-        return Ui.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
-            + task.toString() + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
+            + task.toString() + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -93,9 +95,9 @@ public class Ui {
      * @return String of formatted message after removal of Task.
      */
     public String createRemoveTaskMessage(Task task, int numTasks) {
-        return Ui.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
+        return MessageFormatter.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
             + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
-                + "\n" + Ui.SEPARATOR;
+                + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -105,7 +107,7 @@ public class Ui {
      * @return String of formatted message for the user that includes the exception message.
      */
     public String createErrorMessage(Exception e) {
-        return Ui.SEPARATOR + "\n" + e.getMessage() + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + e.getMessage() + "\n" + MessageFormatter.SEPARATOR;
     }
 
     /**
@@ -133,7 +135,7 @@ public class Ui {
      */
     public String createFilteredListTaskMessage(ArrayList<Task> filteredTasks) {
         String tasksString = this.createNumberedTasksString(filteredTasks);
-        return Ui.SEPARATOR + "\n" + "Here are the matching tasks in your list:\n"
-            + "\n" + tasksString + "\n" + Ui.SEPARATOR;
+        return MessageFormatter.SEPARATOR + "\n" + "Here are the matching tasks in your list:\n"
+            + "\n" + tasksString + "\n" + MessageFormatter.SEPARATOR;
     }
 }
