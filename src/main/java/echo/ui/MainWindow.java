@@ -40,6 +40,19 @@ public class MainWindow extends AnchorPane {
     public void setEcho(Echo e) {
         this.echo = e;
         this.greetUser();
+        this.checkLoadingErrors();
+    }
+
+    /**
+     * Check for errors during loading of the saved task list.
+     * If there were errors, notify the user throught the GUI.
+     */
+    private void checkLoadingErrors() {
+        this.echo.getLoadingErrorMessage()
+                .ifPresent(error -> {
+                    this.dialogContainer.getChildren().add(
+                            DialogBox.getDukeDialog(error, this.dukeImage));
+                });
     }
 
     /**

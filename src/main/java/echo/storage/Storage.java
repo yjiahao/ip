@@ -110,6 +110,10 @@ public class Storage {
 
         // check first arg to determine task type
         if (args[0].equals("T")) {
+            if (args.length < 3) {
+                throw new StorageException(
+                    "Your data file is formatted incorrectly! Starting with an empty history...");
+            }
             // create new ToDo
             Task todo = new ToDo(args[2]);
             if (args[1].equals("1")) {
@@ -117,6 +121,10 @@ public class Storage {
             }
             return todo;
         } else if (args[0].equals("D")) {
+            if (args.length < 4) {
+                throw new StorageException(
+                        "Your data file is formatted incorrectly! Starting with an empty history...");
+            }
             // create new Deadline
             Task deadline = new Deadline(args[2], args[3]);
             if (args[1].equals("1")) {
@@ -124,6 +132,10 @@ public class Storage {
             }
             return deadline;
         } else if (args[0].equals("E")) {
+            if (args.length < 5) {
+                throw new StorageException(
+                        "Your data file is formatted incorrectly! Starting with an empty history...");
+            }
             // create new Event
             Task event = new Event(args[2], args[3], args[4]);
             if (args[1].equals("1")) {
