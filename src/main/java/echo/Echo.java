@@ -80,7 +80,7 @@ public class Echo {
 
     /**
      * Gets loading error message in the form of an {@code Optional<String>}.
-     * 
+     *
      * @return Error message from loading the saved tasks history.
      */
     public Optional<String> getLoadingErrorMessage() {
