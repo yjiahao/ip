@@ -3,6 +3,7 @@ package echo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import echo.command.Command;
@@ -31,16 +32,20 @@ public class Echo {
     private MessageFormatter messageFormatter;
     private Storage storage;
     private InstructionParser instructionParser;
+    private Optional<String> loadingErrorMessage;
 
     /**
      * Initalizes a new instance of Echo
      */
     public Echo() {
         this.storage = new Storage(Echo.FILE_PATH);
+        this.messageFormatter = new MessageFormatter();
+        this.loadingErrorMessage = Optional.empty();
+        this.instructionParser = new InstructionParser();
+
+        // load tasks, which will populate loadingErrorMessage if there is a file loading issue
         ArrayList<Task> tasks = this.loadTasksFromFile();
         this.taskManager = new TaskManager(tasks);
-        this.messageFormatter = new MessageFormatter();
-        this.instructionParser = new InstructionParser();
     }
 
     /**
@@ -54,13 +59,13 @@ public class Echo {
             ArrayList<Task> tasks = this.storage.loadTasks();
             return tasks;
         } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage() + "\nStarting from empty history...");
+            this.loadingErrorMessage = Optional.of(this.messageFormatter.createErrorMessage(e));
             return new ArrayList<>();
         } catch (StorageException e) {
-            System.out.println(e.getMessage() + "\nStarting from empty history...");
+            this.loadingErrorMessage = Optional.of(this.messageFormatter.createErrorMessage(e));
             return new ArrayList<>();
         } catch (TaskException e) {
-            System.out.println(e.getMessage() + "\nStarting from empty history...");
+            this.loadingErrorMessage = Optional.of(this.messageFormatter.createErrorMessage(e));
             return new ArrayList<>();
         }
     }
@@ -72,6 +77,15 @@ public class Echo {
      */
     public String greetUser() {
         return this.messageFormatter.greetUser();
+    }
+
+    /**
+     * Gets loading error message in the form of an {@code Optional<String>}.
+     * 
+     * @return Error message from loading the saved tasks history.
+     */
+    public Optional<String> getLoadingErrorMessage() {
+        return this.loadingErrorMessage;
     }
 
     /**
@@ -185,81 +199,6 @@ public class Echo {
     }
 
     /**
-     * Main function to run the bot on a CLI.
-     * @param args
-     */
-    public static void main(String[] args) {
-        Echo echo = new Echo();
-        InstructionParser instructionParser = new InstructionParser();
-        Scanner scanner = new Scanner(System.in);
-
-        // initialize hello message by Echo
-        String greeting = echo.greetUser();
-        System.out.println(greeting);
-
-        while (true) {
-            String userMessage = scanner.nextLine();
-            try {
-                Command command = instructionParser.parseCommand(userMessage);
-                String botMessage;
-
-                switch (command) {
-                case BYE:
-                    System.out.println(echo.exitUser());
-                    scanner.close();
-                    return;
-                case LIST:
-                    botMessage = echo.getTasks();
-                    break;
-                case MARK:
-                    int markTaskNumber = instructionParser.parseMarkUnmarkArgs(userMessage);
-                    botMessage = echo.markAsDone(markTaskNumber);
-                    break;
-                case UNMARK:
-                    int unmarkTaskNumber = instructionParser.parseMarkUnmarkArgs(userMessage);
-                    botMessage = echo.markAsUndone(unmarkTaskNumber);
-                    break;
-                case DELETE:
-                    int deleteTaskNumber = instructionParser.parseDeleteArgs(userMessage);
-                    botMessage = echo.removeTask(deleteTaskNumber);
-                    break;
-                case TODO:
-                    String todoDescription = instructionParser.parseTodoDescription(userMessage);
-                    ArrayList<String> todoCommandArgs = instructionParser.parseTodoArgs(userMessage);
-                    botMessage = echo.addTask(todoDescription, Command.TODO, todoCommandArgs);
-                    break;
-                case DEADLINE:
-                    String deadlineDescription = instructionParser.parseDeadlineDescription(userMessage);
-                    ArrayList<String> deadlineArgs = instructionParser.parseDeadlineArgs(userMessage);
-                    botMessage = echo.addTask(deadlineDescription, Command.DEADLINE, deadlineArgs);
-                    break;
-                case EVENT:
-                    String eventDescription = instructionParser.parseEventDescription(userMessage);
-                    ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
-                    botMessage = echo.addTask(eventDescription, Command.EVENT, eventArgs);
-                    break;
-                case FIND:
-                    String keyword = instructionParser.parseFindKeyword(userMessage);
-                    botMessage = echo.findTasks(keyword);
-                    break;
-                default:
-                    botMessage = "Unknown command, please try again!";
-                    break;
-                }
-
-                System.out.println(botMessage);
-            } catch (ParsingException e) {
-                System.out.println(echo.messageFormatter.createErrorMessage(e));
-            } catch (TaskManagerException e) {
-                // if number to mark or unmark more than length of current task list
-                System.out.println(echo.messageFormatter.createErrorMessage(e));
-            } catch (TaskException e) {
-                System.out.println(echo.messageFormatter.createErrorMessage(e));
-            }
-        }
-    }
-
-    /**
      * Returns a message for the user after the user asks Echo to perform a task
      *
      * @param userMessage Message from the user.
@@ -322,5 +261,3 @@ public class Echo {
         }
     }
 }
-
-// TODO: Beautify the GUI with padding on messages, colour schemes, etc.
