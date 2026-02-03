@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Scanner;
 
 import echo.command.Command;
 import echo.exception.ParsingException;
