@@ -204,9 +204,6 @@ public class Echo {
      * @return String of completed message, ready for rendering on the GUI
      */
     public String getResponse(String userMessage) {
-        // initialize hello message by Echo
-        // String greeting = echo.greetUser();
-        // System.out.println(greeting);
         try {
             Command command = this.instructionParser.parseCommand(userMessage);
 
@@ -216,11 +213,11 @@ public class Echo {
             case LIST:
                 return this.getTasks();
             case MARK:
-                int markTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+                int markTaskNumber = this.instructionParser.parseMarkArgs(userMessage);
                 String markMessage = this.markAsDone(markTaskNumber);
                 return markMessage;
             case UNMARK:
-                int unmarkTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+                int unmarkTaskNumber = this.instructionParser.parseUnmarkArgs(userMessage);
                 String unmarkMessage = this.markAsUndone(unmarkTaskNumber);
                 return unmarkMessage;
             case DELETE:

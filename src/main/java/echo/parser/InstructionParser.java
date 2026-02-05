@@ -16,6 +16,17 @@ import echo.exception.ParsingException;
  * respective parse methods.</p>
  */
 public class InstructionParser {
+    private static final String STRING_EMPTY = "";
+    private static final String STRING_DEADLINE = "deadline";
+    private static final String STRING_TODO = "todo";
+    private static final String STRING_EVENT = "event";
+    private static final String STRING_UNMARK = "unmark";
+    private static final String STRING_MARK = "mark";
+    private static final String STRING_DELETE = "delete";
+    private static final String STRING_BYE = "bye";
+    private static final String STRING_LIST = "list";
+    private static final String STRING_FIND = "find";
+
     public InstructionParser() {
 
     }
@@ -30,17 +41,20 @@ public class InstructionParser {
     public Command parseCommand(String command) throws ParsingException {
         // trim command
         String trimmedCommand = command.trim();
+        // assume non-empty string
+        assert !(trimmedCommand.equals(InstructionParser.STRING_EMPTY));
+
         // split into at most 2 elements
         String[] parts = trimmedCommand.split(" ", 2);
         // get the keyword from user which is the first element
         String keyword = parts[0].toLowerCase();
         switch (keyword) {
-        case "todo":
+        case InstructionParser.STRING_TODO:
             if (parts.length < 2) {
                 throw new ParsingException("The todo description cannot be empty leh...");
             }
             return Command.TODO;
-        case "deadline":
+        case InstructionParser.STRING_DEADLINE:
             if (parts.length < 2) {
                 throw new ParsingException("got no deadline description and by when you should complete it...");
             }
@@ -54,14 +68,14 @@ public class InstructionParser {
                 throw new ParsingException("need to indicate when you need to complete the deadline by!");
             }
             return Command.DEADLINE;
-        case "list":
+        case InstructionParser.STRING_LIST:
             return Command.LIST;
-        case "event":
+        case InstructionParser.STRING_EVENT:
             if (parts.length < 2) {
                 throw new ParsingException("why got no event description one...");
             }
             return Command.EVENT;
-        case "mark":
+        case InstructionParser.STRING_MARK:
             if (parts.length < 2) {
                 throw new ParsingException("mark requires a task number!");
             }
@@ -72,7 +86,7 @@ public class InstructionParser {
                 throw new ParsingException("mark needs a valid task number!");
             }
             return Command.MARK;
-        case "unmark":
+        case InstructionParser.STRING_UNMARK:
             if (parts.length < 2) {
                 throw new ParsingException("unmark requires a task number!");
             }
@@ -83,7 +97,7 @@ public class InstructionParser {
                 throw new ParsingException("unmark needs a valid task number!");
             }
             return Command.UNMARK;
-        case "delete":
+        case InstructionParser.STRING_DELETE:
             if (parts.length < 2) {
                 throw new ParsingException("delete requires a task number!");
             }
@@ -94,9 +108,9 @@ public class InstructionParser {
                 throw new ParsingException("delete needs a valid task number!");
             }
             return Command.DELETE;
-        case "bye":
+        case InstructionParser.STRING_BYE:
             return Command.BYE;
-        case "find":
+        case InstructionParser.STRING_FIND:
             return Command.FIND;
         default:
             throw new ParsingException("Sorry what does that mean ah? I never see " + keyword + " before...");
@@ -104,12 +118,28 @@ public class InstructionParser {
     }
 
     /**
-     * Parses the user arguments for marking or unmarking a Task
+     * Parses the user arguments for unmarking a Task
      *
      * @param userMessage String of raw user message
-     * @return int representing the Task number that user wants to mark or unmark
+     * @return int representing the Task number that user wants to unmark
      */
-    public int parseMarkUnmarkArgs(String userMessage) {
+    public int parseUnmarkArgs(String userMessage) {
+        assert userMessage.contains(InstructionParser.STRING_UNMARK);
+
+        String[] unmarkParts = userMessage.split(" ");
+        int markTaskNumber = Integer.parseInt(unmarkParts[1]);
+        return markTaskNumber;
+    }
+
+    /**
+     * Parses the user arguments for marking a Task
+     *
+     * @param userMessage String of raw user message
+     * @return int representing the Task number that user wants to mark
+     */
+    public int parseMarkArgs(String userMessage) {
+        assert userMessage.contains(InstructionParser.STRING_MARK);
+
         String[] markParts = userMessage.split(" ");
         int markTaskNumber = Integer.parseInt(markParts[1]);
         return markTaskNumber;
@@ -122,6 +152,8 @@ public class InstructionParser {
      * @return int representing Task number that user wants to delete
      */
     public int parseDeleteArgs(String userMessage) {
+        assert userMessage.contains(InstructionParser.STRING_DELETE);
+
         String[] deleteParts = userMessage.split(" ");
         int deleteTaskNumber = Integer.parseInt(deleteParts[1]);
         return deleteTaskNumber;
@@ -135,6 +167,8 @@ public class InstructionParser {
      * @throws ParsingException If user message is an empty String or user did not specify description
      */
     public String parseTodoDescription(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_TODO);
+
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
@@ -156,6 +190,9 @@ public class InstructionParser {
      * @return Currently returns an empty ArrayList because Todo has no arguments
      */
     public ArrayList<String> parseTodoArgs(String userMessage) {
+        // assume we are calling this method exclusively for todo only
+        assert userMessage.contains(InstructionParser.STRING_TODO);
+
         return new ArrayList<>();
     }
 
@@ -167,6 +204,8 @@ public class InstructionParser {
      * @throws ParsingException If userMessage is an empty String, or there is no description for deadline
      */
     public String parseDeadlineDescription(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
+
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
@@ -191,6 +230,8 @@ public class InstructionParser {
      *     /by in the userMessage, or more than one /by in the userMessage
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
+
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
@@ -215,6 +256,8 @@ public class InstructionParser {
      * @throws ParsingException If userMessage is an empty String, or there is no Event description
      */
     public String parseEventDescription(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_EVENT);
+
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
@@ -238,6 +281,8 @@ public class InstructionParser {
      * @throws ParsingException If userMessage is an empty String, or does not contain /from or does not contain /to
      */
     public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_EVENT);
+
         if (userMessage.length() == 0) {
             throw new ParsingException("User message cannot be empty!");
         }
@@ -267,6 +312,8 @@ public class InstructionParser {
      * @throws ParsingException If userMessage did not specify a keyword
      */
     public String parseFindKeyword(String userMessage) throws ParsingException {
+        assert userMessage.contains(InstructionParser.STRING_FIND);
+
         String[] findParts = userMessage.split(" ", 2);
         if (findParts.length < 2) {
             throw new ParsingException("You did not specify a keyword to look for!");
