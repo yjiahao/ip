@@ -192,6 +192,8 @@ public class Echo {
      * @return Formatted String that contains the Tasks that have keyword in their description
      */
     public String findTasks(String keyword) {
+        assert keyword != null : "Keyword is null";
+
         ArrayList<Task> filteredTasks = this.taskManager.findTasks(keyword);
         String res = this.messageFormatter.createFilteredListTaskMessage(filteredTasks);
         return res;
@@ -204,6 +206,8 @@ public class Echo {
      * @return String of completed message, ready for rendering on the GUI
      */
     public String getResponse(String userMessage) {
+        assert userMessage != null : "User message is null";
+
         try {
             Command command = this.instructionParser.parseCommand(userMessage);
 
