@@ -26,6 +26,9 @@ public class Event extends TimedTask {
     public Event(String description, String start, String end) throws TaskException {
         super(description);
 
+        assert start != null : "Event start is null";
+        assert end != null : "Event end is null";
+
         LocalDateTime startDate = super.parseDate(start);
         LocalDateTime endDate = super.parseDate(end);
         // validity checks first
