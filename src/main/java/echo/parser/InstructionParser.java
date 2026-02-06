@@ -16,6 +16,31 @@ import echo.exception.ParsingException;
  * respective parse methods.</p>
  */
 public class InstructionParser {
+
+    private static final String ERROR_MESSAGE_TODO = "The todo description cannot be empty leh...";
+
+    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY =
+        "got no deadline description and by when you should complete it...";
+    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE = "got no deadline description...";
+    private static final String ERROR_MESSAGE_DEADLINE_MISSING_BY =
+        "need to indicate when you need to complete the deadline by!";
+
+    private static final String ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION = "why got no event description one...";
+
+    private static final String ERRROR_MESSAGE_MARK_NO_NUMBER = "mark requires a task number!";
+    private static final String ERROR_MESSAGE_MARK_INVALID_NUMBER = "mark needs a valid task number!";
+
+    private static final String ERROR_MESSAGE_UNMARK_NO_NUMBER = "unmark requires a task number!";
+    private static final String ERROR_MESSAGE_UNMARK_INVALID_NUMBER = "unmark needs a valid task number!";
+
+    private static final String ERROR_MESSAGE_DELETE_NO_NUMBER = "delete requires a task number!";
+    private static final String ERROR_MESSAGE_DELETE_INVALID_NUMBER = "delete needs a valid task number!";
+
+    private static final String ERROR_MESSAGE_FIND_NO_KEYWORD = "find requires a keyword!";
+
+    private static final String ERROR_MESSAGE_UNKNOWN_COMMAND =
+        "Sorry what does that mean ah? I never see %s before...";
+
     public InstructionParser() {
 
     }
@@ -35,48 +60,49 @@ public class InstructionParser {
         // get the keyword from user which is the first element
         String keyword = parts[0].toLowerCase();
 
+        // TODO: abstract each case out even more into its own validation checks
         switch (keyword) {
         case "todo":
-            checkLengthMoreThanEqualTwo(parts, "The todo description cannot be empty leh...");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_TODO);
             return Command.TODO;
         case "deadline":
-            checkLengthMoreThanEqualTwo(parts, "got no deadline description and by when you should complete it...");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY);
             // catch no description of deadline
             if (parts[1].startsWith("/by")) {
-                throw new ParsingException("got no deadline description...");
+                throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE);
             }
             // catch no /by ... for deadline
             String[] deadlineParts = parts[1].split("/by ");
-            checkLengthMoreThanEqualTwo(deadlineParts, "need to indicate when you need to complete the deadline by!");
+            checkLengthMoreThanEqualTwo(deadlineParts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
             return Command.DEADLINE;
         case "list":
             return Command.LIST;
         case "event":
-            checkLengthMoreThanEqualTwo(parts, "why got no event description one...");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION);
             return Command.EVENT;
         case "mark":
-            checkLengthMoreThanEqualTwo(parts, "mark requires a task number!");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERRROR_MESSAGE_MARK_NO_NUMBER);
             // catch cases like "mark string" instead of "mark 1"
-            checkValidNumber(parts, "mark needs a valid task number!");
+            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_MARK_INVALID_NUMBER);
             return Command.MARK;
         case "unmark":
-            checkLengthMoreThanEqualTwo(parts, "unmark requires a task number!");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_UNMARK_NO_NUMBER);
             // catch cases like "unmark string" instead of "unmark 1"
-            checkValidNumber(parts, "unmark needs a valid task number!");
+            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_UNMARK_INVALID_NUMBER);
             return Command.UNMARK;
         case "delete":
-            checkLengthMoreThanEqualTwo(parts, "delete requires a task number!");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DELETE_NO_NUMBER);
             // catch cases like "delete string" instead of "delete 1"
-            checkValidNumber(parts, "delete needs a valid task number!");
+            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_DELETE_INVALID_NUMBER);
             return Command.DELETE;
         case "bye":
             return Command.BYE;
         case "find":
-            checkLengthMoreThanEqualTwo(parts, "find requires a keyword!");
+            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
             return Command.FIND;
         default:
             // unknown command expected here
-            throw new ParsingException("Sorry what does that mean ah? I never see " + keyword + " before...");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_UNKNOWN_COMMAND.formatted(keyword));
         }
     }
 
