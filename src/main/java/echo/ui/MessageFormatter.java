@@ -12,9 +12,20 @@ import echo.task.Task;
  * All messages are formatted with separators for better readability in the UI.
  */
 public class MessageFormatter {
-    private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
-    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
+    private static final String MESSAGE_GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
+    private static final String MESSAGE_EXIT = "Bye. Hope to see you again soon!";
     // private static final String SEPARATOR = "____________________________________________________________";
+    private static final String MESSAGE_ADD_TASK =
+        "Got it. I've added this task:\n\n%s\nNow you have %d tasks in the list.";
+    private static final String MESSAGE_LIST_TASK = "Here are the tasks in your list:\n\n%s";
+    private static final String MESSAGE_MARK_AS_DONE = "Nice! I've marked this task as done:\n\n%s";
+    private static final String MESSAGE_MARK_AS_UNDONE = "OK, I've marked this task as not done yet:\n\n%s";
+    private static final String MESSAGE_REMOVE_TASK =
+        "Noted. I've removed this task:\n\n%s\nNow you have %d tasks in the list.";
+    private static final String MESSAGE_FILTERED_TASKS = "Here are the matching tasks in your list:\n\n%s";
+
+    private static final String PERIOD_SPACE = ". ";
+    private static final String NEWLINE = "\n";
 
     public MessageFormatter() {
 
@@ -28,7 +39,7 @@ public class MessageFormatter {
     public String greetUser() {
         // return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.GREETING
         //     + "\n" + MessageFormatter.SEPARATOR;
-        return MessageFormatter.GREETING;
+        return MessageFormatter.MESSAGE_GREETING;
     }
 
     /**
@@ -37,9 +48,9 @@ public class MessageFormatter {
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
-        // return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.EXIT_MESSAGE
+        // return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.MESSAGE_EXIT
         //     + "\n" + MessageFormatter.SEPARATOR + "\n";
-        return MessageFormatter.EXIT_MESSAGE;
+        return MessageFormatter.MESSAGE_EXIT;
     }
 
     /**
@@ -53,8 +64,8 @@ public class MessageFormatter {
         // return MessageFormatter.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
         //     + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
         //         + "\n" + MessageFormatter.SEPARATOR;
-        return "Got it. I've added this task:\n\n"
-            + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list.";
+        return MessageFormatter.MESSAGE_ADD_TASK
+            .formatted(task.toString(), numTasks);
     }
 
     /**
@@ -67,7 +78,8 @@ public class MessageFormatter {
         String tasksString = this.createNumberedTasksString(tasks);
         // return MessageFormatter.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
         //     + "\n" + tasksString + "\n" + MessageFormatter.SEPARATOR;
-        return "Here are the tasks in your list:\n\n" + tasksString;
+        return MessageFormatter.MESSAGE_LIST_TASK
+            .formatted(tasksString);
     }
 
     /**
@@ -79,7 +91,8 @@ public class MessageFormatter {
     public String createMarkAsDoneMessage(Task task) {
         // return MessageFormatter.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  "
         //     + task.toString() + "\n" + MessageFormatter.SEPARATOR;
-        return "Nice! I've marked this task as done:\n\n" + task.toString();
+        return MessageFormatter.MESSAGE_MARK_AS_DONE
+            .formatted(task.toString());
     }
 
     /**
@@ -91,7 +104,8 @@ public class MessageFormatter {
     public String createMarkAsUndoneMessage(Task task) {
         // return MessageFormatter.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
         //     + task.toString() + "\n" + MessageFormatter.SEPARATOR;
-        return "OK, I've marked this task as not done yet:\n\n" + task.toString();
+        return MessageFormatter.MESSAGE_MARK_AS_UNDONE
+            .formatted(task.toString());
     }
 
     /**
@@ -105,8 +119,8 @@ public class MessageFormatter {
         // return MessageFormatter.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
         //     + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
         //         + "\n" + MessageFormatter.SEPARATOR;
-        return "Noted. I've removed this task:\n\n"
-            + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list.";
+        return MessageFormatter.MESSAGE_REMOVE_TASK
+            .formatted(task.toString(), numTasks);
     }
 
     /**
@@ -130,7 +144,7 @@ public class MessageFormatter {
         String res = "";
         int i = 1;
         for (Task t : tasks) {
-            res = res + i + ". " + t + "\n";
+            res = res + i + MessageFormatter.PERIOD_SPACE + t + MessageFormatter.NEWLINE;
             i += 1;
         }
         String tasksString = res.stripTrailing();
@@ -145,6 +159,7 @@ public class MessageFormatter {
      */
     public String createFilteredListTaskMessage(ArrayList<Task> filteredTasks) {
         String tasksString = this.createNumberedTasksString(filteredTasks);
-        return "Here are the matching tasks in your list:\n\n" + tasksString;
+        return MessageFormatter.MESSAGE_FILTERED_TASKS
+            .formatted(tasksString);
     }
 }
