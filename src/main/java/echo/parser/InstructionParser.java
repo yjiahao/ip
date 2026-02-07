@@ -41,9 +41,6 @@ public class InstructionParser {
     private static final String ERROR_MESSAGE_UNKNOWN_COMMAND =
         "Sorry what does that mean ah? I never see %s before...";
 
-    public InstructionParser() {
-
-    }
 
     /**
      * Parses the given command string and returns the corresponding Command enum.
@@ -53,52 +50,37 @@ public class InstructionParser {
      * @throws IllegalArgumentException if the command is unknown or unsupported
      */
     public Command parseCommand(String command) throws ParsingException {
-        // trim command
+        // trim any trailing or leading spaces in command
         String trimmedCommand = command.trim();
-        // split into at most 2 elements
         String[] parts = trimmedCommand.split(" ", 2);
-        // get the keyword from user which is the first element
+        // get the keyword from user which is expected to be the first element
         String keyword = parts[0].toLowerCase();
 
-        // TODO: abstract each case out even more into its own validation checks
         switch (keyword) {
         case "todo":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_TODO);
+            validateTodo(parts);
             return Command.TODO;
         case "deadline":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY);
-            // catch no description of deadline
-            if (parts[1].startsWith("/by")) {
-                throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE);
-            }
-            // catch no /by ... for deadline
-            String[] deadlineParts = parts[1].split("/by ");
-            checkLengthMoreThanEqualTwo(deadlineParts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
+            validateDeadline(parts);
             return Command.DEADLINE;
         case "list":
             return Command.LIST;
         case "event":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION);
+            validateEvent(parts);
             return Command.EVENT;
         case "mark":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERRROR_MESSAGE_MARK_NO_NUMBER);
-            // catch cases like "mark string" instead of "mark 1"
-            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_MARK_INVALID_NUMBER);
+            validateMark(parts);
             return Command.MARK;
         case "unmark":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_UNMARK_NO_NUMBER);
-            // catch cases like "unmark string" instead of "unmark 1"
-            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_UNMARK_INVALID_NUMBER);
+            validateUnmark(parts);
             return Command.UNMARK;
         case "delete":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DELETE_NO_NUMBER);
-            // catch cases like "delete string" instead of "delete 1"
-            checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_DELETE_INVALID_NUMBER);
+            validateDelete(parts);
             return Command.DELETE;
         case "bye":
             return Command.BYE;
         case "find":
-            checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
+            validateFind(parts);
             return Command.FIND;
         default:
             // unknown command expected here
@@ -292,5 +274,45 @@ public class InstructionParser {
         }
     }
 
+    private void validateFind(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
+    }
+
+    private void validateDelete(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DELETE_NO_NUMBER);
+        // catch cases like "delete string" instead of "delete 1"
+        checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_DELETE_INVALID_NUMBER);
+    }
+
+    private void validateUnmark(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_UNMARK_NO_NUMBER);
+        // catch cases like "unmark string" instead of "unmark 1"
+        checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_UNMARK_INVALID_NUMBER);
+    }
+
+    private void validateMark(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERRROR_MESSAGE_MARK_NO_NUMBER);
+        // catch cases like "mark string" instead of "mark 1"
+        checkValidNumber(parts, InstructionParser.ERROR_MESSAGE_MARK_INVALID_NUMBER);
+    }
+
+    private void validateEvent(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION);
+    }
+
+    private void validateDeadline(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY);
+        // catch no description of deadline
+        if (parts[1].startsWith("/by")) {
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE);
+        }
+        // catch no /by ... for deadline
+        String[] deadlineParts = parts[1].split("/by ");
+        checkLengthMoreThanEqualTwo(deadlineParts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
+    }
+
+    private void validateTodo(String[] parts) throws ParsingException {
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_TODO);
+    }
 }
 // NOTE: Exceptions are checked twice, once in parseCommand and once in parse___Args()
