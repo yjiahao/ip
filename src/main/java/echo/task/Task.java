@@ -22,6 +22,8 @@ public abstract class Task {
      * @throws TaskException if Task description is empty
      */
     public Task(String description) throws TaskException {
+        assert description != null : "Task description cannot be null!";
+
         if (description.equals("")) {
             throw new TaskException("Task description cannot be empty!");
         }

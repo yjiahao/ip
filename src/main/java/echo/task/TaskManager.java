@@ -24,7 +24,12 @@ public class TaskManager {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Creates a new TaskManager
+     * @param tasks The tasks for the TaskManager to manage
+     */
     public TaskManager(ArrayList<Task> tasks) {
+        assert tasks != null : "tasks cannot be null";
         this.tasks = tasks;
     }
 
@@ -39,6 +44,12 @@ public class TaskManager {
      */
     public Task addTask(String taskDescription, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
+
+        assert taskDescription != null : "Task description is null";
+        assert type != null : "Command type is null";
+        assert commandArgs != null : "Command arguments is null";
+        assert commandArgs.size() > 0 : "Command args size is 0";
+
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
             this.tasks.add(event);
@@ -103,6 +114,9 @@ public class TaskManager {
         this.checkNotOutOfBounds(taskNumber);
         // array is 0 indexed so need to translate by 1
         Task t = this.tasks.get(taskNumber - 1);
+
+        assert t != null : "Task is null";
+
         t.markAsDone();
         return t;
     }
@@ -117,6 +131,9 @@ public class TaskManager {
     public Task markAsUndone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
         Task t = this.tasks.get(taskNumber - 1);
+
+        assert t != null : "Task is null";
+
         t.markAsUndone();
         return t;
     }

@@ -22,6 +22,7 @@ public class Deadline extends TimedTask {
      */
     public Deadline(String description, String by) throws TaskException {
         super(description);
+        assert by != null : "/by is null";
         this.by = super.parseDate(by);
     }
 
