@@ -17,15 +17,25 @@ import echo.exception.ParsingException;
  */
 public class InstructionParser {
 
-    private static final String ERROR_MESSAGE_TODO = "The todo description cannot be empty leh...";
+    private static final String INPUT_DELIMITER = " ";
+    private static final String INPUT_DEADLINE_BY = "/by";
+    private static final String INPUT_EVENT_FROM = "/from";
+    private static final String INPUT_EVENT_TO = "/to";
 
-    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY =
+    private static final String ERROR_MESSAGE_TODO_MISSING_DESCRIPTION =
+        "The todo description cannot be empty leh...";
+
+    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION_AND_BY =
         "got no deadline description and by when you should complete it...";
-    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE = "got no deadline description...";
+    private static final String ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION = "got no deadline description...";
     private static final String ERROR_MESSAGE_DEADLINE_MISSING_BY =
         "need to indicate when you need to complete the deadline by!";
+    private static final String ERROR_MESSAGE_DEADLINE_MORE_THAN_ONE_BY =
+        "Did you specify more than one /by for the deadline?";
 
     private static final String ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION = "why got no event description one...";
+    private static final String ERROR_MESSAGE_EVENT_MISSING_FROM = "Did you forget to specify /from for the event?";
+    private static final String ERROR_MESSAGE_EVENT_MISSING_TO = "Did you forget to specify /to for the event?";
 
     private static final String ERRROR_MESSAGE_MARK_NO_NUMBER = "mark requires a task number!";
     private static final String ERROR_MESSAGE_MARK_INVALID_NUMBER = "mark needs a valid task number!";
@@ -41,6 +51,7 @@ public class InstructionParser {
     private static final String ERROR_MESSAGE_UNKNOWN_COMMAND =
         "Sorry what does that mean ah? I never see %s before...";
 
+    private static final String ERROR_MESSAGE_EMPTY_USER_MESSAGE = "User message cannot be empty!";
 
     /**
      * Parses the given command string and returns the corresponding Command enum.
@@ -95,7 +106,7 @@ public class InstructionParser {
      * @return int representing the Task number that user wants to mark or unmark
      */
     public int parseMarkUnmarkArgs(String userMessage) {
-        String[] markParts = userMessage.split(" ");
+        String[] markParts = userMessage.split(InstructionParser.INPUT_DELIMITER);
         int markTaskNumber = Integer.parseInt(markParts[1]);
         return markTaskNumber;
     }
@@ -107,7 +118,7 @@ public class InstructionParser {
      * @return int representing Task number that user wants to delete
      */
     public int parseDeleteArgs(String userMessage) {
-        String[] deleteParts = userMessage.split(" ");
+        String[] deleteParts = userMessage.split(InstructionParser.INPUT_DELIMITER);
         int deleteTaskNumber = Integer.parseInt(deleteParts[1]);
         return deleteTaskNumber;
     }
@@ -121,14 +132,14 @@ public class InstructionParser {
      */
     public String parseTodoDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
-            throw new ParsingException("User message cannot be empty!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String[] todoParts = userMessage.split(" ", 2);
+        String[] todoParts = userMessage.split(InstructionParser.INPUT_DELIMITER, 2);
         String description = todoParts[1];
 
         if (description.length() == 0) {
-            throw new ParsingException("No todo description!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_TODO_MISSING_DESCRIPTION);
         }
 
         return description;
@@ -153,15 +164,15 @@ public class InstructionParser {
      */
     public String parseDeadlineDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
-            throw new ParsingException("User message cannot be empty!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
         String deadlineDetails = userMessage.substring(9);
-        String[] deadlineParts = deadlineDetails.split("/by", 2);
+        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, 2);
         String deadlineDescription = deadlineParts[0].trim();
 
         if (deadlineDescription.length() == 0) {
-            throw new ParsingException("No deadline description!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION);
         }
 
         return deadlineDescription;
@@ -177,16 +188,16 @@ public class InstructionParser {
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
-            throw new ParsingException("User message cannot be empty!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
         String deadlineDetails = userMessage.substring(9);
-        String[] deadlineParts = deadlineDetails.split("/by", 2);
+        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, 2);
 
         if (deadlineParts.length < 2) {
-            throw new ParsingException("Did you forget to specify /by for the deadline?");
-        } else if (deadlineParts[1].trim().contains("/by ")) {
-            throw new ParsingException("Did you specify more than one /by for the deadline?");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
+        } else if (deadlineParts[1].trim().contains(InstructionParser.INPUT_DEADLINE_BY)) {
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MORE_THAN_ONE_BY);
         }
 
         return new ArrayList<>(Arrays.asList(deadlineParts[1].trim()));
@@ -201,15 +212,15 @@ public class InstructionParser {
      */
     public String parseEventDescription(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
-            throw new ParsingException("User message cannot be empty!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
         String eventDetails = userMessage.substring(6).trim();
-        String[] fromSplit = eventDetails.split("/from", 2);
+        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, 2);
         String eventDescription = fromSplit[0].trim();
 
         if (eventDescription.length() == 0) {
-            throw new ParsingException("No event description!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION);
         }
 
         return eventDescription;
@@ -224,20 +235,20 @@ public class InstructionParser {
      */
     public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
         if (userMessage.length() == 0) {
-            throw new ParsingException("User message cannot be empty!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
         String eventDetails = userMessage.substring(6).trim();
 
-        if (!userMessage.contains("/from ")) {
-            throw new ParsingException("Did you forget to specify /from for the event?");
+        if (!userMessage.contains(InstructionParser.INPUT_EVENT_FROM)) {
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_FROM);
         }
-        if (!userMessage.contains("/to")) {
-            throw new ParsingException("Did you forget to specify /to for the event?");
+        if (!userMessage.contains(InstructionParser.INPUT_EVENT_TO)) {
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_TO);
         }
 
-        String[] fromSplit = eventDetails.split("/from", 2);
-        String[] toSplit = fromSplit[1].split("/to", 2);
+        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, 2);
+        String[] toSplit = fromSplit[1].split(InstructionParser.INPUT_EVENT_TO, 2);
         String from = toSplit[0].trim();
         String to = toSplit[1].trim();
         ArrayList<String> eventArgs = new ArrayList<>(Arrays.asList(from, to));
@@ -252,9 +263,9 @@ public class InstructionParser {
      * @throws ParsingException If userMessage did not specify a keyword
      */
     public String parseFindKeyword(String userMessage) throws ParsingException {
-        String[] findParts = userMessage.split(" ", 2);
+        String[] findParts = userMessage.split(InstructionParser.INPUT_DELIMITER, 2);
         if (findParts.length < 2) {
-            throw new ParsingException("You did not specify a keyword to look for!");
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
         }
         String keyword = findParts[1];
         return keyword;
@@ -301,18 +312,18 @@ public class InstructionParser {
     }
 
     private void validateDeadline(String[] parts) throws ParsingException {
-        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE_AND_BY);
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION_AND_BY);
         // catch no description of deadline
-        if (parts[1].startsWith("/by")) {
-            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DEADLINE);
+        if (parts[1].startsWith(InstructionParser.INPUT_DEADLINE_BY)) {
+            throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION);
         }
         // catch no /by ... for deadline
-        String[] deadlineParts = parts[1].split("/by ");
+        String[] deadlineParts = parts[1].split(InstructionParser.INPUT_DEADLINE_BY);
         checkLengthMoreThanEqualTwo(deadlineParts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
     }
 
     private void validateTodo(String[] parts) throws ParsingException {
-        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_TODO);
+        checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_TODO_MISSING_DESCRIPTION);
     }
 }
 // NOTE: Exceptions are checked twice, once in parseCommand and once in parse___Args()
