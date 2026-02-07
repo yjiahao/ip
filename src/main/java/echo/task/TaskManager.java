@@ -79,6 +79,7 @@ public class TaskManager {
      */
     public Task removeTask(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
+        // array is 0 indexed so need to translate it by 1
         Task removedTask = this.tasks.remove(taskNumber - 1);
         return removedTask;
     }
