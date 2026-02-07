@@ -10,6 +10,12 @@ import echo.exception.TaskException;
  * Todos are the simplest form of tasks in the Echo application.
  */
 public class ToDo extends Task {
+    // markers in the text file that are expected to identify each task type
+    private static final String MARKER_TODO = "T";
+
+    private static final String ERROR_MESSAGE_INCORRECT_FORMAT =
+        "Failed to parse ToDo! Contains lesser arguments than expected!";
+
     /**
      * Constructor for Todo.
      *
@@ -21,13 +27,46 @@ public class ToDo extends Task {
     }
 
     /**
+     * Creates a new ToDo object from the string representation
+     * Factory method for creating the ToDo object
+     *
+     * A line for ToDo is expected to be of the form: 
+     * ToDo: T | 1 | read book
+     * 
+     * @param line A line from the file where the Tasks are getting loaded from
+     * @return A ToDo object after parsing the String
+     * @throws TaskException If the line is wrongly formatted to what ToDo expects
+     */
+    public static ToDo fromSaveFormat(String line) throws TaskException {
+        // get arguments to parse
+        String[] args = line.split(Task.LOADING_SPLIT_PATTERN);
+        // check valid arguments for saving format
+        ToDo.checkTodoValid(args);
+        // create new ToDo
+        ToDo todo = new ToDo(args[Task.INDEX_DESCRIPTION]);
+        if (args[Task.INDEX_IS_DONE].equals(Task.MARKER_IS_DONE)) {
+            todo.markAsDone();
+        }
+        return todo;
+    }
+
+    /**
      * Displays Todo class in String form
      *
      * @return String representation of Todo when displayed on the terminal
      */
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + ToDo.MARKER_TODO + "]" + super.toString();
+    }
+
+    /**
+     * Gets the marker with the saved representation for the ToDo task
+     * 
+     * @return marker representing the ToDo task in the saved state
+     */
+    public static String getMarker() {
+        return ToDo.MARKER_TODO;
     }
 
     /**
@@ -39,6 +78,13 @@ public class ToDo extends Task {
     @Override
     public String saveRepresentation() {
         int isDone = super.isDone ? 1 : 0;
-        return "T | " + isDone + " | " + super.description;
+        return ToDo.MARKER_TODO + Task.SEPARATOR + isDone + Task.SEPARATOR + super.description;
+    }
+
+    private static void checkTodoValid(String[] args) throws TaskException {
+        if (args.length < 3) {
+            throw new TaskException(
+                ToDo.ERROR_MESSAGE_INCORRECT_FORMAT);
+        }
     }
 }

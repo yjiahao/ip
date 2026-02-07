@@ -15,6 +15,17 @@ public abstract class Task {
     protected String description;
     protected boolean isDone;
 
+    protected static final String LOADING_SPLIT_PATTERN = " \\| ";
+    protected static final String SEPARATOR = " | ";
+    // marker in text file that are expected to identify task is done or not
+    protected static final String MARKER_IS_DONE = "1";
+
+    // index of task information after splitting by pattern
+    protected static final int INDEX_TASK_TYPE = 0;
+    protected static final int INDEX_IS_DONE = 1;
+    protected static final int INDEX_DESCRIPTION = 2;
+
+
     /**
      * Initializes a Task object
      *
@@ -71,6 +82,14 @@ public abstract class Task {
      */
     public boolean descriptionContains(String keyword) {
         return this.description.contains(keyword);
+    }
+
+    public static String getSplitPattern() {
+        return Task.LOADING_SPLIT_PATTERN;
+    }
+
+    public static int getTaskTypeIndex() {
+        return Task.INDEX_TASK_TYPE;
     }
 
     public abstract String saveRepresentation();
