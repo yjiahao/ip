@@ -12,9 +12,6 @@ import echo.exception.TaskException;
  */
 public abstract class Task {
 
-    private static final String ERROR_MESSAGE_TASK_NULL = "Task description cannot be null!";
-    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY = "Task description cannot be empty!";
-
     protected static final String LOADING_SPLIT_PATTERN = " \\| ";
     protected static final String SEPARATOR = " | ";
     // marker in text file that are expected to identify task is done or not
@@ -24,6 +21,9 @@ public abstract class Task {
     protected static final int INDEX_TASK_TYPE = 0;
     protected static final int INDEX_IS_DONE = 1;
     protected static final int INDEX_DESCRIPTION = 2;
+
+    private static final String ERROR_MESSAGE_TASK_NULL = "Task description cannot be null!";
+    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY = "Task description cannot be empty!";
 
     protected String description;
     protected boolean isDone;

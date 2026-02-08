@@ -22,7 +22,7 @@ public class Event extends TimedTask {
 
     private static final String ERROR_MESSAGE_INCORRECT_FORMAT =
         "Failed to parse Event! Contains lesser arguments than expected!";
-    private static final String ERROR_MESSAGE_START_LATER_THAN_END = 
+    private static final String ERROR_MESSAGE_START_LATER_THAN_END =
         "Start date cannot be later than end date!";
     private static final String ERROR_MESSAGE_START_NULL = "Event start is null";
     private static final String ERROR_MESSAGE_END_NULL = "Event end is null";
@@ -100,9 +100,9 @@ public class Event extends TimedTask {
      * Creates a new Event object from the string representation
      * Factory method for creating the Event object
      *
-     * A line for Event is expected to be of the form: 
+     * A line for Event is expected to be of the form:
      * Event: E | 1 | project meeting | 2026-01-27 1200 | 2026-01-27 1500
-     * 
+     *
      * @param line A line from the file where the Tasks are getting loaded from
      * @return A Event object after parsing the String
      * @throws TaskException If the line is wrongly formatted to what Event expects
@@ -110,7 +110,7 @@ public class Event extends TimedTask {
     public static Event fromSaveFormat(String line) throws TaskException {
         // get arguments to parse
         String[] args = line.split(Task.LOADING_SPLIT_PATTERN);
-        
+
         Event.checkEventValid(args);
 
         // create new Event
