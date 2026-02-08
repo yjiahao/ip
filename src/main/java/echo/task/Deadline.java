@@ -17,7 +17,7 @@ public class Deadline extends TimedTask {
     // index of task information after splitting by pattern
     private static final int INDEX_DEADLINE_BY = 3;
 
-    private static final String ERROR_MESSAGE_INCORRECT_FORMAT = 
+    private static final String ERROR_MESSAGE_INCORRECT_FORMAT =
         "Failed to parse Deadline! Contains lesser arguments than expected!";
     private static final String ERROR_MESSAGE_BY_NULL = "/by date is null";
 
@@ -59,8 +59,8 @@ public class Deadline extends TimedTask {
         int isDone = super.isDone ? 1 : 0;
         // format the date into a string format that the formatter expects
         String dateString = this.by.format(TimedTask.FORMATTER_TO_SAVE);
-        return Deadline.MARKER_DEADLINE + Task.SEPARATOR + isDone +
-            Task.SEPARATOR + super.description + Task.SEPARATOR + dateString;
+        return Deadline.MARKER_DEADLINE + Task.SEPARATOR + isDone
+            + Task.SEPARATOR + super.description + Task.SEPARATOR + dateString;
     }
 
 
@@ -68,9 +68,9 @@ public class Deadline extends TimedTask {
      * Creates a new Deadline object from the string representation
      * Factory method for creating the Deadline object
      *
-     * A line for Deadline is expected to be of the form: 
+     * A line for Deadline is expected to be of the form:
      * Deadline: D | 0 | return book | 2026-01-25 1000
-     * 
+     *
      * @param line A line from the file where the Tasks are getting loaded from
      * @return A Deadline object after parsing the String
      * @throws TaskException If the line is wrongly formatted to what Deadline expects
@@ -88,7 +88,7 @@ public class Deadline extends TimedTask {
 
     /**
      * Gets the marker with the saved representation for the Deadline task
-     * 
+     *
      * @return marker representing the Deadline task in the saved state
      */
     public static String getMarker() {

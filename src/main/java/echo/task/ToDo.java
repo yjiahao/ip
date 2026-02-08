@@ -30,9 +30,9 @@ public class ToDo extends Task {
      * Creates a new ToDo object from the string representation
      * Factory method for creating the ToDo object
      *
-     * A line for ToDo is expected to be of the form: 
+     * A line for ToDo is expected to be of the form:
      * ToDo: T | 1 | read book
-     * 
+     *
      * @param line A line from the file where the Tasks are getting loaded from
      * @return A ToDo object after parsing the String
      * @throws TaskException If the line is wrongly formatted to what ToDo expects
@@ -62,7 +62,7 @@ public class ToDo extends Task {
 
     /**
      * Gets the marker with the saved representation for the ToDo task
-     * 
+     *
      * @return marker representing the ToDo task in the saved state
      */
     public static String getMarker() {
