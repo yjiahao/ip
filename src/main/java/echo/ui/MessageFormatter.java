@@ -1,6 +1,7 @@
 package echo.ui;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import echo.task.Task;
 
@@ -127,14 +128,14 @@ public class MessageFormatter {
      * @return Formatted String of Tasks as a numbered list.
      */
     private String createNumberedTasksString(ArrayList<Task> tasks) {
-        String res = "";
-        int i = 1;
-        for (Task t : tasks) {
-            res = res + i + ". " + t + "\n";
-            i += 1;
-        }
-        String tasksString = res.stripTrailing();
-        return tasksString;
+        String joinedTasksString = IntStream.range(0, tasks.size())
+            .boxed()
+            .map(i -> (i + 1) + ". " + tasks.get(i))
+            .reduce("", (curString, newString) -> curString + "\n" + newString);
+
+        String cleanedTasksString = joinedTasksString.stripTrailing();
+
+        return cleanedTasksString;
     }
 
     /**
