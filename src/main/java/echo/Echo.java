@@ -216,48 +216,7 @@ public class Echo {
         assert userMessage != null : Echo.ERROR_MESSAGE_USER_MESSAGE_NULL;
 
         try {
-            Command command = this.instructionParser.parseCommand(userMessage);
-
-            switch (command) {
-            case BYE:
-                return this.exitUser();
-            case LIST:
-                return this.getTasks();
-            case MARK:
-                int markTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
-                String markMessage = this.markAsDone(markTaskNumber);
-                return markMessage;
-            case UNMARK:
-                int unmarkTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
-                String unmarkMessage = this.markAsUndone(unmarkTaskNumber);
-                return unmarkMessage;
-            case DELETE:
-                int deleteTaskNumber = this.instructionParser.parseDeleteArgs(userMessage);
-                String deleteMessage = this.removeTask(deleteTaskNumber);
-                return deleteMessage;
-            case TODO:
-                String todoDescription = instructionParser.parseTodoDescription(userMessage);
-                ArrayList<String> todoCommandArgs = instructionParser.parseTodoArgs(userMessage);
-                String todoMessage = this.addTask(todoDescription, Command.TODO, todoCommandArgs);
-                return todoMessage;
-            case DEADLINE:
-                String deadlineDescription = instructionParser.parseDeadlineDescription(userMessage);
-                ArrayList<String> deadlineArgs = instructionParser.parseDeadlineArgs(userMessage);
-                String deadlineMessage = this.addTask(deadlineDescription, Command.DEADLINE, deadlineArgs);
-                return deadlineMessage;
-            case EVENT:
-                String eventDescription = instructionParser.parseEventDescription(userMessage);
-                ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
-                String eventMessage = this.addTask(eventDescription, Command.EVENT, eventArgs);
-                return eventMessage;
-            case FIND:
-                String keyword = instructionParser.parseFindKeyword(userMessage);
-                String foundTasksMessage = this.findTasks(keyword);
-                return foundTasksMessage;
-            default:
-                String defaultMessage = Echo.MESSAGE_UNKNOWN_COMMAND;
-                return defaultMessage;
-            }
+            return this.processCommandNormally(userMessage);
         } catch (ParsingException e) {
             return this.messageFormatter.createErrorMessage(e);
         } catch (TaskManagerException e) {
@@ -266,5 +225,83 @@ public class Echo {
         } catch (TaskException e) {
             return this.messageFormatter.createErrorMessage(e);
         }
+    }
+
+    private String processCommandNormally(String userMessage)
+            throws ParsingException, TaskManagerException, TaskException {
+        Command command = this.instructionParser.parseCommand(userMessage);
+
+        switch (command) {
+        case BYE:
+            return this.exitUser();
+        case LIST:
+            return this.getTasks();
+        case MARK:
+            return this.handleMark(userMessage);
+        case UNMARK:
+            return this.handleUnmark(userMessage);
+        case DELETE:
+            return this.handleDelete(userMessage);
+        case TODO:
+            return this.handleToDo(userMessage);
+        case DEADLINE:
+            return this.handleDeadline(userMessage);
+        case EVENT:
+            return handleEvent(userMessage);
+        case FIND:
+            return this.handleFind(userMessage);
+        default:
+            return this.handleUnknownCommand();
+        }
+    }
+
+    private String handleUnknownCommand() {
+        String defaultMessage = Echo.MESSAGE_UNKNOWN_COMMAND;
+        return defaultMessage;
+    }
+
+    private String handleFind(String userMessage) throws ParsingException {
+        String keyword = instructionParser.parseFindKeyword(userMessage);
+        String foundTasksMessage = this.findTasks(keyword);
+        return foundTasksMessage;
+    }
+
+    private String handleEvent(String userMessage) throws ParsingException, TaskException, TaskManagerException {
+        String eventDescription = instructionParser.parseEventDescription(userMessage);
+        ArrayList<String> eventArgs = instructionParser.parseEventArgs(userMessage);
+        String eventMessage = this.addTask(eventDescription, Command.EVENT, eventArgs);
+        return eventMessage;
+    }
+
+    private String handleDeadline(String userMessage) throws ParsingException, TaskException, TaskManagerException {
+        String deadlineDescription = instructionParser.parseDeadlineDescription(userMessage);
+        ArrayList<String> deadlineArgs = instructionParser.parseDeadlineArgs(userMessage);
+        String deadlineMessage = this.addTask(deadlineDescription, Command.DEADLINE, deadlineArgs);
+        return deadlineMessage;
+    }
+
+    private String handleToDo(String userMessage) throws ParsingException, TaskException, TaskManagerException {
+        String todoDescription = instructionParser.parseTodoDescription(userMessage);
+        ArrayList<String> todoCommandArgs = instructionParser.parseTodoArgs(userMessage);
+        String todoMessage = this.addTask(todoDescription, Command.TODO, todoCommandArgs);
+        return todoMessage;
+    }
+
+    private String handleDelete(String userMessage) throws TaskManagerException {
+        int deleteTaskNumber = this.instructionParser.parseDeleteArgs(userMessage);
+        String deleteMessage = this.removeTask(deleteTaskNumber);
+        return deleteMessage;
+    }
+
+    private String handleUnmark(String userMessage) throws TaskManagerException {
+        int unmarkTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+        String unmarkMessage = this.markAsUndone(unmarkTaskNumber);
+        return unmarkMessage;
+    }
+
+    private String handleMark(String userMessage) throws TaskManagerException {
+        int markTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
+        String markMessage = this.markAsDone(markTaskNumber);
+        return markMessage;
     }
 }
