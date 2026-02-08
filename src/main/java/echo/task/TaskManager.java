@@ -26,7 +26,7 @@ public class TaskManager {
     private static final String ERROR_MESSAGE_UNKNOWN_TASK_TYPE = "No such Task of type %s";
     private static final String ERROR_MESSAGE_TASK_NUMBER_MORE_THAN_SIZE = "You do not have %d tasks yet...";
     private static final String ERROR_MESSAGE_TASK_NUMBER_LESS_THAN_EQUAL_ZERO =
-        "No such thing as task %d !";
+        "No such thing as task %d!";
 
     private ArrayList<Task> tasks;
 

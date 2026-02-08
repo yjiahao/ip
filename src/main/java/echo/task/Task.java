@@ -13,7 +13,7 @@ import echo.exception.TaskException;
 public abstract class Task {
 
     private static final String ERROR_MESSAGE_TASK_NULL = "Task description cannot be null!";
-    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY = "Description cannot be empty!";
+    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY = "Task description cannot be empty!";
 
     protected static final String LOADING_SPLIT_PATTERN = " \\| ";
     protected static final String SEPARATOR = " | ";
