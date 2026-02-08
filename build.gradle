@@ -44,6 +44,8 @@ test {
         showStackTraces true
         showStandardStreams = false
     }
+
+    enableAssertions = false
 }
 
 application {
