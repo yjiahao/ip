@@ -18,13 +18,29 @@ import echo.exception.TaskManagerException;
  */
 public class TaskManager {
 
+    private static final String ERROR_MESSAGE_TASK_LIST_NULL = "tasks cannot be null";
+    private static final String ERROR_MESSAGE_TASK_NULL = "Task is null";
+    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_NULL = "Task description is null";
+    private static final String ERROR_MESSAGE_COMMAND_TYPE_NULL = "Command type is null";
+    private static final String ERROR_MESSAGE_COMMAND_ARGUMENTS_NULL = "Command arguments is null";
+    private static final String ERROR_MESSAGE_UNKNOWN_TASK_TYPE = "No such Task of type %s";
+    private static final String ERROR_MESSAGE_TASK_NUMBER_MORE_THAN_SIZE = "You do not have %d tasks yet...";
+    private static final String ERROR_MESSAGE_TASK_NUMBER_LESS_THAN_EQUAL_ZERO =
+        "No such thing as task %d !";
+
     private ArrayList<Task> tasks;
 
     public TaskManager() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Creates a new TaskManager
+     * @param tasks The tasks for the TaskManager to manage
+     */
     public TaskManager(ArrayList<Task> tasks) {
+        assert tasks != null : TaskManager.ERROR_MESSAGE_TASK_LIST_NULL;
+
         this.tasks = tasks;
     }
 
@@ -39,6 +55,11 @@ public class TaskManager {
      */
     public Task addTask(String taskDescription, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
+
+        assert taskDescription != null : TaskManager.ERROR_MESSAGE_TASK_DESCRIPTION_NULL;
+        assert type != null : TaskManager.ERROR_MESSAGE_COMMAND_TYPE_NULL;
+        assert commandArgs != null : TaskManager.ERROR_MESSAGE_COMMAND_ARGUMENTS_NULL;
+
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
             this.tasks.add(event);
@@ -52,7 +73,8 @@ public class TaskManager {
             this.tasks.add(deadline);
             return deadline;
         } else {
-            throw new TaskManagerException("No such Task of type " + type.toString());
+            throw new TaskManagerException(
+                TaskManager.ERROR_MESSAGE_UNKNOWN_TASK_TYPE.formatted(type.toString()));
         }
     }
 
@@ -64,9 +86,10 @@ public class TaskManager {
      */
     private void checkNotOutOfBounds(int taskNumber) throws TaskManagerException {
         if (taskNumber > this.tasks.size()) {
-            throw new TaskManagerException("You do not have " + taskNumber + " tasks yet...");
+            throw new TaskManagerException(TaskManager.ERROR_MESSAGE_TASK_NUMBER_MORE_THAN_SIZE.formatted(taskNumber));
         } else if (taskNumber <= 0) {
-            throw new TaskManagerException("No such thing as task " + taskNumber + "!");
+            throw new TaskManagerException(
+                TaskManager.ERROR_MESSAGE_TASK_NUMBER_LESS_THAN_EQUAL_ZERO.formatted(taskNumber));
         }
     }
 
@@ -104,6 +127,9 @@ public class TaskManager {
         this.checkNotOutOfBounds(taskNumber);
         // array is 0 indexed so need to translate by 1
         Task t = this.tasks.get(taskNumber - 1);
+
+        assert t != null : TaskManager.ERROR_MESSAGE_TASK_NULL;
+
         t.markAsDone();
         return t;
     }
@@ -118,6 +144,9 @@ public class TaskManager {
     public Task markAsUndone(int taskNumber) throws TaskManagerException {
         this.checkNotOutOfBounds(taskNumber);
         Task t = this.tasks.get(taskNumber - 1);
+
+        assert t != null : TaskManager.ERROR_MESSAGE_TASK_NULL;
+
         t.markAsUndone();
         return t;
     }

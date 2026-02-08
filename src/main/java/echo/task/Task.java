@@ -12,8 +12,8 @@ import echo.exception.TaskException;
  */
 public abstract class Task {
 
-    protected String description;
-    protected boolean isDone;
+    private static final String ERROR_MESSAGE_TASK_NULL = "Task description cannot be null!";
+    private static final String ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY = "Description cannot be empty!";
 
     protected static final String LOADING_SPLIT_PATTERN = " \\| ";
     protected static final String SEPARATOR = " | ";
@@ -25,6 +25,8 @@ public abstract class Task {
     protected static final int INDEX_IS_DONE = 1;
     protected static final int INDEX_DESCRIPTION = 2;
 
+    protected String description;
+    protected boolean isDone;
 
     /**
      * Initializes a Task object
@@ -33,8 +35,10 @@ public abstract class Task {
      * @throws TaskException if Task description is empty
      */
     public Task(String description) throws TaskException {
+        assert description != null : Task.ERROR_MESSAGE_TASK_NULL;
+
         if (description.equals("")) {
-            throw new TaskException("Task description cannot be empty!");
+            throw new TaskException(Task.ERROR_MESSAGE_TASK_DESCRIPTION_EMPTY);
         }
 
         this.description = description;

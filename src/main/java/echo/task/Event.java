@@ -24,6 +24,8 @@ public class Event extends TimedTask {
         "Failed to parse Event! Contains lesser arguments than expected!";
     private static final String ERROR_MESSAGE_START_LATER_THAN_END = 
         "Start date cannot be later than end date!";
+    private static final String ERROR_MESSAGE_START_NULL = "Event start is null";
+    private static final String ERROR_MESSAGE_END_NULL = "Event end is null";
 
 
     protected LocalDateTime start;
@@ -39,6 +41,9 @@ public class Event extends TimedTask {
      */
     public Event(String description, String start, String end) throws TaskException {
         super(description);
+
+        assert start != null : Event.ERROR_MESSAGE_START_NULL;
+        assert end != null : Event.ERROR_MESSAGE_END_NULL;
 
         LocalDateTime startDate = super.parseDate(start);
         LocalDateTime endDate = super.parseDate(end);
