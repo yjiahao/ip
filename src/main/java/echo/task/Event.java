@@ -28,8 +28,8 @@ public class Event extends TimedTask {
     private static final String ERROR_MESSAGE_END_NULL = "Event end is null";
 
 
-    protected LocalDateTime start;
-    protected LocalDateTime end;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     /**
      * Initializes an Event object.
@@ -124,6 +124,28 @@ public class Event extends TimedTask {
 
     public static String getMarker() {
         return Event.MARKER_EVENT;
+    }
+
+    public boolean isWithinEventInterval(LocalDateTime date) {
+        return date.isAfter(this.start) && date.isBefore(this.end);
+    }
+
+    @Override
+    public boolean hasSchedulingConflict(Task task) {
+        return task.hasSchedulingConflictWithEvent(this);
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithDeadline(Deadline deadline) {
+        return deadline.hasSchedulingConflictWithEvent(this);
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithEvent(Event event) {
+        // start1, end1 vs start2, end2
+        // no conflict if start1 > end2 or start2 > end1
+        // given that we already validated end > start always
+        return !(this.start.isAfter(event.end) || event.start.isAfter(this.end));
     }
 
     private static void checkEventValid(String[] args) throws TaskException {

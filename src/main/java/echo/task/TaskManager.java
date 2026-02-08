@@ -28,6 +28,9 @@ public class TaskManager {
     private static final String ERROR_MESSAGE_TASK_NUMBER_LESS_THAN_EQUAL_ZERO =
         "No such thing as task %d!";
 
+    private static final String WARNING_MESSAGE_CONFLICTING_TASKS =
+        "\n\nNote that you have other Tasks conflicting with this new task!\n";
+
     private ArrayList<Task> tasks;
 
     public TaskManager() {
@@ -50,10 +53,12 @@ public class TaskManager {
      * @param taskDescription description of task to be added.
      * @param type Command of type Command.EVENT, Command.TODO, or Command.DEADLINE
      * @param commandArgs Arguments for the corresponding command
+     * @return a String representation of the Task that was added.
+     *     If the newly added task conflicts with another task, alert the user but allow adding it
      * @throws TaskException If creation of Task was unsuccessful before adding into TaskManager
      * @throws TaskManagerException If the Command type is not of TODO, EVENT or DEADLINE
      */
-    public Task addTask(String taskDescription, Command type,
+    public String addTask(String taskDescription, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
 
         assert taskDescription != null : TaskManager.ERROR_MESSAGE_TASK_DESCRIPTION_NULL;
@@ -62,20 +67,39 @@ public class TaskManager {
 
         if (type.equals(Command.EVENT)) {
             Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
+            String formattedString = this.getTaskStringWithConflictNotice(event);
             this.tasks.add(event);
-            return event;
+            return formattedString;
         } else if (type.equals(Command.TODO)) {
             Task todo = new ToDo(taskDescription);
+            String formattedString = this.getTaskStringWithConflictNotice(todo);
             this.tasks.add(todo);
-            return todo;
+            return formattedString;
         } else if (type.equals(Command.DEADLINE)) {
             Task deadline = new Deadline(taskDescription, commandArgs.get(0));
+            String formattedString = this.getTaskStringWithConflictNotice(deadline);
             this.tasks.add(deadline);
-            return deadline;
+            return formattedString;
         } else {
             throw new TaskManagerException(
                 TaskManager.ERROR_MESSAGE_UNKNOWN_TASK_TYPE.formatted(type.toString()));
         }
+    }
+
+    private String getTaskStringWithConflictNotice(Task task) throws TaskManagerException {
+        boolean hasConflicts = this.isConflicting(task);
+        String res = task.toString();
+        if (hasConflicts) {
+            res = res + TaskManager.WARNING_MESSAGE_CONFLICTING_TASKS;
+        }
+        return res;
+    }
+
+    private boolean isConflicting(Task task) throws TaskManagerException {
+        boolean hasConflicts = this.tasks.stream()
+            .reduce(false, (currentlyHasConflicts, newTask)
+                -> currentlyHasConflicts || newTask.hasSchedulingConflict(task), (x, y) -> x || y);
+        return hasConflicts;
     }
 
     /**
@@ -174,3 +198,5 @@ public class TaskManager {
         return filteredTasks;
     }
 }
+// TODO: managed to detect scheduling conflicts. But check if it is possible to show which tasks conflict
+// with the current task that is added

@@ -97,4 +97,39 @@ public abstract class Task {
     }
 
     public abstract String saveRepresentation();
+
+    /**
+     * Checks if this Task has a scheduling conflict with another Task.
+     *
+     * @param task Task to be checked for any conflicts
+     * @return true if there are scheduling conflicts, otherwise false
+     */
+    public abstract boolean hasSchedulingConflict(Task task);
+
+    /**
+     * Checks if a Task has a scheduling conflict with a Deadline.
+     *
+     * @param deadline Deadline to be checked for any scheduling conflicts
+     * @return true if there are scheduling conflicts, otherwise false
+     */
+    protected abstract boolean hasSchedulingConflictWithDeadline(Deadline deadline);
+
+    /**
+     * Checks if a Task has a scheduling conflict with a Event.
+     *
+     * @param event Event to be checked for any scheduling conflicts
+     * @return true if there are scheduling conflicts, otherwise false
+     */
+    protected abstract boolean hasSchedulingConflictWithEvent(Event event);
+
+    /**
+     * Checks if a Task has a scheduling conflict with a ToDo.
+     *
+     * @param todo ToDo to be checked for any scheduling conflicts
+     * @return true if there are scheduling conflicts, otherwise false
+     */
+    protected boolean hasSchedulingConflictWithToDo(ToDo todo) {
+        // always false since ToDo has no date associated with it
+        return false;
+    }
 }

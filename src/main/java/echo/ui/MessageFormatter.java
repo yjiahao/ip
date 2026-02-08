@@ -57,16 +57,16 @@ public class MessageFormatter {
     /**
      * Creates a message for the user after adding a task.
      *
-     * @param task Task that has been added
+     * @param taskString Task that has been added
      * @param numTasks Number of tasks remaining
      * @return description to inform user the addition of a new task.
      */
-    public String createAddTaskMessage(Task task, int numTasks) {
-        assert task != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+    public String createAddTaskMessage(String taskString, int numTasks) {
+        assert taskString != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
         assert numTasks >= 0 : MessageFormatter.ERROR_MESSAGE_NUM_TASKS_NEGATIVE;
 
         return MessageFormatter.MESSAGE_ADD_TASK
-            .formatted(task.toString(), numTasks);
+            .formatted(taskString, numTasks);
     }
 
     /**

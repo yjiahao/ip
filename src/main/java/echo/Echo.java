@@ -115,12 +115,12 @@ public class Echo {
      */
     public String addTask(String description, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
-        Task task = this.taskManager.addTask(description, type, commandArgs);
+        String taskString = this.taskManager.addTask(description, type, commandArgs);
 
         this.saveTasksToFile();
 
         int numTasks = this.taskManager.getNumTasks();
-        return this.messageFormatter.createAddTaskMessage(task, numTasks);
+        return this.messageFormatter.createAddTaskMessage(taskString, numTasks);
     }
 
     /**
