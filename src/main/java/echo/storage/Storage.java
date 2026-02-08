@@ -24,10 +24,16 @@ import echo.task.ToDo;
  * a task with its type, completion status, description, and any date/time information.
  */
 public class Storage {
+    private static final String ERROR_MESSAGE_INCORRECT_FORMAT =
+        "Your data file is formatted incorrectly! Starting with an empty history...";
+    private static final String ERROR_MESSAGE_INVALID_TASK_TYPE =
+        "Invalid task type when parsing!";
+
     private final String path;
 
     /**
-     * Constructor for Storage class
+     * Constructs a new Storage class
+     *
      * @param path String file path to save and load tasks from
      */
     public Storage(String path) {
@@ -105,45 +111,24 @@ public class Storage {
      * @throws StorageException when an invalid task type is detected
      * @throws TaskException if there was an error constructing the new Task after parsing
      */
-    private Task parseSavedTask(String line) throws StorageException, TaskException {
-        String[] args = line.split(" \\| ");
+    private Task parseSavedTask(String line) throws StorageException {
+        String[] args = line.split(Task.getSplitPattern());
+        String taskMarker = args[Task.getTaskTypeIndex()];
 
-        // check first arg to determine task type
-        if (args[0].equals("T")) {
-            if (args.length < 3) {
-                throw new StorageException(
-                    "Your data file is formatted incorrectly! Starting with an empty history...");
+        try {
+            if (taskMarker.equals(ToDo.getMarker())) {
+                return ToDo.fromSaveFormat(line);
+            } else if (taskMarker.equals(Deadline.getMarker())) {
+                return Deadline.fromSaveFormat(line);
+            } else if (taskMarker.equals(Event.getMarker())) {
+                return Event.fromSaveFormat(line);
+            } else {
+                throw new StorageException(Storage.ERROR_MESSAGE_INVALID_TASK_TYPE);
             }
-            // create new ToDo
-            Task todo = new ToDo(args[2]);
-            if (args[1].equals("1")) {
-                todo.markAsDone();
-            }
-            return todo;
-        } else if (args[0].equals("D")) {
-            if (args.length < 4) {
-                throw new StorageException(
-                        "Your data file is formatted incorrectly! Starting with an empty history...");
-            }
-            // create new Deadline
-            Task deadline = new Deadline(args[2], args[3]);
-            if (args[1].equals("1")) {
-                deadline.markAsDone();
-            }
-            return deadline;
-        } else if (args[0].equals("E")) {
-            if (args.length < 5) {
-                throw new StorageException(
-                        "Your data file is formatted incorrectly! Starting with an empty history...");
-            }
-            // create new Event
-            Task event = new Event(args[2], args[3], args[4]);
-            if (args[1].equals("1")) {
-                event.markAsDone();
-            }
-            return event;
-        } else {
-            throw new StorageException("Invalid task type when parsing!");
+        } catch (TaskException e) {
+            throw new StorageException(e.getMessage() + "\n" + Storage.ERROR_MESSAGE_INCORRECT_FORMAT);
         }
     }
+
 }
+// TODO: maybe consider using getters from the tasks to create the format and save the format?

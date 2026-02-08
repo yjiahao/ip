@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    private static final String BYE_COMMAND = "bye";
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -100,7 +102,7 @@ public class MainWindow extends AnchorPane {
         );
         this.userInput.clear();
 
-        if (input.trim().equalsIgnoreCase("bye")) {
+        if (input.trim().equalsIgnoreCase(MainWindow.BYE_COMMAND)) {
             // delay for 5000ms before exiting the user
             this.closeWindowAfterDelay(5000);
         }

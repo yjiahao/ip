@@ -27,6 +27,13 @@ import echo.ui.MessageFormatter;
 public class Echo {
 
     private static final String FILE_PATH = "data/echo.txt";
+
+    private static final String ERROR_MESSAGE_SAVE_FAIL = "Saving failed due to: %s";
+    private static final String ERROR_MESSAGE_KEYWORD_NULL = "Keyword is null";
+    private static final String ERROR_MESSAGE_USER_MESSAGE_NULL = "User message is null";
+
+    private static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command, please try again!";
+
     private TaskManager taskManager;
     private MessageFormatter messageFormatter;
     private Storage storage;
@@ -181,7 +188,7 @@ public class Echo {
             ArrayList<Task> tasks = this.taskManager.getTasks();
             this.storage.saveTasks(tasks);
         } catch (IOException e) {
-            System.out.println("Saving failed due to: " + e.getMessage());
+            System.out.println(Echo.ERROR_MESSAGE_SAVE_FAIL.formatted(e.getMessage()));
         }
     }
 
@@ -192,7 +199,7 @@ public class Echo {
      * @return Formatted String that contains the Tasks that have keyword in their description
      */
     public String findTasks(String keyword) {
-        assert keyword != null : "Keyword is null";
+        assert keyword != null : Echo.ERROR_MESSAGE_KEYWORD_NULL;
 
         ArrayList<Task> filteredTasks = this.taskManager.findTasks(keyword);
         String res = this.messageFormatter.createFilteredListTaskMessage(filteredTasks);
@@ -206,7 +213,7 @@ public class Echo {
      * @return String of completed message, ready for rendering on the GUI
      */
     public String getResponse(String userMessage) {
-        assert userMessage != null : "User message is null";
+        assert userMessage != null : Echo.ERROR_MESSAGE_USER_MESSAGE_NULL;
 
         try {
             Command command = this.instructionParser.parseCommand(userMessage);
@@ -217,11 +224,11 @@ public class Echo {
             case LIST:
                 return this.getTasks();
             case MARK:
-                int markTaskNumber = this.instructionParser.parseMarkArgs(userMessage);
+                int markTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
                 String markMessage = this.markAsDone(markTaskNumber);
                 return markMessage;
             case UNMARK:
-                int unmarkTaskNumber = this.instructionParser.parseUnmarkArgs(userMessage);
+                int unmarkTaskNumber = this.instructionParser.parseMarkUnmarkArgs(userMessage);
                 String unmarkMessage = this.markAsUndone(unmarkTaskNumber);
                 return unmarkMessage;
             case DELETE:
@@ -248,7 +255,7 @@ public class Echo {
                 String foundTasksMessage = this.findTasks(keyword);
                 return foundTasksMessage;
             default:
-                String defaultMessage = "Unknown command, please try again!";
+                String defaultMessage = Echo.MESSAGE_UNKNOWN_COMMAND;
                 return defaultMessage;
             }
         } catch (ParsingException e) {

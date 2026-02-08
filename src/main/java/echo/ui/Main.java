@@ -17,6 +17,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private static final String MAIN_WINDOW_FXML_PATH = "/view/MainWindow.fxml";
+
+    private static final String TITLE = "Echo, your friendly task tracker";
+    private static final int SCREEN_MIN_HEIGHT = 220;
+    private static final int SCREEN_MIN_WIDTH = 417;
+
     private Echo echo = new Echo();
 
     /**
@@ -29,17 +34,22 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Main.MAIN_WINDOW_FXML_PATH));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
-            stage.setTitle("Echo, your friendly task tracker");
-            stage.setScene(scene);
-            stage.setMinHeight(220);
-            stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setEcho(echo);
-            stage.show();
+            createScene(stage);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createScene(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Main.MAIN_WINDOW_FXML_PATH));
+        AnchorPane ap = fxmlLoader.load();
+        Scene scene = new Scene(ap);
+
+        stage.setTitle(Main.TITLE);
+        stage.setScene(scene);
+        stage.setMinHeight(Main.SCREEN_MIN_HEIGHT);
+        stage.setMinWidth(Main.SCREEN_MIN_WIDTH);
+        fxmlLoader.<MainWindow>getController().setEcho(this.echo);
+        stage.show();
     }
 }
