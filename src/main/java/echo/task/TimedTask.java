@@ -18,6 +18,9 @@ public abstract class TimedTask extends Task {
     // formatter for parsing and saving the deadline
     protected static final DateTimeFormatter FORMATTER_TO_SAVE = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
+    private static final String ERROR_MESSAGE_DATE_WRONG_FORMAT =
+        "Date is in the wrong format! Must be in yyyy-mm-dd HHmm";
+
     protected TimedTask(String description) throws TaskException {
         super(description);
     }
@@ -34,7 +37,7 @@ public abstract class TimedTask extends Task {
         try {
             return LocalDateTime.parse(date, TimedTask.FORMATTER_TO_SAVE);
         } catch (DateTimeParseException e) {
-            throw new TaskException("Date is in the wrong format! Must be in yyyy-mm-dd HHmm");
+            throw new TaskException(TimedTask.ERROR_MESSAGE_DATE_WRONG_FORMAT);
         }
     }
 }

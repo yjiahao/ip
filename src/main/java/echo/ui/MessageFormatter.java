@@ -13,9 +13,24 @@ import echo.task.Task;
  * All messages are formatted with separators for better readability in the UI.
  */
 public class MessageFormatter {
-    private static final String GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
-    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
-    // private static final String SEPARATOR = "____________________________________________________________";
+    private static final String MESSAGE_GREETING = "Hello! I'm Echo\n" + "What can I do for you?";
+    private static final String MESSAGE_EXIT = "Bye. Hope to see you again soon!";
+    private static final String MESSAGE_ADD_TASK =
+        "Got it. I've added this task:\n\n%s\nNow you have %d tasks in the list.";
+    private static final String MESSAGE_LIST_TASK = "Here are the tasks in your list:\n\n%s";
+    private static final String MESSAGE_MARK_AS_DONE = "Nice! I've marked this task as done:\n\n%s";
+    private static final String MESSAGE_MARK_AS_UNDONE = "OK, I've marked this task as not done yet:\n\n%s";
+    private static final String MESSAGE_REMOVE_TASK =
+        "Noted. I've removed this task:\n\n%s\nNow you have %d tasks in the list.";
+    private static final String MESSAGE_FILTERED_TASKS = "Here are the matching tasks in your list:\n\n%s";
+
+    private static final String PERIOD_SPACE = ". ";
+    private static final String NEWLINE = "\n";
+
+    private static final String ERROR_MESSAGE_TASK_NULL = "Task is null";
+    private static final String ERROR_MESSAGE_NUM_TASKS_NEGATIVE = "Number of tasks is negative";
+    private static final String ERROR_MESSAGE_TASK_LIST_NULL = "Task list is null";
+    private static final String ERROR_MESSAGE_FILTERED_TASK_LIST_NULL = "Filtered task list is null";
 
     public MessageFormatter() {
 
@@ -27,9 +42,7 @@ public class MessageFormatter {
      * @return a GREETING to the user of type string.
      */
     public String greetUser() {
-        // return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.GREETING
-        //     + "\n" + MessageFormatter.SEPARATOR;
-        return MessageFormatter.GREETING;
+        return MessageFormatter.MESSAGE_GREETING;
     }
 
     /**
@@ -38,9 +51,7 @@ public class MessageFormatter {
      * @return an ending message for exiting the chatbot.
      */
     public String exitUser() {
-        // return MessageFormatter.SEPARATOR + "\n" + MessageFormatter.EXIT_MESSAGE
-        //     + "\n" + MessageFormatter.SEPARATOR + "\n";
-        return MessageFormatter.EXIT_MESSAGE;
+        return MessageFormatter.MESSAGE_EXIT;
     }
 
     /**
@@ -51,11 +62,11 @@ public class MessageFormatter {
      * @return description to inform user the addition of a new task.
      */
     public String createAddTaskMessage(Task task, int numTasks) {
-        // return MessageFormatter.SEPARATOR + "\n" + "Got it. I've added this task:\n  "
-        //     + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
-        //         + "\n" + MessageFormatter.SEPARATOR;
-        return "Got it. I've added this task:\n\n"
-            + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list.";
+        assert task != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+        assert numTasks >= 0 : MessageFormatter.ERROR_MESSAGE_NUM_TASKS_NEGATIVE;
+
+        return MessageFormatter.MESSAGE_ADD_TASK
+            .formatted(task.toString(), numTasks);
     }
 
     /**
@@ -65,10 +76,11 @@ public class MessageFormatter {
      * @return Formatted string of Tasks suitable for the user interface.
      */
     public String createListTaskMessage(ArrayList<Task> tasks) {
+        assert tasks != null : MessageFormatter.ERROR_MESSAGE_TASK_LIST_NULL;
+
         String tasksString = this.createNumberedTasksString(tasks);
-        // return MessageFormatter.SEPARATOR + "\n" + "Here are the tasks in your list:\n"
-        //     + "\n" + tasksString + "\n" + MessageFormatter.SEPARATOR;
-        return "Here are the tasks in your list:\n\n" + tasksString;
+        return MessageFormatter.MESSAGE_LIST_TASK
+            .formatted(tasksString);
     }
 
     /**
@@ -78,9 +90,10 @@ public class MessageFormatter {
      * @return String of formatted message for the user.
      */
     public String createMarkAsDoneMessage(Task task) {
-        // return MessageFormatter.SEPARATOR + "\n" + "Nice! I've marked this task as done:\n  "
-        //     + task.toString() + "\n" + MessageFormatter.SEPARATOR;
-        return "Nice! I've marked this task as done:\n\n" + task.toString();
+        assert task != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+
+        return MessageFormatter.MESSAGE_MARK_AS_DONE
+            .formatted(task.toString());
     }
 
     /**
@@ -90,9 +103,10 @@ public class MessageFormatter {
      * @return String of formatted message for the user.
      */
     public String createMarkAsUndoneMessage(Task task) {
-        // return MessageFormatter.SEPARATOR + "\n" + "OK, I've marked this task as not done yet:\n  "
-        //     + task.toString() + "\n" + MessageFormatter.SEPARATOR;
-        return "OK, I've marked this task as not done yet:\n\n" + task.toString();
+        assert task != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+
+        return MessageFormatter.MESSAGE_MARK_AS_UNDONE
+            .formatted(task.toString());
     }
 
     /**
@@ -103,11 +117,11 @@ public class MessageFormatter {
      * @return String of formatted message after removal of Task.
      */
     public String createRemoveTaskMessage(Task task, int numTasks) {
-        // return MessageFormatter.SEPARATOR + "\n" + "Noted. I've removed this task:\n  "
-        //     + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list."
-        //         + "\n" + MessageFormatter.SEPARATOR;
-        return "Noted. I've removed this task:\n\n"
-            + task.toString() + "\n" + "Now you have " + numTasks + " tasks in the list.";
+        assert task != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+        assert numTasks >= 0 : MessageFormatter.ERROR_MESSAGE_NUM_TASKS_NEGATIVE;
+
+        return MessageFormatter.MESSAGE_REMOVE_TASK
+            .formatted(task.toString(), numTasks);
     }
 
     /**
@@ -117,7 +131,6 @@ public class MessageFormatter {
      * @return String of formatted message for the user that includes the exception message.
      */
     public String createErrorMessage(Exception e) {
-        // return MessageFormatter.SEPARATOR + "\n" + e.getMessage() + "\n" + MessageFormatter.SEPARATOR;
         return e.getMessage();
     }
 
@@ -130,8 +143,8 @@ public class MessageFormatter {
     private String createNumberedTasksString(ArrayList<Task> tasks) {
         String joinedTasksString = IntStream.range(0, tasks.size())
             .boxed()
-            .map(i -> (i + 1) + ". " + tasks.get(i))
-            .reduce("", (curString, newString) -> curString + "\n" + newString);
+            .map(i -> (i + 1) + MessageFormatter.PERIOD_SPACE + tasks.get(i))
+            .reduce("", (curString, newString) -> curString + MessageFormatter.NEWLINE + newString);
 
         String cleanedTasksString = joinedTasksString.stripTrailing();
 
@@ -145,7 +158,10 @@ public class MessageFormatter {
      * @return Formatted string of Tasks suitable for the user interface.
      */
     public String createFilteredListTaskMessage(ArrayList<Task> filteredTasks) {
+        assert filteredTasks != null : ERROR_MESSAGE_FILTERED_TASK_LIST_NULL;
+
         String tasksString = this.createNumberedTasksString(filteredTasks);
-        return "Here are the matching tasks in your list:\n\n" + tasksString;
+        return MessageFormatter.MESSAGE_FILTERED_TASKS
+            .formatted(tasksString);
     }
 }

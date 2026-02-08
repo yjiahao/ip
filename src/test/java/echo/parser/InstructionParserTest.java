@@ -195,7 +195,7 @@ public class InstructionParserTest {
         ParsingException exception = assertThrows(ParsingException.class, () -> {
             parser.parseTodoDescription("todo ");
         });
-        assertEquals("No todo description!", exception.getMessage());
+        assertEquals("The todo description cannot be empty leh...", exception.getMessage());
     }
 
     // NOTE: Test for parseTodoArgs
@@ -229,7 +229,7 @@ public class InstructionParserTest {
         ParsingException exception = assertThrows(ParsingException.class, () -> {
             parser.parseDeadlineDescription("deadline /by 2026-01-01 1600");
         });
-        assertEquals("No deadline description!", exception.getMessage());
+        assertEquals("got no deadline description...", exception.getMessage());
     }
 
     // NOTE: Test for parseDeadlineArgs
@@ -254,7 +254,7 @@ public class InstructionParserTest {
         ParsingException exception = assertThrows(ParsingException.class, () -> {
             parser.parseDeadlineArgs("deadline submit report");
         });
-        assertEquals("Did you forget to specify /by for the deadline?", exception.getMessage());
+        assertEquals("need to indicate when you need to complete the deadline by!", exception.getMessage());
     }
 
     @Test
@@ -287,7 +287,7 @@ public class InstructionParserTest {
         ParsingException exception = assertThrows(ParsingException.class, () -> {
             parser.parseEventDescription("event /from Mon 2pm /to Mon 6pm");
         });
-        assertEquals("No event description!", exception.getMessage());
+        assertEquals("why got no event description one...", exception.getMessage());
     }
 
     // NOTE: Test for parseEventArgs
