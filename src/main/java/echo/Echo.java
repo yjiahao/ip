@@ -12,6 +12,7 @@ import echo.exception.TaskException;
 import echo.exception.TaskManagerException;
 import echo.parser.InstructionParser;
 import echo.storage.Storage;
+import echo.task.AddTaskResult;
 import echo.task.Task;
 import echo.task.TaskManager;
 import echo.ui.MessageFormatter;
@@ -115,12 +116,12 @@ public class Echo {
      */
     public String addTask(String description, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
-        String taskString = this.taskManager.addTask(description, type, commandArgs);
+        AddTaskResult result = this.taskManager.addTask(description, type, commandArgs);
 
         this.saveTasksToFile();
 
         int numTasks = this.taskManager.getNumTasks();
-        return this.messageFormatter.createAddTaskMessage(taskString, numTasks);
+        return this.messageFormatter.createAddTaskMessage(result, numTasks);
     }
 
     /**
@@ -201,7 +202,7 @@ public class Echo {
     public String findTasks(String keyword) {
         assert keyword != null : Echo.ERROR_MESSAGE_KEYWORD_NULL;
 
-        ArrayList<Task> filteredTasks = this.taskManager.findTasks(keyword);
+        ArrayList<Task> filteredTasks = this.taskManager.findTasksByKeyword(keyword);
         String res = this.messageFormatter.createFilteredListTaskMessage(filteredTasks);
         return res;
     }

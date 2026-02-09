@@ -3,6 +3,7 @@ package echo.ui;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+import echo.task.AddTaskResult;
 import echo.task.Task;
 
 /**
@@ -32,6 +33,9 @@ public class MessageFormatter {
     private static final String ERROR_MESSAGE_TASK_LIST_NULL = "Task list is null";
     private static final String ERROR_MESSAGE_FILTERED_TASK_LIST_NULL = "Filtered task list is null";
 
+    private static final String WARNING_MESSAGE_CONFLICTING_TASKS =
+        "\n\nNote that you have other Tasks conflicting with the new task!\n\nHere are the conflicting tasks:\n";
+
     public MessageFormatter() {
 
     }
@@ -57,16 +61,24 @@ public class MessageFormatter {
     /**
      * Creates a message for the user after adding a task.
      *
-     * @param taskString Task that has been added
+     * @param result AddTaskResult that has been added
      * @param numTasks Number of tasks remaining
      * @return description to inform user the addition of a new task.
      */
-    public String createAddTaskMessage(String taskString, int numTasks) {
-        assert taskString != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
+    public String createAddTaskMessage(AddTaskResult result, int numTasks) {
+        assert result != null : MessageFormatter.ERROR_MESSAGE_TASK_NULL;
         assert numTasks >= 0 : MessageFormatter.ERROR_MESSAGE_NUM_TASKS_NEGATIVE;
 
-        return MessageFormatter.MESSAGE_ADD_TASK
-            .formatted(taskString, numTasks);
+        String resultString = MessageFormatter.MESSAGE_ADD_TASK
+            .formatted(result.getTask().toString(), numTasks);
+
+        if (result.hasConflict()) {
+            String conflictingTasksString = this.createNumberedTasksString(result.getConflictingTasks());
+            resultString = resultString + MessageFormatter.WARNING_MESSAGE_CONFLICTING_TASKS
+                + conflictingTasksString;
+        }
+
+        return resultString;
     }
 
     /**
