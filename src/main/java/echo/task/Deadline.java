@@ -21,7 +21,7 @@ public class Deadline extends TimedTask {
         "Failed to parse Deadline! Contains lesser arguments than expected!";
     private static final String ERROR_MESSAGE_BY_NULL = "/by date is null";
 
-    protected LocalDateTime by;
+    private LocalDateTime by;
 
     /**
      * Initializes a new Deadline object.
@@ -93,6 +93,21 @@ public class Deadline extends TimedTask {
      */
     public static String getMarker() {
         return Deadline.MARKER_DEADLINE;
+    }
+
+    @Override
+    public boolean hasSchedulingConflict(Task other) {
+        return other.hasSchedulingConflictWithDeadline(this);
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithDeadline(Deadline deadline) {
+        return this.by.isEqual(deadline.by);
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithEvent(Event event) {
+        return event.isWithinEventInterval(this.by);
     }
 
     private static void checkDeadlineValid(String[] args) throws TaskException {

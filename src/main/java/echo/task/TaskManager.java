@@ -28,6 +28,7 @@ public class TaskManager {
     private static final String ERROR_MESSAGE_TASK_NUMBER_LESS_THAN_EQUAL_ZERO =
         "No such thing as task %d!";
 
+
     private ArrayList<Task> tasks;
 
     public TaskManager() {
@@ -50,32 +51,44 @@ public class TaskManager {
      * @param taskDescription description of task to be added.
      * @param type Command of type Command.EVENT, Command.TODO, or Command.DEADLINE
      * @param commandArgs Arguments for the corresponding command
+     * @return a String representation of the Task that was added.
+     *     If the newly added task conflicts with another task, alert the user but allow adding it
      * @throws TaskException If creation of Task was unsuccessful before adding into TaskManager
      * @throws TaskManagerException If the Command type is not of TODO, EVENT or DEADLINE
      */
-    public Task addTask(String taskDescription, Command type,
+    public AddTaskResult addTask(String taskDescription, Command type,
             ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
 
         assert taskDescription != null : TaskManager.ERROR_MESSAGE_TASK_DESCRIPTION_NULL;
         assert type != null : TaskManager.ERROR_MESSAGE_COMMAND_TYPE_NULL;
         assert commandArgs != null : TaskManager.ERROR_MESSAGE_COMMAND_ARGUMENTS_NULL;
 
+        Task task = this.createTask(taskDescription, type, commandArgs);
+        boolean hasConflict = this.isConflicting(task);
+        ArrayList<Task> conflictingTasks = this.findConflictingTasks(task);
+        this.tasks.add(task);
+        return new AddTaskResult(task, hasConflict, conflictingTasks);
+    }
+
+    private Task createTask(String taskDescription, Command type,
+        ArrayList<String> commandArgs) throws TaskException, TaskManagerException {
         if (type.equals(Command.EVENT)) {
-            Task event = new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
-            this.tasks.add(event);
-            return event;
+            return new Event(taskDescription, commandArgs.get(0), commandArgs.get(1));
         } else if (type.equals(Command.TODO)) {
-            Task todo = new ToDo(taskDescription);
-            this.tasks.add(todo);
-            return todo;
+            return new ToDo(taskDescription);
         } else if (type.equals(Command.DEADLINE)) {
-            Task deadline = new Deadline(taskDescription, commandArgs.get(0));
-            this.tasks.add(deadline);
-            return deadline;
+            return new Deadline(taskDescription, commandArgs.get(0));
         } else {
             throw new TaskManagerException(
                 TaskManager.ERROR_MESSAGE_UNKNOWN_TASK_TYPE.formatted(type.toString()));
         }
+    }
+
+    private boolean isConflicting(Task task) throws TaskManagerException {
+        boolean hasConflicts = this.tasks.stream()
+            .reduce(false, (currentlyHasConflicts, newTask)
+                -> currentlyHasConflicts || newTask.hasSchedulingConflict(task), (x, y) -> x || y);
+        return hasConflicts;
     }
 
     /**
@@ -166,11 +179,27 @@ public class TaskManager {
      * @param keyword Keyword to search for in the Task descriptions.
      * @return ArrayList of Task whose descriptions contain keyword.
      */
-    public ArrayList<Task> findTasks(String keyword) {
+    public ArrayList<Task> findTasksByKeyword(String keyword) {
         List<Task> list = this.tasks.stream()
             .filter(x -> x.descriptionContains(keyword))
             .toList();
         ArrayList<Task> filteredTasks = new ArrayList<>(list);
         return filteredTasks;
     }
+
+    /**
+     * Finds all tasks that have scheduling conflicts with the given task.
+     *
+     * @param task The task to check for conflicts against.
+     * @return ArrayList of tasks that have scheduling conflicts with the given task.
+     */
+    private ArrayList<Task> findConflictingTasks(Task task) {
+        // go through every task, check task falls within start and end date
+        List<Task> list = this.tasks.stream()
+            .filter(x -> x.hasSchedulingConflict(task))
+            .toList();
+        return new ArrayList<Task>(list);
+    }
 }
+// TODO: managed to display the Tasks that have scheduling conflicts. Can we make the code cleaner?
+// TODO: Refactor code to make it use the TimedTask or something instead?

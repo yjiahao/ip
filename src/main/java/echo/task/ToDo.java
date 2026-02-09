@@ -81,6 +81,21 @@ public class ToDo extends Task {
         return ToDo.MARKER_TODO + Task.SEPARATOR + isDone + Task.SEPARATOR + super.description;
     }
 
+    @Override
+    public boolean hasSchedulingConflict(Task task) {
+        return task.hasSchedulingConflictWithToDo(this);
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithDeadline(Deadline deadline) {
+        return false;
+    }
+
+    @Override
+    protected boolean hasSchedulingConflictWithEvent(Event event) {
+        return false;
+    }
+
     private static void checkTodoValid(String[] args) throws TaskException {
         if (args.length < 3) {
             throw new TaskException(
