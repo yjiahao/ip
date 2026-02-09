@@ -56,7 +56,7 @@ public class Deadline extends TimedTask {
      */
     @Override
     public String saveRepresentation() {
-        int isDone = super.isDone ? 1 : 0;
+        String isDone = super.isDone ? Task.MARKER_IS_DONE : Task.MARKER_IS_NOT_DONE;
         // format the date into a string format that the formatter expects
         String dateString = this.by.format(TimedTask.FORMATTER_TO_SAVE);
         return Deadline.MARKER_DEADLINE + Task.SEPARATOR + isDone

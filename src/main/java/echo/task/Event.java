@@ -74,7 +74,7 @@ public class Event extends TimedTask {
      */
     @Override
     public String saveRepresentation() {
-        int isDone = super.isDone ? 1 : 0;
+        String isDone = super.isDone ? Task.MARKER_IS_DONE : Task.MARKER_IS_NOT_DONE;
 
         String startString = this.start.format(TimedTask.FORMATTER_TO_SAVE);
         String endString = this.end.format(TimedTask.FORMATTER_TO_SAVE);

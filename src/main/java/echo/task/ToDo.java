@@ -77,7 +77,7 @@ public class ToDo extends Task {
      */
     @Override
     public String saveRepresentation() {
-        int isDone = super.isDone ? 1 : 0;
+        String isDone = super.isDone ? Task.MARKER_IS_DONE : Task.MARKER_IS_NOT_DONE;
         return ToDo.MARKER_TODO + Task.SEPARATOR + isDone + Task.SEPARATOR + super.description;
     }
 
