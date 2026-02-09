@@ -27,6 +27,7 @@ public class Event extends TimedTask {
     private static final String ERROR_MESSAGE_START_NULL = "Event start is null";
     private static final String ERROR_MESSAGE_END_NULL = "Event end is null";
 
+    private static final int EXPECTED_ARGS_LENGTH = 5;
 
     private LocalDateTime start;
     private LocalDateTime end;
@@ -160,7 +161,7 @@ public class Event extends TimedTask {
     }
 
     private static void checkEventValid(String[] args) throws TaskException {
-        if (args.length < 5) {
+        if (args.length < Event.EXPECTED_ARGS_LENGTH) {
             throw new TaskException(
                 Event.ERROR_MESSAGE_INCORRECT_FORMAT);
         }

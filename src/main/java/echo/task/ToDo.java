@@ -16,6 +16,8 @@ public class ToDo extends Task {
     private static final String ERROR_MESSAGE_INCORRECT_FORMAT =
         "Failed to parse ToDo! Contains lesser arguments than expected!";
 
+    private static final int EXPECTED_ARGS_LENGTH = 3;
+
     /**
      * Constructor for Todo.
      *
@@ -97,7 +99,7 @@ public class ToDo extends Task {
     }
 
     private static void checkTodoValid(String[] args) throws TaskException {
-        if (args.length < 3) {
+        if (args.length < ToDo.EXPECTED_ARGS_LENGTH) {
             throw new TaskException(
                 ToDo.ERROR_MESSAGE_INCORRECT_FORMAT);
         }

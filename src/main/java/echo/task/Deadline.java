@@ -21,6 +21,8 @@ public class Deadline extends TimedTask {
         "Failed to parse Deadline! Contains lesser arguments than expected!";
     private static final String ERROR_MESSAGE_BY_NULL = "/by date is null";
 
+    private static final int EXPECTED_ARGS_LENGTH = 4;
+
     private LocalDateTime by;
 
     /**
@@ -111,7 +113,7 @@ public class Deadline extends TimedTask {
     }
 
     private static void checkDeadlineValid(String[] args) throws TaskException {
-        if (args.length < 4) {
+        if (args.length < Deadline.EXPECTED_ARGS_LENGTH) {
             throw new TaskException(
                 Deadline.ERROR_MESSAGE_INCORRECT_FORMAT);
         }
