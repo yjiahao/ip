@@ -126,8 +126,17 @@ public class Event extends TimedTask {
         return Event.MARKER_EVENT;
     }
 
+    /**
+     * Checks if a LocalDateTime is within this Event's start and end time.
+     *
+     * @param date Date to be checked against the start and end time of this Event
+     * @return true if date falls within Event start and end time, else false
+     */
     public boolean isWithinEventInterval(LocalDateTime date) {
-        return date.isAfter(this.start) && date.isBefore(this.end);
+        // Note that we do not take it as a conflict if date == start or date == end
+        boolean isAfterStart = date.isAfter(this.start);
+        boolean isBeforeEnd = date.isBefore(this.end);
+        return isAfterStart && isBeforeEnd;
     }
 
     @Override
@@ -145,7 +154,9 @@ public class Event extends TimedTask {
         // start1, end1 vs start2, end2
         // no conflict if start1 > end2 or start2 > end1
         // given that we already validated end > start always
-        return !(this.start.isAfter(event.end) || event.start.isAfter(this.end));
+        boolean thisStartsAfterEventEnds = this.start.isAfter(event.end);
+        boolean eventStartsAfterThisEnds = event.start.isAfter(this.end);
+        return !(thisStartsAfterEventEnds || eventStartsAfterThisEnds);
     }
 
     private static void checkEventValid(String[] args) throws TaskException {
