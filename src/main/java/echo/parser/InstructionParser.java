@@ -63,6 +63,29 @@ public class InstructionParser {
 
     private static final String ERROR_MESSAGE_EMPTY_USER_MESSAGE = "User message cannot be empty!";
 
+    private static final int INDEX_COMMAND_KEYWORD = 0;
+
+    private static final int INDEX_TASK_NUMBER = 1;
+    private static final int INDEX_TODO_DESCRIPTION = 1;
+
+    private static final int INDEX_DEADLINE_DESCRIPTION = 0;
+    // to remove "deadline "
+    private static final int SUBSTRING_DEADLINE_MESSAGE_BY = 9;
+    private static final int INDEX_DEADLINE_BY = 1;
+
+    private static final int INDEX_EVENT_DESCRIPTION = 0;
+    private static final int SUBSTRING_EVENT_MESSAGE_BY = 6;
+    private static final int INDEX_EVENT_FROM = 0;
+    private static final int INDEX_EVENT_TO = 1;
+    private static final int INDEX_EVENT_TEMP_SPLIT_TO = 1;
+
+    private static final int INDEX_FIND_KEYWORD = 1;
+
+    private static final int INDEX_MARK_UNMARK_NUMBER = 1;
+
+    private static final int ZERO = 0;
+    private static final int TWO = 2;
+
     /**
      * Parses the given command string and returns the corresponding Command enum.
      *
@@ -79,7 +102,7 @@ public class InstructionParser {
         // split into at most 2 elements
         String[] parts = trimmedCommand.split(" ", 2);
         // get the keyword from user which is expected to be the first element
-        String keyword = parts[0].toLowerCase();
+        String keyword = parts[InstructionParser.INDEX_COMMAND_KEYWORD].toLowerCase();
 
         switch (keyword) {
         case InstructionParser.STRING_TODO:
@@ -121,7 +144,7 @@ public class InstructionParser {
      */
     public int parseMarkUnmarkArgs(String userMessage) {
         String[] parts = userMessage.split(InstructionParser.INPUT_DELIMITER);
-        int taskNumber = Integer.parseInt(parts[1]);
+        int taskNumber = Integer.parseInt(parts[InstructionParser.INDEX_TASK_NUMBER]);
         return taskNumber;
     }
 
@@ -135,7 +158,7 @@ public class InstructionParser {
         assert userMessage.contains(InstructionParser.STRING_DELETE);
 
         String[] deleteParts = userMessage.split(InstructionParser.INPUT_DELIMITER);
-        int deleteTaskNumber = Integer.parseInt(deleteParts[1]);
+        int deleteTaskNumber = Integer.parseInt(deleteParts[InstructionParser.INDEX_TASK_NUMBER]);
         return deleteTaskNumber;
     }
 
@@ -149,14 +172,14 @@ public class InstructionParser {
     public String parseTodoDescription(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_TODO);
 
-        if (userMessage.length() == 0) {
+        if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String[] todoParts = userMessage.split(InstructionParser.INPUT_DELIMITER, 2);
-        String description = todoParts[1];
+        String[] todoParts = userMessage.split(InstructionParser.INPUT_DELIMITER, InstructionParser.TWO);
+        String description = todoParts[InstructionParser.INDEX_TODO_DESCRIPTION];
 
-        if (description.length() == 0) {
+        if (description.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_TODO_MISSING_DESCRIPTION);
         }
 
@@ -186,15 +209,15 @@ public class InstructionParser {
     public String parseDeadlineDescription(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
-        if (userMessage.length() == 0) {
+        if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String deadlineDetails = userMessage.substring(9);
-        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, 2);
-        String deadlineDescription = deadlineParts[0].trim();
+        String deadlineDetails = userMessage.substring(InstructionParser.SUBSTRING_DEADLINE_MESSAGE_BY);
+        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, InstructionParser.TWO);
+        String deadlineDescription = deadlineParts[InstructionParser.INDEX_DEADLINE_DESCRIPTION].trim();
 
-        if (deadlineDescription.length() == 0) {
+        if (deadlineDescription.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION);
         }
 
@@ -212,20 +235,21 @@ public class InstructionParser {
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
-        if (userMessage.length() == 0) {
+        if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String deadlineDetails = userMessage.substring(9);
-        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, 2);
+        String deadlineDetails = userMessage.substring(InstructionParser.SUBSTRING_DEADLINE_MESSAGE_BY);
+        String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, InstructionParser.TWO);
 
-        if (deadlineParts.length < 2) {
+        if (deadlineParts.length < InstructionParser.TWO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
-        } else if (deadlineParts[1].trim().contains(InstructionParser.INPUT_DEADLINE_BY)) {
+        } else if (
+            deadlineParts[InstructionParser.INDEX_DEADLINE_BY].trim().contains(InstructionParser.INPUT_DEADLINE_BY)) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MORE_THAN_ONE_BY);
         }
 
-        return new ArrayList<>(Arrays.asList(deadlineParts[1].trim()));
+        return new ArrayList<>(Arrays.asList(deadlineParts[InstructionParser.INDEX_DEADLINE_BY].trim()));
     }
 
     /**
@@ -238,15 +262,15 @@ public class InstructionParser {
     public String parseEventDescription(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_EVENT);
 
-        if (userMessage.length() == 0) {
+        if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String eventDetails = userMessage.substring(6).trim();
-        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, 2);
-        String eventDescription = fromSplit[0].trim();
+        String eventDetails = userMessage.substring(InstructionParser.SUBSTRING_EVENT_MESSAGE_BY).trim();
+        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, InstructionParser.TWO);
+        String eventDescription = fromSplit[InstructionParser.INDEX_EVENT_DESCRIPTION].trim();
 
-        if (eventDescription.length() == 0) {
+        if (eventDescription.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_DESCRIPTION);
         }
 
@@ -263,11 +287,11 @@ public class InstructionParser {
     public ArrayList<String> parseEventArgs(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_EVENT);
 
-        if (userMessage.length() == 0) {
+        if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
 
-        String eventDetails = userMessage.substring(6).trim();
+        String eventDetails = userMessage.substring(InstructionParser.SUBSTRING_EVENT_MESSAGE_BY).trim();
 
         if (!userMessage.contains(InstructionParser.INPUT_EVENT_FROM)) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_FROM);
@@ -276,10 +300,11 @@ public class InstructionParser {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_TO);
         }
 
-        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, 2);
-        String[] toSplit = fromSplit[1].split(InstructionParser.INPUT_EVENT_TO, 2);
-        String from = toSplit[0].trim();
-        String to = toSplit[1].trim();
+        String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, InstructionParser.TWO);
+        String[] toSplit = fromSplit[InstructionParser.INDEX_EVENT_TEMP_SPLIT_TO]
+            .split(InstructionParser.INPUT_EVENT_TO, InstructionParser.TWO);
+        String from = toSplit[InstructionParser.INDEX_EVENT_FROM].trim();
+        String to = toSplit[InstructionParser.INDEX_EVENT_TO].trim();
         ArrayList<String> eventArgs = new ArrayList<>(Arrays.asList(from, to));
         return eventArgs;
     }
@@ -294,24 +319,24 @@ public class InstructionParser {
     public String parseFindKeyword(String userMessage) throws ParsingException {
         assert userMessage.contains(InstructionParser.STRING_FIND);
 
-        String[] findParts = userMessage.split(InstructionParser.INPUT_DELIMITER, 2);
-        if (findParts.length < 2) {
+        String[] findParts = userMessage.split(InstructionParser.INPUT_DELIMITER, InstructionParser.TWO);
+        if (findParts.length < InstructionParser.TWO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
         }
-        String keyword = findParts[1];
+        String keyword = findParts[InstructionParser.INDEX_FIND_KEYWORD];
         return keyword;
     }
 
     private void checkValidNumber(String[] parts, String errorMessage) throws ParsingException {
         try {
-            Integer.parseInt(parts[1]);
+            Integer.parseInt(parts[InstructionParser.INDEX_MARK_UNMARK_NUMBER]);
         } catch (NumberFormatException e) {
             throw new ParsingException(errorMessage);
         }
     }
 
     private void checkLengthMoreThanEqualTwo(String[] parts, String errorMessage) throws ParsingException {
-        if (parts.length < 2) {
+        if (parts.length < InstructionParser.TWO) {
             throw new ParsingException(errorMessage);
         }
     }
@@ -345,11 +370,11 @@ public class InstructionParser {
     private void validateDeadline(String[] parts) throws ParsingException {
         checkLengthMoreThanEqualTwo(parts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION_AND_BY);
         // catch no description of deadline
-        if (parts[1].startsWith(InstructionParser.INPUT_DEADLINE_BY)) {
+        if (parts[InstructionParser.INDEX_DEADLINE_BY].startsWith(InstructionParser.INPUT_DEADLINE_BY)) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_DESCRIPTION);
         }
         // catch no /by ... for deadline
-        String[] deadlineParts = parts[1].split(InstructionParser.INPUT_DEADLINE_BY);
+        String[] deadlineParts = parts[InstructionParser.INDEX_DEADLINE_BY].split(InstructionParser.INPUT_DEADLINE_BY);
         checkLengthMoreThanEqualTwo(deadlineParts, InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
     }
 
