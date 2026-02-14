@@ -46,8 +46,8 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Check for errors during loading of the saved task list.
-     * If there were errors, notify the user throught the GUI.
+     * Checks for errors during loading of the saved task list.
+     * If there were errors, notify the user through the GUI.
      */
     private void checkLoadingErrors() {
         this.echo.getLoadingErrorMessage()

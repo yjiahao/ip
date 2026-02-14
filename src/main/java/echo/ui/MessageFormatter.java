@@ -137,7 +137,7 @@ public class MessageFormatter {
     }
 
     /**
-     * Format an error message for the user to inform them of an exception that has been caught.
+     * Formats an error message for the user to inform them of an exception that has been caught.
      *
      * @param e Exception that was cause.
      * @return String of formatted message for the user that includes the exception message.

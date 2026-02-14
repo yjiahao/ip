@@ -125,9 +125,9 @@ public class Echo {
     }
 
     /**
-     * Get tasks that have been stored, and format it for the user.
+     * Gets tasks that have been stored in TaskManager, and format it for the user.
      *
-     * @return formatted tasks in the form of String.
+     * @return formatted tasks in the form of a String.
      */
     public String getTasks() {
         ArrayList<Task> tasks = this.taskManager.getTasks();
