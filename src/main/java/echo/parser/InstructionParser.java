@@ -17,6 +17,7 @@ import echo.exception.ParsingException;
  */
 public class InstructionParser {
     private static final String STRING_EMPTY = "";
+    private static final String STRING_SPACE = " ";
     private static final String STRING_DEADLINE = "deadline";
     private static final String STRING_TODO = "todo";
     private static final String STRING_EVENT = "event";
@@ -94,15 +95,14 @@ public class InstructionParser {
      * @throws IllegalArgumentException if the command is unknown or unsupported
      */
     public Command parseCommand(String command) throws ParsingException {
-        // trim any trailing or leading spaces in command
+        // trim any trailing or leading spaces in user's command
         String trimmedCommand = command.trim();
-        // assume non-empty string
+
         assert !(trimmedCommand.equals(InstructionParser.STRING_EMPTY));
 
         // split into at most 2 elements
-        String[] parts = trimmedCommand.split(" ", 2);
-        // get the keyword from user which is expected to be the first element
-        String keyword = parts[InstructionParser.INDEX_COMMAND_KEYWORD].toLowerCase();
+        String[] parts = trimmedCommand.split(InstructionParser.STRING_SPACE, InstructionParser.TWO);
+        String keyword = this.getKeyword(parts);
 
         switch (keyword) {
         case InstructionParser.STRING_TODO:
@@ -134,6 +134,11 @@ public class InstructionParser {
             // unknown command expected here
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_UNKNOWN_COMMAND.formatted(keyword));
         }
+    }
+
+    private String getKeyword(String[] parts) {
+        String keyword = parts[InstructionParser.INDEX_COMMAND_KEYWORD].toLowerCase();
+        return keyword;
     }
 
     /**
@@ -244,8 +249,9 @@ public class InstructionParser {
 
         if (deadlineParts.length < InstructionParser.TWO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MISSING_BY);
-        } else if (
-            deadlineParts[InstructionParser.INDEX_DEADLINE_BY].trim().contains(InstructionParser.INPUT_DEADLINE_BY)) {
+        }
+
+        if (deadlineParts[InstructionParser.INDEX_DEADLINE_BY].trim().contains(InstructionParser.INPUT_DEADLINE_BY)) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_DEADLINE_MORE_THAN_ONE_BY);
         }
 
@@ -290,9 +296,6 @@ public class InstructionParser {
         if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
-
-        String eventDetails = userMessage.substring(InstructionParser.SUBSTRING_EVENT_MESSAGE_BY).trim();
-
         if (!userMessage.contains(InstructionParser.INPUT_EVENT_FROM)) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_FROM);
         }
@@ -300,11 +303,15 @@ public class InstructionParser {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EVENT_MISSING_TO);
         }
 
+        String eventDetails = userMessage.substring(InstructionParser.SUBSTRING_EVENT_MESSAGE_BY).trim();
+
         String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, InstructionParser.TWO);
         String[] toSplit = fromSplit[InstructionParser.INDEX_EVENT_TEMP_SPLIT_TO]
             .split(InstructionParser.INPUT_EVENT_TO, InstructionParser.TWO);
+
         String from = toSplit[InstructionParser.INDEX_EVENT_FROM].trim();
         String to = toSplit[InstructionParser.INDEX_EVENT_TO].trim();
+
         ArrayList<String> eventArgs = new ArrayList<>(Arrays.asList(from, to));
         return eventArgs;
     }
@@ -320,9 +327,11 @@ public class InstructionParser {
         assert userMessage.contains(InstructionParser.STRING_FIND);
 
         String[] findParts = userMessage.split(InstructionParser.INPUT_DELIMITER, InstructionParser.TWO);
+
         if (findParts.length < InstructionParser.TWO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_FIND_NO_KEYWORD);
         }
+
         String keyword = findParts[InstructionParser.INDEX_FIND_KEYWORD];
         return keyword;
     }
