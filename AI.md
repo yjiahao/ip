@@ -12,6 +12,7 @@
     - I chose to implement B-DetectAnomalies, where my app had to detect if a task added clashes with another task in the list
     - Problem faced was that I did not know how to implement it without breaking OOP principles (e.g. checking for the type of a class, or downcasting Task into ToDo, Deadline or Event)
     - AI introduced me to the Double Dispatch pattern, and taught me about it
+2. Help to write the `README.md` file for the GitHub pages
 
 ## Observations
 
