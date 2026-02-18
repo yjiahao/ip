@@ -131,4 +131,3 @@ public class Storage {
     }
 
 }
-// TODO: maybe consider using getters from the tasks to create the format and save the format?
