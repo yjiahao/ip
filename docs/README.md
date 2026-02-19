@@ -167,7 +167,7 @@ Bye. Hope to see you again soon!
 |---------|--------|---------|
 | **Todo** | `todo DESCRIPTION` | `todo read book` |
 | **Deadline** | `deadline DESCRIPTION /by DATE TIME` | `deadline submit report /by 2026-01-25 1800` |
-| **Event** | `event DESCRIPTION /from START /to END` | `event meeting /from 2pm /to 4pm` |
+| **Event** | `event DESCRIPTION /from START /to END` | `event meeting /from 2026-01-25 1800 /to 2026-01-26 1900` |
 | **List** | `list` | `list` |
 | **Mark** | `mark TASK_NUMBER` | `mark 1` |
 | **Unmark** | `unmark TASK_NUMBER` | `unmark 1` |
