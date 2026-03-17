@@ -175,11 +175,12 @@ public class InstructionParser {
      * @throws ParsingException If user message is an empty String or user did not specify description
      */
     public String parseTodoDescription(String userMessage) throws ParsingException {
-        assert userMessage.contains(InstructionParser.STRING_TODO);
 
         if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
+
+        assert userMessage.contains(InstructionParser.STRING_TODO);
 
         String[] todoParts = userMessage.split(InstructionParser.INPUT_DELIMITER, InstructionParser.TWO);
         String description = todoParts[InstructionParser.INDEX_TODO_DESCRIPTION];
@@ -212,11 +213,12 @@ public class InstructionParser {
      * @throws ParsingException If userMessage is an empty String, or there is no description for deadline
      */
     public String parseDeadlineDescription(String userMessage) throws ParsingException {
-        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
         if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
+
+        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
         String deadlineDetails = userMessage.substring(InstructionParser.SUBSTRING_DEADLINE_MESSAGE_BY);
         String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, InstructionParser.TWO);
@@ -238,11 +240,12 @@ public class InstructionParser {
      *     /by in the userMessage, or more than one /by in the userMessage
      */
     public ArrayList<String> parseDeadlineArgs(String userMessage) throws ParsingException {
-        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
         if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
+
+        assert userMessage.contains(InstructionParser.STRING_DEADLINE);
 
         String deadlineDetails = userMessage.substring(InstructionParser.SUBSTRING_DEADLINE_MESSAGE_BY);
         String[] deadlineParts = deadlineDetails.split(InstructionParser.INPUT_DEADLINE_BY, InstructionParser.TWO);
@@ -266,11 +269,12 @@ public class InstructionParser {
      * @throws ParsingException If userMessage is an empty String, or there is no Event description
      */
     public String parseEventDescription(String userMessage) throws ParsingException {
-        assert userMessage.contains(InstructionParser.STRING_EVENT);
 
         if (userMessage.length() == InstructionParser.ZERO) {
             throw new ParsingException(InstructionParser.ERROR_MESSAGE_EMPTY_USER_MESSAGE);
         }
+
+        assert userMessage.contains(InstructionParser.STRING_EVENT);
 
         String eventDetails = userMessage.substring(InstructionParser.SUBSTRING_EVENT_MESSAGE_BY).trim();
         String[] fromSplit = eventDetails.split(InstructionParser.INPUT_EVENT_FROM, InstructionParser.TWO);
